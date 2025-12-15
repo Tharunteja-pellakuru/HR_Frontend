@@ -1,0 +1,168 @@
+import React, { useState } from "react";
+import AdminSidebarMenu from "../../Components/Common/admin_sidebarmenu";
+import HeaderDashboard from "../../Components/Layout/Header_dashboard";
+import styles from "../../Styles/dashboard.module.css";
+import { FaSearch, FaTimes } from "react-icons/fa";
+
+const LeaveRequestList = () => {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [showReasonModal, setShowReasonModal] = useState(false);
+    const [selectedLeave, setSelectedLeave] = useState(null);
+
+    const leaveRequests = [
+        { sno: "0001", name: "Vishal", startDate: "25-01-2025", endDate: "28-01-2025", days: "4.0", status: "Pending" },
+        { sno: "0002", name: "Veera", startDate: "16-02-2025", endDate: "17-02-2025", days: "2.0", status: "Pending" },
+        { sno: "0003", name: "Sandeep", startDate: "20-01-2025", endDate: "22-01-2025", days: "3.0", status: "Pending" },
+        { sno: "0004", name: "Lokesh", startDate: "31-02-2025", endDate: "02-02-2025", days: "3.0", status: "Pending" },
+        { sno: "0005", name: "Jagadeesh", startDate: "18-01-2025", endDate: "19-01-2025", days: "1.0", status: "Pending" },
+        { sno: "0006", name: "Shayam", startDate: "17-01-2025", endDate: "17-01-2025", days: "1.0", status: "Pending" },
+    ];
+
+    const handleReasonClick = (leave) => {
+        setSelectedLeave(leave);
+        setShowReasonModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowReasonModal(false);
+        setSelectedLeave(null);
+    };
+
+    return (
+        <div className={styles.emp_dashboard_wrapper}>
+            <AdminSidebarMenu />
+            <div className={styles.admin_dashboard_main}>
+                <HeaderDashboard />
+                <div className={styles.dashboard_content}>
+                    
+                    <div className={styles.leave_header_row}>
+                        <h2 className={styles.pageTitleWithLine}>Leave Request List</h2>
+                        <div className={styles.search_box}>
+                            <FaSearch className={styles.search_icon} />
+                            <input 
+                                type="text" 
+                                placeholder="Search..." 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className={styles.search_input}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={styles.table_container_white}>
+                        <table className={styles.leave_table}>
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Employee Name</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>No.Of.Days</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {leaveRequests.map((leave, idx) => (
+                                    <tr key={idx}>
+                                        <td>{leave.sno}</td>
+                                        <td>{leave.name}</td>
+                                        <td>{leave.startDate}</td>
+                                        <td>{leave.endDate}</td>
+                                        <td>{leave.days}</td>
+                                        <td>
+                                            <select className={styles.status_dropdown_active}>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Approved">Approved</option>
+                                                <option value="Rejected">Rejected</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button 
+                                                onClick={() => handleReasonClick(leave)}
+                                                className={styles.reason_btn_yellow}
+                                            >
+                                                Reason
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        
+                        <div className={styles.pagination_container}>
+                            <div className={styles.pagination}>
+                                <span className={styles.page_item}>Previous</span>
+                                <span className={`${styles.page_item} ${styles.active_page}`}>1</span>
+                                <span className={styles.page_item}>2</span>
+                                <span className={styles.page_item}>3</span>
+                                <span className={styles.page_item}>4</span>
+                                <span className={styles.page_item}>5</span>
+                                <span className={styles.page_item}>...</span>
+                                <span className={styles.page_item}>150</span>
+                                <span className={styles.page_item}>Next</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {/* Reason Modal */}
+            {showReasonModal && selectedLeave && (
+                <div className={styles.modal_overlay}>
+                    <div className={styles.modal_container}>
+                        <div className={styles.modal_header}>
+                            <h3 className={styles.modal_title}>Reason</h3>
+                            <button onClick={handleCloseModal} className={styles.modal_close_btn}>
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className={styles.modal_body}>
+                            <div className={styles.modal_form_group}>
+                                <label className={styles.modal_label}>Start Date :</label>
+                                <input 
+                                    type="date" 
+                                    value={selectedLeave.startDate}
+                                    className={styles.modal_input}
+                                    readOnly
+                                />
+                            </div>
+                            <div className={styles.modal_form_group}>
+                                <label className={styles.modal_label}>End Date :</label>
+                                <input 
+                                    type="date" 
+                                    value={selectedLeave.endDate}
+                                    className={styles.modal_input}
+                                    readOnly
+                                />
+                            </div>
+                            <div className={styles.modal_form_group}>
+                                <label className={styles.modal_label}>No.Of.Days :</label>
+                                <input 
+                                    type="text" 
+                                    value={selectedLeave.days}
+                                    className={styles.modal_input}
+                                    readOnly
+                                />
+                            </div>
+                            <div className={styles.modal_form_group}>
+                                <label className={styles.modal_label}>Reason :</label>
+                                <textarea 
+                                    className={styles.modal_textarea}
+                                    rows="5"
+                                    placeholder=""
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div className={styles.modal_footer}>
+                            <button className={styles.save_btn}>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default LeaveRequestList;

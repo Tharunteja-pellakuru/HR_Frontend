@@ -1,0 +1,18 @@
+
+
+
+.emp_time_sheet_container{
+    display: flex; flex-direction: row; justify-content: space-between;
+}
+.task_date{
+    color: #666;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 9px 15px 9px 15px;
+    background-color: yellow;
+    border-radius: 10px;
+    font-style: italic;
+    /* width: 200px; */
+    height: 30px;
+    align-items: center;
+}

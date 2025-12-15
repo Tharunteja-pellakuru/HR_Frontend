@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.emp_dashboard_wrapper {
+    display: flex;
+    width: 100%;
+}
+.admin_dashboard_main_container{
+    display: flex ;
+    flex-direction: column;
+}
+
+
+.admin_dashboard_main {
+    flex: 1;
+    padding: 25px 43px 20px 61px;
+    flex-direction: column;
+}
+.admin_dashboard_header_card{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1920px;
+    /* margin: 0px auto; */
+    padding:0px  0px 35px 0px;
+}
+.admin_greeting{
+    font-size: 20px;
+    font-weight: 600;
+    color: #202020;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    /* margin-right: 5px;   */
+    width: 33%;
+}
+.admin_dashboard_main_container{
+    display: flex ;
+    flex-direction: column;
+}
+.emp_main_section_contianer{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 25px;
+}
+.total_and_leave_card{
+    display: flex;
+    gap: 15px;
+}
+/* Active Employees Card */
+.total_emp_card {
+    background-color: #ECF9EF;
+
+    border:  #66BB6A;
+    border-radius: 12px;
+    padding:30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    /* position: relative;
+    overflow: hidden; */
+    display: flex;
+    justify-content: space-around;
+    min-width: 200px;
+    cursor: pointer;
+    max-width:600px;
+    /* gap: 10px; */
+    /* justify-content: center; */
+}
+.emp_active{
+    text-align: left;
+    font-weight: 500;
+    font-style: italic;
+    /* background-color: yellow; */
+}
+.emp_count{
+    padding-left: 20px;
+    text-align: right;
+    font-weight: bold;
+}
+.total_emp_card:hover {
+    transform: scale(1.02);
+}
+
+.activeCard {
+    background-color: #C8E6C9;
+    border-color: #388E3C;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* tech team css */
+/* starts */
+.tech_team_list_container{
+    /* margin-top: 25px; */
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+.cards_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+    padding-top: 5px;
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  }
+  
+   .employee_card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    width: 279px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  } 
+  
+  .status_badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+  }
+  .status_badge.active { background-color: #4CAF50; }
+  .status_badge.onleave { background-color: #FFC107; }
+  .status_badge.resigned { background-color: #F44336; }
+  
+  .card_top {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+  .card_top h3{margin-bottom: 2px;}
+  .emp_image {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .emp_designation {
+    font-size: 14px;
+    color: #666;
+    margin-top: 0px;
+  }
+  
+  .card_body {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #444;
+    display: flex;
+    flex-direction: column;
+    background-color: #F1F7FF; /* soft blue background */
+    border: 1px solid #D0E3FF; /* light blue border */
+    border-radius: 12px;
+    padding: 10px;
+    /* width: 215px; */
+    max-width: 300px;
+  }
+  .emp_id{padding: 0px;margin-left: 30px; font-weight: 600; margin: 3px 0px; font-size: 14px; }
+  .emp_id strong {margin-right: 13px; }
+  .work_type{padding: 0px; font-weight: 400;margin: 03px 0px;font-size: 14px;}
+  .work_type span{margin-right: 13px;}
+  .emp_mail{ 
+    color: #007bff;
+    border-radius: 8px;
+    font-weight: 400;
+    text-decoration: none;
+    margin: 3px 0px;
+    padding: 0px 0px;
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-all; 
+    font-size: 14px;
+
+ }
+ .emp_mail span{color: #000;margin-right: 8px;}
+ .emp_num span{color: #000;margin-right: 10px;}
+
+  .emp_num{padding: 0px; font-weight: 400; margin: 0px; font-size: 14px;;margin: 03px 0px }
+  
+  
+  .card_footer {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+
+  
+/* tech team css */
+/* ends */

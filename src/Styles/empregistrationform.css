@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main Container */
+.emp-registration-main-container {
+  max-width: 1100px;
+  margin: 70px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Grid Layout */
+.emp-registration-form {
+  /* display: grid; */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* Section Box */
+.form-section { 
+  background-color: #f9fafb;
+  border: 1px solid #e0e0e0;
+  border-radius: 1px;
+  padding: 20px 24px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;          /* allow inputs to wrap to new lines */
+  gap: 15px;                /* spacing between inputs */
+  align-items: flex-start;
+}
+
+/* Section Title */
+.form-section legend {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding: 0 6px;
+  color: #333;
+}
+
+/* Form Group */
+.form-group {
+  flex: 0 0 48%;       /* fixed width 48% for two inputs side by side */
+  min-width: unset;    /* disable min-width to prevent wrapping */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  flex: 0 0 100%;      /* full width for wide inputs */
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #222;
+  text-transform: capitalize;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  transition: border 0.3s, box-shadow 0.3s;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  outline: none;
+}
+
+/* Textarea */
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Submit Button */
+.submit-btn {
+  grid-column: span 2;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive: Stack form fields for smaller screens */
+@media (max-width: 768px) {
+  .emp-registration-form {
+    grid-template-columns: 1fr;
+  }
+
+  .submit-btn {
+    grid-column: span 1;
+  }
+
+  .form-group {
+    flex: 0 0 100%;   /* on small screens inputs take full width */
+    min-width: unset;
+  }
+}
+
+.logo-container {
+  text-align: left;
+  margin: 20px 0 -20px;
+}
+
+.logo {
+  height: 60px;
+  width: 30%;
+  /* padding: 30px; */
+  padding-bottom: 10px;
+  margin-top: 20px;
+  object-fit: contain;
+  /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15)); */
+}

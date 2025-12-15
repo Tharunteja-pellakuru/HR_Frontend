@@ -1,0 +1,428 @@
+/* Main wrapper to align sidebar & header side by side */
+.dashboard_wrapper {
+    display: flex;
+    min-height: 100vh; /* Minimum full viewport height */
+    font-family: 'Inter', sans-serif; /* Ensure strict font usage */
+}
+
+/* Sidebar (Dashboard Menu) */
+.dashboard_container {
+    width: var(--sidebar-width, 260px); /* Dynamic width */
+    min-height: 100vh;
+    background-color: #ffffff; /* White background */
+    display: flex;
+    flex-direction: column;
+    padding-top: 0; /* Top padding */
+    border-right: 1px solid #e0e0e0;
+    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Professional ease */
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+/* Collapsed State */
+.collapsed {
+    width: var(--sidebar-width, 70px);
+}
+
+.collapsed .dash_board_menu li {
+    padding: 10px 0;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    margin: 2px 0; /* Remove horizontal margin for proper centering */
+}
+
+.collapsed .menuItemContent {
+    gap: 0;
+    justify-content: center;
+    pointer-events: auto;
+    width: 100%;
+    display: flex;
+}
+
+.collapsed .menuItemContent span:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.collapsed .menuText {
+    opacity: 0;
+    transform: translateX(-10px); /* Slide out effect */
+    max-width: 0;
+    margin: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease, max-width 0.3s ease;
+    pointer-events: none;
+    position: absolute;
+}
+
+.collapsed .chevron {
+    opacity: 0;
+    display: none;
+    pointer-events: none;
+}
+
+.collapsed .hamburger_menu {
+    text-align: center;
+    padding: 0 0 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.hamburger_menu {
+    padding: 0 20px 20px 20px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Sidebar Header - aligns with main header */
+.sidebar_header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 30px;
+    border-bottom: 1px solid #DCDCDC;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.sidebar_header_collapsed {
+    justify-content: center;
+    padding-left: 0;
+}
+
+.hamburger_btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.dash_board_menu{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/* Sidebar Menu Items */
+.dash_board_menu li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    list-style: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin: 2px 10px; /* Added horizontal margin for breathing room */
+}
+
+.menuItemContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden; /* Hide overflow content during transition */
+    white-space: nowrap; 
+    flex: 1; /* Ensure it takes available space */
+}
+
+.menuText {
+    display: block; /* Required for max-width and transform animations */
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 200px; 
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, max-width 0.4s ease;
+}
+
+.chevron {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Active State */
+.activeMenu {
+    background-color: #E9F6E2;
+    border-radius: 5px;
+    color: #73BF44 !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+/* Active menu in collapsed state - ensure proper styling */
+.collapsed .activeMenu {
+    background-color: #E9F6E2;
+    border-radius: 5px;
+    padding: 10px !important;
+    margin: 2px 8px !important;
+}
+
+/* Active Icon Color - Keep Black */
+.activeMenu_logo img {
+    filter: none;
+}
+
+.inactiveMenu_logo {
+    color: #333;
+    display: flex;
+    align-items: center;
+    font-size: 18px; /* Icon size */
+}
+
+/* Hover State */
+.dash_board_menu li:hover {
+    background-color: #f9f9f9;
+}
+
+.chevron {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Expanded Parent Menu (when dropdown is open) */
+.expandedMenu {
+    font-weight: 600;
+}
+
+.chevronExpanded {
+    color: #000;
+    font-size: 14px;
+}
+
+/* Submenu Styling */
+.subMenu {
+    list-style: none;
+    padding: 0;
+    background-color: #ffffff;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.subMenuItem {
+    padding: 8px 20px 8px 52px !important; /* Indent: 20px padding + 18px icon + 12px gap = ~50px indentation */
+    font-size: 13px; /* Slightly smaller for subitems */
+    color: #555;
+    background-color: transparent !important;
+}
+
+.subMenuItem:hover {
+    color: #4CAF50 !important;
+    background-color: transparent !important;
+}
+
+.activeSubMenu {
+    color: #73BF44 !important;
+    font-weight: 600;
+    background-color: #E9F6E2 !important;
+    border-radius: 5px;
+    margin: 2px 10px !important;
+}
+
+/* Scrollbar for sidebar */
+.dashboard_container::-webkit-scrollbar {
+    width: 4px;
+}
+.dashboard_container::-webkit-scrollbar-thumb {
+    background: #e0e0e0; 
+    border-radius: 4px;
+}
+
+/* ========== Responsive Styles for Sidebar ========== */
+
+/* Medium screens (tablets) - below 992px */
+@media (max-width: 991px) {
+    .dashboard_container {
+        width: var(--sidebar-width, 70px);
+    }
+    
+    .sidebar_header {
+        height: 65px; /* Match header height */
+        padding-left: 0;
+        justify-content: center;
+    }
+    
+    .dashboard_container .dash_board_menu li {
+        padding: 12px 0;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .dashboard_container .menuItemContent {
+        gap: 0;
+        justify-content: center;
+        width: 100%;
+        pointer-events: auto;
+    }
+    
+    .dashboard_container .menuItemContent span:first-child {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        z-index: 1;
+    }
+    
+    .dashboard_container .menuText {
+        opacity: 0;
+        max-width: 0;
+        margin: 0;
+        overflow: hidden;
+        position: absolute;
+        pointer-events: none;
+    }
+    
+    .dashboard_container .chevron {
+        opacity: 0;
+        display: none;
+        pointer-events: none;
+    }
+    
+    /* Active menu styling in collapsed state - consistent across all screens */
+    .dashboard_container .activeMenu {
+        background-color: #E9F6E2;
+        border-radius: 5px;
+    }
+    
+    /* Only hide submenus when collapsed */
+    .collapsed .subMenu {
+        display: none;
+    }
+    
+    /* Show submenus when sidebar is expanded (not collapsed) */
+    .dashboard_container:not(.collapsed) .subMenu {
+        display: block;
+    }
+    
+    /* Show chevron when sidebar is expanded */
+    .dashboard_container:not(.collapsed) .chevron {
+        opacity: 1;
+        display: flex;
+        pointer-events: auto;
+    }
+    
+    /* Restore menu item padding/layout when expanded */
+    .dashboard_container:not(.collapsed) .dash_board_menu li {
+        padding: 10px 20px;
+        margin: 2px 10px;
+        justify-content: space-between;
+    }
+    
+    /* Show menu text when sidebar is expanded */
+    .dashboard_container:not(.collapsed) .menuText {
+        opacity: 1;
+        max-width: 200px;
+        position: static;
+        pointer-events: auto;
+    }
+    
+    .dashboard_container:not(.collapsed) .menuItemContent {
+        justify-content: flex-start;
+        gap: 12px;
+    }
+    
+    .dashboard_container:not(.collapsed) {
+        width: var(--sidebar-width, 260px);
+    }
+    
+    .dashboard_container:not(.collapsed) .sidebar_header {
+        padding-left: 30px;
+        justify-content: flex-start;
+    }
+}
+
+/* Small screens (mobiles) - below 768px */
+@media (max-width: 767px) {
+    .dashboard_container {
+        width: var(--sidebar-width, 60px);
+    }
+    
+    .sidebar_header {
+        height: 60px; /* Match header height */
+    }
+    
+    .dashboard_container .dash_board_menu li {
+        padding: 10px 0;
+        margin: 2px 5px;
+    }
+    
+    .hamburger_btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* When sidebar is expanded on small screens - match large screen styling */
+    .dashboard_container:not(.collapsed) .dash_board_menu li {
+        padding: 10px 20px;
+        margin: 2px 10px;
+        justify-content: space-between;
+    }
+    
+    .dashboard_container:not(.collapsed) .sidebar_header {
+        padding-left: 30px;
+        justify-content: flex-start;
+    }
+}
+
+/* Extra small screens - below 576px */
+@media (max-width: 575px) {
+    .dashboard_container {
+        width: var(--sidebar-width, 50px);
+    }
+    
+    .sidebar_header {
+        height: 55px; /* Match header height */
+    }
+    
+    .dashboard_container .dash_board_menu li {
+        padding: 8px 0;
+        margin: 2px 3px;
+    }
+    
+    .dashboard_container .menuItemContent img {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .hamburger_btn svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* When sidebar is expanded on extra small screens - match large screen styling */
+    .dashboard_container:not(.collapsed) .dash_board_menu li {
+        padding: 10px 20px;
+        margin: 2px 10px;
+        justify-content: space-between;
+    }
+    
+    .dashboard_container:not(.collapsed) .sidebar_header {
+        padding-left: 30px;
+        justify-content: flex-start;
+    }
+    
+    .dashboard_container:not(.collapsed) .menuItemContent img {
+        width: 20px;
+        height: 20px;
+    }
+}
+

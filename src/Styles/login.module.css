@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  background-color: #EAF7E1; /* User requested background */
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.5) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.5) 0px, transparent 50%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background shapes for visual interest */
+.container::before, .container::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.container::before {
+  width: 400px;
+  height: 400px;
+  background-color: rgba(255, 255, 255, 0.4);
+  top: -100px;
+  left: -100px;
+}
+
+.container::after {
+  width: 300px;
+  height: 300px;
+  background-color: rgba(67, 160, 71, 0.1); /* Subtle green tint */
+  bottom: -50px;
+  right: -50px;
+}
+
+/* The Glassy Card Container */
+.loginCard {
+  display: flex;
+  width: 900px;
+  max-width: 95%;
+  height: 600px; /* Fixed height for clean look */
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05); /* Soft, premium shadow */
+  overflow: hidden;
+  z-index: 10;
+  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.leftSide {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+}
+
+.rightSide {
+  flex: 1;
+  background-color: #f1f8e9; /* Slightly darker than main bg for contrast inside card */
+  /* Or use a nice image if we had one. Let's make a abstract composition */
+  background: linear-gradient(135deg, #EAF7E1 0%, #dcedc8 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+  text-align: center;
+}
+
+/* Abstract shapes inside the right panel */
+.rightSide::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(-12deg) translateY(-50%);
+  top: 0;
+  left: 50%;
+  border-radius: 40px;
+}
+
+.loginContent {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.headerTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.headerSubtitle {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.formGroup {
+  margin-bottom: 1.8rem;
+  position: relative;
+}
+
+.formGroup label {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  background: white;
+  padding: 0 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #558b2f;
+  z-index: 2;
+  transition: all 0.2s;
+}
+
+.inputField {
+  width: 100%;
+  padding: 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: transparent;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  color: #333;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #558b2f;
+  box-shadow: 0 4px 12px rgba(85, 139, 47, 0.08);
+}
+
+.inputField::placeholder {
+  color: #bbb;
+  font-weight: 300;
+}
+
+.forgotPassword {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+    margin-bottom: 2rem;
+}
+
+.forgotPassword a {
+    color: #666;
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.forgotPassword a:hover {
+    color: #33691e;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 16px;
+  background: #2e7d32; /* Strong green */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(46, 125, 50, 0.15);
+  letter-spacing: 0.5px;
+}
+
+.loginButton:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(46, 125, 50, 0.25);
+}
+
+.errorMessage {
+    color: #d32f2f;
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    background: #ffebee;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Right side typography */
+.welcomeTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #1b5e20;
+  position: relative;
+  z-index: 10;
+}
+
+.welcomeText {
+  font-size: 1.1rem;
+  color: #33691e;
+  opacity: 0.9;
+  max-width: 80%;
+  line-height: 1.8;
+  position: relative;
+  z-index: 10;
+}
+
+.decorationCircle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0.2;
+  bottom: -50px;
+  right: -50px;
+  z-index: 1;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .loginCard {
+    flex-direction: column;
+    height: auto;
+    width: 90%;
+  }
+  .rightSide {
+    display: none; /* Hide visual on tablet/mobile for focus */
+  }
+}

@@ -1,0 +1,220 @@
+.daily_report_container {
+    display: flex;
+}
+
+.report_container{
+    display: flex;flex-direction: column;
+}
+.report_card {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px 0px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 50%;
+}
+
+.report_btn{
+    background-color: #73BF44;
+    border: 1px solid #73BF44;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+.button_wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 0px 10px 0px;
+}
+
+/* Table Wrapper */
+.table_container {
+    width: 100%;
+    /* margin-top: 0px; */
+    overflow-x: auto; /* Allows scrolling for smaller screens */
+    height: 61vh;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* Table Styling */
+.table_container {
+    width: 100%;
+    margin-top: 5px;
+    max-height: 500px; /* Set a max height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd; /* Optional: Adds a border */
+}
+
+thead {
+    background-color: #f4f4f4;
+    /* position: sticky; */
+    top: 0;
+    z-index: 2;
+}
+
+/* Table Head Cells */
+th {
+    padding: 12px 15px;
+    font-weight: bold;
+    white-space: nowrap;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Table Body */
+td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+/* Row Hover Effect */
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* .daily_report_chart_container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    
+}
+.daily_report_chart_card{
+    border: 1px solid #ddd;
+
+    height: 280px;
+    margin-bottom: 10px;
+}
+.monthly_report_chart_card{
+    border: 1px solid     
+    height: 280px;
+}
+.text{
+    padding: 10px 20px 10px 20px;
+    width: 100%;
+  
+} */
+.daily_report_chart_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center charts */
+    gap: 15px; /* Add spacing between cards */
+    margin-left: 10px;
+    /* width: 100%; */
+}
+
+.daily_report_chart_card,
+.monthly_report_chart_card {
+    border: 1px solid #ddd;
+    width: 100%; /* Ensure full width inside container */
+    max-width: 500px; /* Adjust max width to prevent excessive stretching */
+    /* height: 300px; Increased height for better readability */
+   height: 250px;
+    background-color: #fff; /* Ensure good contrast */
+    border-radius: 8px; /* Add some rounded corners */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for better UI */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.text {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2px; /* Space below the title */
+    color: #333;
+}
+
+.popup_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.6)
+}
+
+.popup {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+    width: 30%; /* Adjusted to match the layout */
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: flex-end; /* Moves button to the right */
+    margin-top: 10px;
+}
+
+.buttonWrapper button {
+    border-radius: 5px;
+    padding: 8px 15px;
+    background-color: #81c784; /* Light green to match your image */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.report_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form_input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.form_input label {
+    /* width: 100%; Matches the space from your image */
+    font-weight: bold;
+    text-align: left;
+    width: 220px;
+
+    align-items: center;
+}
+
+.form_input select,
+.form_input input,
+.form_input textarea {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: #f2f2f2; /* Light grey background */
+    border-radius: 4px;
+    outline: none;
+    align-items: center;
+    margin: 0px;
+
+}
+
+.form_input textarea {
+    height: 50px; /* Matches the description box size */
+    resize: none;
+}

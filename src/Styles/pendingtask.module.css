@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.emp_dashboard_wrapper {
+    display: flex;
+    width: 100%;
+}
+.admin_dashboard_main_container{
+    display: flex ;
+    flex-direction: column;
+}
+
+
+.admin_dashboard_main {
+    flex: 1;
+    padding: 25px 43px 20px 61px;
+    flex-direction: column;
+}
+.admin_dashboard_header_card{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1920px;
+    /* margin: 0px auto; */
+    padding:0px  0px 35px 0px;
+}
+.admin_greeting{
+    font-size: 20px;
+    font-weight: 600;
+    color: #202020;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    /* margin-right: 5px;   */
+    width: 33%;
+}
+.admin_dashboard_main_container{
+    display: flex ;
+    flex-direction: column;
+}
+.emp_main_section_contianer{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 25px;
+}
+.total_and_leave_card{
+    display: flex;
+    gap: 15px;
+}
