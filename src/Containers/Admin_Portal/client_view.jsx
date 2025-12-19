@@ -50,8 +50,8 @@ const ClientView = () => {
                     <div className={styles.daily_report_table_wrapper}>
                         <table className={styles.daily_report_table}>
                             <colgroup>
-                                <col style={{ width: '40%' }} />
-                                <col style={{ width: '60%' }} />
+                                <col style={{ width: '40%', minWidth: '150px' }} />
+                                <col style={{ width: '60%', minWidth: '200px' }} />
                             </colgroup>
                             <thead>
                                 <tr>
@@ -79,8 +79,9 @@ const ClientView = () => {
                         </table>
 
                         {/* Pagination */}
-                        <div className={styles.pagination}>
-                            <button
+                        <div className={styles.pagination_container}>
+                            <button 
+                                className={styles.pagination_btn}
                                 disabled={currentPage === 1}
                                 onClick={() => setCurrentPage(currentPage - 1)}
                             >
@@ -89,15 +90,21 @@ const ClientView = () => {
                             {[1, 2, 3, 4, 5].map((page) => (
                                 <button
                                     key={page}
-                                    className={currentPage === page ? styles.active_page : ""}
+                                    className={`${styles.pagination_btn} ${currentPage === page ? styles.pagination_btn_active : ''}`}
                                     onClick={() => setCurrentPage(page)}
                                 >
                                     {page}
                                 </button>
                             ))}
-                            <span>...</span>
-                            <button onClick={() => setCurrentPage(150)}>150</button>
+                            <span className={styles.pagination_btn}>...</span>
+                            <button 
+                                className={`${styles.pagination_btn} ${currentPage === 150 ? styles.pagination_btn_active : ''}`}
+                                onClick={() => setCurrentPage(150)}
+                            >
+                                150
+                            </button>
                             <button
+                                className={styles.pagination_btn}
                                 disabled={currentPage === totalPages}
                                 onClick={() => setCurrentPage(currentPage + 1)}
                             >

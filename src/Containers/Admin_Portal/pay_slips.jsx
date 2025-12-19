@@ -7,6 +7,21 @@ const PaySlips = () => {
     const [selectedYear, setSelectedYear] = useState("");
     const [selectedMonth, setSelectedMonth] = useState("");
 
+    const [isYearOpen, setIsYearOpen] = useState(false);
+    const [isMonthOpen, setIsMonthOpen] = useState(false);
+    
+    const yearRef = React.useRef(null);
+    const monthRef = React.useRef(null);
+    
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (yearRef.current && !yearRef.current.contains(event.target)) setIsYearOpen(false);
+            if (monthRef.current && !monthRef.current.contains(event.target)) setIsMonthOpen(false);
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     const employees = [
         { name: "Vishal", file: null },
         { name: "Veera", file: null },
@@ -44,27 +59,72 @@ const PaySlips = () => {
                     <div className={styles.payslip_header_row}>
                         <h2 className={styles.pageTitleWithLine}>Pay Slip List</h2>
                         <div className={styles.payslip_filters}>
-                            <select 
-                                value={selectedYear} 
-                                onChange={(e) => setSelectedYear(e.target.value)}
-                                className={styles.filter_select}
-                            >
-                                <option value="">Select Year</option>
-                                {years.map((year, idx) => (
-                                    <option key={idx} value={year}>{year}</option>
-                                ))}
-                            </select>
-                            <select 
-                                value={selectedMonth} 
-                                onChange={(e) => setSelectedMonth(e.target.value)}
-                                className={styles.filter_select}
-                            >
-                                <option value="">Select Month</option>
-                                {months.map((month, idx) => (
-                                    <option key={idx} value={month}>{month}</option>
-                                ))}
-                            </select>
+
+                            {/* Year Dropdown */}
+                            <div className={styles.custom_dropdown} ref={yearRef}>
+                                <div 
+                                    className={styles.dropdown_toggle} 
+                                    onClick={() => setIsYearOpen(!isYearOpen)}
+                                >
+                                    <span>{selectedYear || "Select Year"}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isYearOpen ? styles.arrow_up : styles.arrow_down}>
+                                        <path d="M6 9l6 6 6-6"/>
+                                    </svg>
+                                </div>
+                                {isYearOpen && (
+                                    <div className={styles.dropdown_menu}>
+                                        <div 
+                                            className={`${styles.dropdown_item} ${selectedYear === "" ? styles.dropdown_item_active : ''}`}
+                                            onClick={() => { setSelectedYear(""); setIsYearOpen(false); }}
+                                        >
+                                            Select Year
+                                        </div>
+                                        {years.map((year, idx) => (
+                                            <div 
+                                                key={idx}
+                                                className={`${styles.dropdown_item} ${selectedYear === year ? styles.dropdown_item_active : ''}`}
+                                                onClick={() => { setSelectedYear(year); setIsYearOpen(false); }}
+                                            >
+                                                {year}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Month Dropdown */}
+                            <div className={styles.custom_dropdown} ref={monthRef}>
+                                <div 
+                                    className={styles.dropdown_toggle} 
+                                    onClick={() => setIsMonthOpen(!isMonthOpen)}
+                                >
+                                    <span>{selectedMonth || "Select Month"}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isMonthOpen ? styles.arrow_up : styles.arrow_down}>
+                                        <path d="M6 9l6 6 6-6"/>
+                                    </svg>
+                                </div>
+                                {isMonthOpen && (
+                                    <div className={styles.dropdown_menu}>
+                                        <div 
+                                            className={`${styles.dropdown_item} ${selectedMonth === "" ? styles.dropdown_item_active : ''}`}
+                                            onClick={() => { setSelectedMonth(""); setIsMonthOpen(false); }}
+                                        >
+                                            Select Month
+                                        </div>
+                                        {months.map((month, idx) => (
+                                            <div 
+                                                key={idx}
+                                                className={`${styles.dropdown_item} ${selectedMonth === month ? styles.dropdown_item_active : ''}`}
+                                                onClick={() => { setSelectedMonth(month); setIsMonthOpen(false); }}
+                                            >
+                                                {month}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
+
                     </div>
 
                     <div className={styles.payslip_container}>

@@ -33,6 +33,25 @@ const AddNewProject = () => {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showClientModal, setShowClientModal] = useState(false);
 
+    // Dropdown states
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [isClientOpen, setIsClientOpen] = useState(false);
+    const [isEmployeeOpen, setIsEmployeeOpen] = useState(false);
+
+    const categoryRef = React.useRef(null);
+    const clientRef = React.useRef(null);
+    const employeeRef = React.useRef(null);
+
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (categoryRef.current && !categoryRef.current.contains(event.target)) setIsCategoryOpen(false);
+            if (clientRef.current && !clientRef.current.contains(event.target)) setIsClientOpen(false);
+            if (employeeRef.current && !employeeRef.current.contains(event.target)) setIsEmployeeOpen(false);
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     // Modal form data
     const [newCategory, setNewCategory] = useState({ name: "", description: "" });
     const [newClient, setNewClient] = useState({
@@ -43,6 +62,12 @@ const AddNewProject = () => {
     const [categories, setCategories] = useState(["Website", "Social Media", "AMC", "Photo Shoot", "App Development", "Corporate Branding"]);
     const [clients, setClients] = useState(["Chetan Reddy", "Ramesh Legala", "Murlidhar", "SVIS", "Amir", "Hyma"]);
     const employees = ["Vishal", "Vamsi", "Spr", "Murlidhari", "Ravi", "Kumar"];
+
+    const handleAddEmployee = (empName) => {
+        if (!selectedEmployees.some(emp => emp.name === empName)) {
+            setSelectedEmployees(prev => [...prev, { id: Date.now(), name: empName }]);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -115,17 +140,46 @@ const AddNewProject = () => {
                                 {/* Select Category */}
                                 <div className={styles.form_row}>
                                     <label>Select Category</label>
-                                    <div className={styles.input_with_button}>
-                                        <select
-                                            name="category"
-                                            value={formData.category}
-                                            onChange={handleInputChange}
-                                        >
-                                            <option value="">Select Category</option>
-                                            {categories.map((cat, idx) => (
-                                                <option key={idx} value={cat}>{cat}</option>
-                                            ))}
-                                        </select>
+                                    <div className={styles.input_with_button} style={{ display: 'flex', alignItems: 'center' }}>
+                                        <div className={styles.custom_dropdown} ref={categoryRef} style={{ width: '100%', marginRight: '10px' }}>
+                                            <div 
+                                                className={styles.dropdown_toggle} 
+                                                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                                                style={{ background: '#FFF' }}
+                                            >
+                                                <span style={{ color: formData.category ? '#333' : '#888' }}>
+                                                    {formData.category || "Select Category"}
+                                                </span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isCategoryOpen ? styles.arrow_up : styles.arrow_down}>
+                                                    <path d="M6 9l6 6 6-6"/>
+                                                </svg>
+                                            </div>
+                                            {isCategoryOpen && (
+                                                <div className={styles.dropdown_menu}>
+                                                    <div 
+                                                        className={`${styles.dropdown_item} ${formData.category === "" ? styles.dropdown_item_active : ''}`}
+                                                        onClick={() => {
+                                                            handleInputChange({ target: { name: 'category', value: '' } });
+                                                            setIsCategoryOpen(false);
+                                                        }}
+                                                    >
+                                                        Select Category
+                                                    </div>
+                                                    {categories.map((cat, idx) => (
+                                                        <div 
+                                                            key={idx}
+                                                            className={`${styles.dropdown_item} ${formData.category === cat ? styles.dropdown_item_active : ''}`}
+                                                            onClick={() => {
+                                                                handleInputChange({ target: { name: 'category', value: cat } });
+                                                                setIsCategoryOpen(false);
+                                                            }}
+                                                        >
+                                                            {cat}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                         <button 
                                             type="button"
                                             className={styles.plus_btn}
@@ -139,17 +193,46 @@ const AddNewProject = () => {
                                 {/* Select Client */}
                                 <div className={styles.form_row}>
                                     <label>Select Client</label>
-                                    <div className={styles.input_with_button}>
-                                        <select
-                                            name="client"
-                                            value={formData.client}
-                                            onChange={handleInputChange}
-                                        >
-                                            <option value="">Select Client</option>
-                                            {clients.map((client, idx) => (
-                                                <option key={idx} value={client}>{client}</option>
-                                            ))}
-                                        </select>
+                                    <div className={styles.input_with_button} style={{ display: 'flex', alignItems: 'center' }}>
+                                        <div className={styles.custom_dropdown} ref={clientRef} style={{ width: '100%', marginRight: '10px' }}>
+                                            <div 
+                                                className={styles.dropdown_toggle} 
+                                                onClick={() => setIsClientOpen(!isClientOpen)}
+                                                style={{ background: '#FFF' }}
+                                            >
+                                                <span style={{ color: formData.client ? '#333' : '#888' }}>
+                                                    {formData.client || "Select Client"}
+                                                </span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isClientOpen ? styles.arrow_up : styles.arrow_down}>
+                                                    <path d="M6 9l6 6 6-6"/>
+                                                </svg>
+                                            </div>
+                                            {isClientOpen && (
+                                                <div className={styles.dropdown_menu}>
+                                                    <div 
+                                                        className={`${styles.dropdown_item} ${formData.client === "" ? styles.dropdown_item_active : ''}`}
+                                                        onClick={() => {
+                                                            handleInputChange({ target: { name: 'client', value: '' } });
+                                                            setIsClientOpen(false);
+                                                        }}
+                                                    >
+                                                        Select Client
+                                                    </div>
+                                                    {clients.map((client, idx) => (
+                                                        <div 
+                                                            key={idx}
+                                                            className={`${styles.dropdown_item} ${formData.client === client ? styles.dropdown_item_active : ''}`}
+                                                            onClick={() => {
+                                                                handleInputChange({ target: { name: 'client', value: client } });
+                                                                setIsClientOpen(false);
+                                                            }}
+                                                        >
+                                                            {client}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                         <button 
                                             type="button"
                                             className={styles.plus_btn}
@@ -196,13 +279,35 @@ const AddNewProject = () => {
                                 {/* Assign to */}
                                 <div className={styles.form_row}>
                                     <label>Assign to</label>
-                                    <div className={styles.input_with_button}>
-                                        <select name="employee">
-                                            <option value="">Select Employee</option>
-                                            {employees.map((emp, idx) => (
-                                                <option key={idx} value={emp}>{emp}</option>
-                                            ))}
-                                        </select>
+                                    <div className={styles.input_with_button} style={{ display: 'flex', alignItems: 'center' }}>
+                                        <div className={styles.custom_dropdown} ref={employeeRef} style={{ width: '100%', marginRight: '10px' }}>
+                                            <div 
+                                                className={styles.dropdown_toggle} 
+                                                onClick={() => setIsEmployeeOpen(!isEmployeeOpen)}
+                                                style={{ background: '#FFF' }}
+                                            >
+                                                <span style={{ color: '#888' }}>Select Employee</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isEmployeeOpen ? styles.arrow_up : styles.arrow_down}>
+                                                    <path d="M6 9l6 6 6-6"/>
+                                                </svg>
+                                            </div>
+                                            {isEmployeeOpen && (
+                                                <div className={styles.dropdown_menu}>
+                                                    {employees.map((emp, idx) => (
+                                                        <div 
+                                                            key={idx}
+                                                            className={styles.dropdown_item}
+                                                            onClick={() => {
+                                                                handleAddEmployee(emp);
+                                                                setIsEmployeeOpen(false);
+                                                            }}
+                                                        >
+                                                            {emp}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                         <button className={styles.plus_btn}>
                                             <FaPlus />
                                         </button>
@@ -232,18 +337,6 @@ const AddNewProject = () => {
                                     className={styles.description_textarea}
                                 />
                             </div>
-                        </div>
-
-                        {/* Bottom Tags */}
-                        <div className={styles.bottom_tags}>
-                            {selectedTags.map((tag, idx) => (
-                                <span key={idx} className={styles.tag}>
-                                    {tag}
-                                    <button onClick={() => removeTag(idx)}>
-                                        <FaTimes />
-                                    </button>
-                                </span>
-                            ))}
                         </div>
 
                         {/* Add Button */}

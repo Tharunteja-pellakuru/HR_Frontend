@@ -22,6 +22,15 @@ const ApproveEmployees = () => {
         { id: "99495910", name: "Employee 10", designation: "Project Lead", phone: "7998752301", joinDate: "22-06-2022", type: "Enroll" },
     ];
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div className={styles.emp_dashboard_wrapper}>
             <AdminSidebarMenu />
@@ -32,7 +41,7 @@ const ApproveEmployees = () => {
                     <div className={styles.approve_header_row}>
                         <h2 className={styles.pageTitleWithLine}>Approve Employees</h2>
                         <div className={styles.approve_actions}>
-                            <div className={styles.search_bar_wrapper}>
+                            <div className={styles.search_box}>
                                 <FaSearch className={styles.search_icon} />
                                 <input 
                                     type="text" 
@@ -42,12 +51,21 @@ const ApproveEmployees = () => {
                                     className={styles.search_input}
                                 />
                             </div>
-                            <button className={styles.add_new_btn_green}>Add New</button>
+                            <button className={styles.add_new_btn}>Add New</button>
                         </div>
                     </div>
 
-                    <div className={styles.table_container_white}>
-                        <table className={styles.approve_table}>
+                    <div className={styles.daily_report_table_wrapper}>
+                        <table className={styles.daily_report_table}>
+                            <colgroup>
+                                <col style={{ width: '12%', minWidth: '100px' }} />
+                                <col style={{ width: '12%', minWidth: '100px' }} />
+                                <col style={{ width: '15%', minWidth: '120px' }} />
+                                <col style={{ width: '13%', minWidth: '110px' }} />
+                                <col style={{ width: '12%', minWidth: '100px' }} />
+                                <col style={{ width: '12%', minWidth: '90px' }} />
+                                <col style={{ width: '14%', minWidth: '150px' }} />
+                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>Employee ID</th>
@@ -60,8 +78,8 @@ const ApproveEmployees = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {employees.map((emp, idx) => (
-                                    <tr key={idx} className={idx % 2 === 1 ? styles.alt_row : ''}>
+                                {currentItems.map((emp, idx) => (
+                                    <tr key={idx} className={styles.data_row}>
                                         <td>{emp.id}</td>
                                         <td>{emp.name}</td>
                                         <td>{emp.designation}</td>
@@ -69,7 +87,7 @@ const ApproveEmployees = () => {
                                         <td>{emp.joinDate}</td>
                                         <td className={emp.type === 'Resignation' ? styles.status_resignation : styles.status_enroll}>{emp.type}</td>
                                         <td>
-                                            <div className={styles.action_buttons_row}>
+                                            <div className={styles.action_buttons}>
                                                 <button className={styles.approve_btn}>Approve</button>
                                                 <button className={styles.reject_btn}>Reject</button>
                                             </div>
@@ -80,20 +98,33 @@ const ApproveEmployees = () => {
                         </table>
                         
                         <div className={styles.pagination_container}>
-                            <div className={styles.pagination}>
-                                <span className={styles.page_item}>Previous</span>
-                                <span className={`${styles.page_item} ${styles.active_page}`}>1</span>
-                                <span className={styles.page_item}>2</span>
-                                <span className={styles.page_item}>3</span>
-                                <span className={styles.page_item}>4</span>
-                                <span className={styles.page_item}>5</span>
-                                <span className={styles.page_item}>...</span>
-                                <span className={styles.page_item}>150</span>
-                                <span className={styles.page_item}>Next</span>
-                            </div>
+                            <button 
+                                className={styles.pagination_btn} 
+                                disabled={currentPage === 1} 
+                                onClick={() => paginate(currentPage - 1)}
+                            >
+                                Previous
+                            </button>
+                            
+                            {Array.from({ length: Math.ceil(employees.length / itemsPerPage) }, (_, i) => (
+                                <button
+                                    key={i + 1}
+                                    className={`${styles.pagination_btn} ${currentPage === i + 1 ? styles.pagination_btn_active : ''}`}
+                                    onClick={() => paginate(i + 1)}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+
+                            <button 
+                                className={styles.pagination_btn} 
+                                disabled={currentPage === Math.ceil(employees.length / itemsPerPage)} 
+                                onClick={() => paginate(currentPage + 1)}
+                            >
+                                Next
+                            </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

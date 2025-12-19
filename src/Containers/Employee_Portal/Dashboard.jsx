@@ -4,7 +4,7 @@ import EmployeeAuth from "../../Hooks/useAuth";
 import SidebarMenu from "../../Components/Common/Dashboard";
 import HeaderDashboard from "../../Components/Layout/Header_dashboard";
 import styles from "../../Styles/dashboard.module.css";
-import ReactApexChart from "react-apexcharts"; // For Gauge/RadialBar
+import ReactApexChart from "react-apexcharts"; 
 import {
   BarChart,
   Bar,
@@ -17,7 +17,7 @@ import {
   PieChart,
   Pie,
 } from "recharts";
-import { FaCalendarTimes, FaUserTimes } from "react-icons/fa"; // Icons for cards
+import { FaCalendarTimes, FaUserTimes } from "react-icons/fa"; 
 
 const EmployeeDashboard = () => {
   const { empId } = useParams();
@@ -26,23 +26,16 @@ const EmployeeDashboard = () => {
   const [currentTime, setcurrentTime] = useState("");
   const [seconds, setSeconds] = useState(0);
 
-  // --- Clock Logic (retained) ---
+  // --- Clock Logic ---
   useEffect(() => {
     const updateTime = () => {
       const time = new Date();
-      /* const formattedTime = time.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      }); */
-      // setcurrentTime(formattedTime);
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // --- Timer Logic (retained simlified for display) ---
   // --- Timer Logic ---
   useEffect(() => {
      const savedTime = localStorage.getItem("timer_seconds");
@@ -61,13 +54,12 @@ const EmployeeDashboard = () => {
     return `${hours} hrs : ${min} min : ${secs} sec`;
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchemployeeDetails(empId);
-      if (response?.employee) {
-        SetEmply(response.employee);
-      }
+        const response = await fetchemployeeDetails(empId);
+        if (response?.employee) {
+            SetEmply(response.employee);
+        }
     };
     fetchData();
   }, [empId]);
@@ -75,7 +67,7 @@ const EmployeeDashboard = () => {
   // --- Chart Data configuration ---
 
   // Gauge Charts (RadialBar)
-  const attendanceRateSeries = [76.27];
+  const attendanceRateSeries = [50];
   const avgHoursSeries = [85]; // example 6.01/7 approx
 
   const gaugeOptions = (label, color) => ({

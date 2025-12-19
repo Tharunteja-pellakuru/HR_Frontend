@@ -349,3 +349,137 @@ option:first-child {
 
 
   /* clients css----ends----- */
+
+/* =====================================================
+   PROJECTS PAGE RESPONSIVE STYLES
+   ===================================================== */
+
+/* Tablet breakpoint (1024px) */
+@media (max-width: 1024px) {
+    .admin_dashboard_main {
+        padding: 20px 15px 20px 50px;
+    }
+    
+    .emp_main_section_contianer {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .total_and_leave_card {
+        flex: 1 1 45%;
+    }
+    
+    .search_fillter_container {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .search_card {
+        width: 50%;
+    }
+}
+
+/* Mobile breakpoint (768px) */
+@media (max-width: 768px) {
+    .admin_dashboard_main {
+        padding: 15px 10px;
+    }
+    
+    .admin_dashboard_header_card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding-bottom: 20px;
+    }
+    
+    .admin_greeting {
+        width: 100%;
+        text-align: left;
+        font-size: 18px;
+    }
+    
+    .emp_main_section_contianer {
+        flex-direction: column;
+    }
+    
+    .total_and_leave_card {
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+    }
+    
+    .total_proj_card,
+    .total_year_projects_card,
+    .total_emp_card,
+    .leave_pen_card,
+    .leave_rej_card {
+        min-width: unset;
+        flex: 1 1 calc(50% - 10px);
+    }
+    
+    .search_fillter_container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search_card {
+        width: 100%;
+    }
+    
+    .select_option_card {
+        width: 100%;
+    }
+    
+    .search_flter_btn {
+        width: 100%;
+    }
+    
+    .add_client_contianer {
+        justify-content: center;
+    }
+    
+    .add_project_btn,
+    .add_client_btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Small mobile (480px) */
+@media (max-width: 480px) {
+    .admin_dashboard_main {
+        padding: 10px 8px;
+    }
+    
+    .admin_greeting {
+        font-size: 16px;
+    }
+    
+    .total_proj_card,
+    .total_year_projects_card,
+    .total_emp_card,
+    .leave_pen_card,
+    .leave_rej_card {
+        flex: 1 1 100%;
+        min-width: unset;
+        padding: 10px;
+    }
+    
+    .emp_active {
+        font-size: 13px;
+    }
+    
+    .emp_count {
+        font-size: 18px;
+    }
+    
+    .search_flter_btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    
+    .add_project_btn,
+    .add_client_btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}

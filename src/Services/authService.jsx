@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // Base URLs
-const BASE_URL = "http://localhost:3000/api";
-const ADMIN_BASE_URL = "http://localhost:5000/api/admin";
+const BASE_URL = "http://localhost:3003/api";
+const ADMIN_BASE_URL = "http://localhost:3003/api/admin";
 
 // Utility: Get tokens from localStorage
 const getEmpToken = () => localStorage.getItem("emp_token");

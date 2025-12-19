@@ -3,16 +3,17 @@ import { useNavigate } from "react-router-dom";
 // import Headers from "../../Components/Layout/Header"; // Commented out to match Employee Login consistency
 import styles from "../../Styles/login.module.css";
 import EmployeeAuth from "../../Hooks/useAuth";
+import { AiOutlineWarning } from "react-icons/ai";
 // import adminImage from "../../Assets/images/admin_portal_image.jpg"; // Not needed in new layout
 // import logo from "../../Assets/images/P_Logo.jpg"; // Not needed in new layout
 
 const AdminLogin = () => {
   const navigate = useNavigate();
   const [adminName, setAdminName] = useState("superadmin@parivratan.com");
-  const [password, setPassword] = useState("Password@1234");
+  const [password, setPassword] = useState("Password@12345");
 
   // Use the same hook source as EmployeeLogin
-  const { handleAdminLogin, AdminAuthData, loading, error } = EmployeeAuth();
+  const { handleAdminLogin, AdminAuthData, loading, error, setError } = EmployeeAuth();
 
   const onSubmitAdminLogin = async (e) => {
     e.preventDefault();
@@ -45,7 +46,10 @@ const AdminLogin = () => {
                     className={styles.inputField}
                     type="text"
                     value={adminName}
-                    onChange={(e) => setAdminName(e.target.value)}
+                    onChange={(e) => {
+                      setAdminName(e.target.value);
+                      if (error) setError("");
+                    }}
                     name="admin_name"
                     placeholder="Enter admin name"
                     required
@@ -58,7 +62,10 @@ const AdminLogin = () => {
                     className={styles.inputField}
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (error) setError("");
+                    }}
                     name="password"
                     placeholder="Enter your password"
                     required
@@ -73,7 +80,12 @@ const AdminLogin = () => {
                   {loading ? "Signing In..." : "SIGN IN"}
                 </button>
 
-                {error && <div className={styles.errorMessage}>{error}</div>}
+                {error && (
+                  <div className={styles.errorMessage}>
+                    <AiOutlineWarning className={styles.errorIcon} />
+                    <span>{error}</span>
+                  </div>
+                )}
               </form>
             </div>
           </div>

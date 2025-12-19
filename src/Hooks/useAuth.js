@@ -74,7 +74,13 @@ const EmployeeAuth = () => {
     localStorage.setItem("emp_id", emp.emp_id);
     localStorage.setItem("emp_name", emp.emp_name);
   } catch (err) {
-    setError(err?.response?.data?.message || "Login failed");
+    if (err.code === "ERR_NETWORK") {
+      setError("Network error: Server is unreachable. Please check your connection or try again later.");
+    } else if (err.response?.status >= 500) {
+      setError("Server error: Something went wrong on our end. Please try again later.");
+    } else {
+      setError(err?.response?.data?.message || "Login failed. Please verify your credentials.");
+    }
   } finally {
     setLoading(false);
   }
@@ -111,14 +117,20 @@ const EmployeeAuth = () => {
     setError(null);
     try {
       await authServices.Logooutemployee(login_id);
-      localStorage.removeItem("employee_id");
-      localStorage.removeItem("emp_token"); // ✅ clear token
-      setUser(null);
-      navigate("/");
     } catch (err) {
-      setError("Failed to logout");
+      console.error("Employee Logout API Error:", err);
     } finally {
+      localStorage.removeItem("emp_id");
+      localStorage.removeItem("emp_token");
+      localStorage.removeItem("emp_name");
+      setAuthData({
+        emp: null,
+        emp_token: null,
+        empleaverequestslsit: [],
+      });
+      setUser(null);
       setLoading(false);
+      navigate("/");
     }
   };
 
@@ -188,32 +200,16 @@ const EmployeeAuth = () => {
         token: data.token,
       });
 
-
       localStorage.setItem("admin_token", data.token);
       localStorage.setItem("admin_name", data.admin.admin_name);
-      localStorage.setItem("admin_details", JSON.stringify(data.admin));
     } catch (err) {
-      setError(err?.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAdminLogout = async () => {
-    setLoading(true);
-    try {
-      await authServices.AdminLogout();
-      localStorage.removeItem("admin_token");
-      localStorage.removeItem("admin_name");
-      localStorage.removeItem("admin_details");
-      setAdminAuthData({
-        admin: null,
-        token: null,
-        managersrequestleaves: [],
-      });
-      navigate("/admin-login");
-    } catch (err) {
-      console.error("Logout failed", err);
+      if (err.code === "ERR_NETWORK") {
+        setError("Network error: Server is unreachable. Please check your connection or try again later.");
+      } else if (err.response?.status >= 500) {
+        setError("Server error: Something went wrong on our end. Please try again later.");
+      } else {
+        setError(err?.response?.data?.message || "Login failed. Please verify your credentials.");
+      }
     } finally {
       setLoading(false);
     }
@@ -258,6 +254,25 @@ const EmployeeAuth = () => {
     }
   };
 
+  const handleAdminLogout = async () => {
+    setLoading(true);
+    try {
+      await authServices.AdminLogout();
+    } catch (err) {
+      console.error("Admin Logout API Error:", err);
+    } finally {
+      localStorage.removeItem("admin_token");
+      localStorage.removeItem("admin_name");
+      setAdminAuthData({
+        admin: null,
+        token: null,
+        managersrequestleaves: [],
+      });
+      setLoading(false);
+      navigate("/admin-login");
+    }
+  };
+
 
   return {
     ...authData,
@@ -265,6 +280,7 @@ const EmployeeAuth = () => {
     user,
     loading,
     error,
+    setError,
     managers,
 handleEmpLogin,
     fetchemployeeDetails,
@@ -273,7 +289,7 @@ handleEmpLogin,
     fetchReportingManagers,
     fetchemplleaverequestlist,
     handleAdminLogin, // ✅ not LoginAdmin
-    handleAdminLogout, // ✅ Added handleAdminLogout
+    handleAdminLogout,
     AdminAuthData, fetchemployesrequestleavelist, updateLeaveRequestStatus
   };
 };

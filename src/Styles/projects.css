@@ -217,3 +217,83 @@ margin-top: 25px;
     max-width: 290px;
   }
   
+/* =====================================================
+   PROJECTS PAGE RESPONSIVE STYLES
+   ===================================================== */
+
+/* Tablet breakpoint (1024px) */
+@media (max-width: 1024px) {
+    .empl_list_container {
+        gap: 30px;
+        padding: 15px;
+    }
+    
+    .project-card {
+        width: calc(50% - 30px);
+        min-width: 280px;
+    }
+}
+
+/* Mobile breakpoint (768px) */
+@media (max-width: 768px) {
+    .empl_list_container {
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .project-card {
+        width: 100%;
+        max-width: none;
+        min-width: unset;
+    }
+    
+    .project_details_card {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .project-description,
+    .tech-stack {
+        max-width: none;
+    }
+    
+    .project-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+/* Small mobile (480px) */
+@media (max-width: 480px) {
+    .empl_list_container {
+        gap: 15px;
+        padding: 8px;
+    }
+    
+    .project-card {
+        padding: 15px;
+    }
+    
+    .project-title {
+        font-size: 12px;
+    }
+    
+    .project-id {
+        font-size: 12px;
+    }
+    
+    .tech-pill {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+    
+    .project_details_card {
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    .company_logo {
+        width: 60px;
+    }
+}

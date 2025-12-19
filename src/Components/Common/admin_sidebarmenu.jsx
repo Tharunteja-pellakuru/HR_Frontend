@@ -74,23 +74,23 @@ const AdminSidebarMenu = () => {
             name: "Employees", 
             icon: employeesIcon,
             subItems: [
-                { name: "Approve Employees", route: "/approve-employees" },
-                { name: "Active Employees", route: "/active-employees" },
-                { name: "Inactive Employess", route: "/inactive-employees" }
+                { name: "Approve Employees", route: "/admin/approve-employees" },
+                { name: "Active Employees", route: "/admin/active-employees" },
+                { name: "Inactive Employess", route: "/admin/inactive-employees" }
             ]
         },
         { 
             name: "Leaves", 
             icon: leavesIcon,
             subItems: [
-                { name: "Leave Request", route: "/leave-request" },
-                { name: "Leave Approve", route: "/leave-approve" },
-                { name: "Leave Reject", route: "/leave-reject" }
+                { name: "Leave Request", route: "/admin/leave-request" },
+                { name: "Leave Approve", route: "/admin/leave-approve" },
+                { name: "Leave Reject", route: "/admin/leave-reject" }
             ]
         },
-        { name: "Pay Slips", icon: payslipsIcon, route: "/payslips" },
-        { name: "Holiday List", icon: holidaysIcon, route: "/holidays" },
-        { name: "Change Password", icon: changePasswordIcon, route: "/change-password" },
+        { name: "Pay Slips", icon: payslipsIcon, route: "/admin/payslips" },
+        { name: "Holiday List", icon: holidaysIcon, route: "/admin/holidays" },
+        { name: "Change Password", icon: changePasswordIcon, route: "/admin/change-password" },
         { name: "LogOut", icon: logoutIcon }, 
     ];
 

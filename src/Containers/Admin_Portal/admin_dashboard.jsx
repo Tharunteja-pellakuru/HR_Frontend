@@ -213,11 +213,15 @@ const Admindashboard = () => {
                     <div key={index} className={styles.leave_item}>
                       <div className={styles.leave_info}>
                         <span className={styles.leave_name}>{leave.name}</span>
-                        <span className={styles.leave_date}>From: {leave.fromDate} To: {leave.toDate}</span>
+                        <span className={styles.leave_date}>
+                          <span style={{ whiteSpace: 'nowrap' }}>From: {leave.fromDate}</span>
+                          {" "}
+                          <span style={{ whiteSpace: 'nowrap' }}>To: {leave.toDate}</span>
+                        </span>
                       </div>
                       <div className={styles.custom_dropdown}>
                         <div 
-                          className={styles.dropdown_toggle}
+                          className={styles.dashboard_status_toggle}
                           onClick={() => toggleDropdown(index)}
                         >
                           <span>{leaveStatuses[index] || leave.status}</span>
@@ -238,9 +242,24 @@ const Admindashboard = () => {
                         </div>
                         {openDropdownIndex === index && (
                           <div className={styles.dropdown_menu}>
-                            <div className={styles.dropdown_item} onClick={() => handleStatusSelect(index, 'Pending')}>Pending</div>
-                            <div className={styles.dropdown_item} onClick={() => handleStatusSelect(index, 'Approved')}>Approved</div>
-                            <div className={styles.dropdown_item} onClick={() => handleStatusSelect(index, 'Rejected')}>Rejected</div>
+                            <div 
+                                className={`${styles.dropdown_item} ${(leaveStatuses[index] || leave.status) === 'Pending' ? styles.dropdown_item_active : ''}`}
+                                onClick={() => handleStatusSelect(index, 'Pending')}
+                            >
+                                Pending
+                            </div>
+                            <div 
+                                className={`${styles.dropdown_item} ${(leaveStatuses[index] || leave.status) === 'Approved' ? styles.dropdown_item_active : ''}`}
+                                onClick={() => handleStatusSelect(index, 'Approved')}
+                            >
+                                Approved
+                            </div>
+                            <div 
+                                className={`${styles.dropdown_item} ${(leaveStatuses[index] || leave.status) === 'Rejected' ? styles.dropdown_item_active : ''}`}
+                                onClick={() => handleStatusSelect(index, 'Rejected')}
+                            >
+                                Rejected
+                            </div>
                           </div>
                         )}
                       </div>

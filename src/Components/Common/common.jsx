@@ -52,13 +52,13 @@ const Common = () => {
         fetchData();
     
         const currenttimestatus = new Date().getHours();
-        if (currenttimestatus >= 1 && currenttimestatus < 12) {
-          setGreetings("Good Morning");
-        } else if (currenttimestatus >= 12 && currenttimestatus < 17) {
-          setGreetings("Good Afternoon");
-        } else {
-          setGreetings("Good Evening");
-        }
+        // if (currenttimestatus >= 1 && currenttimestatus < 12) {
+        //   setGreetings("Good Morning");
+        // } else if (currenttimestatus >= 12 && currenttimestatus < 17) {
+        //   setGreetings("Good Afternoon");
+        // } else {
+        //   setGreetings("Good Evening");
+        // }
       }, []);
     
       // Retrieve the stored timer value when the page loads
@@ -96,15 +96,13 @@ const Common = () => {
 
 
   return (
-    <div className={styles.emp_dashboard_wrapper}>
-      {/* <SidebarMenu /> */}
-      <div className={styles.emp_dashboard_main}>
-        <HeaderDashboard />
-        <div className={styles.emp_dashboard_content}>
-          <h1 className={styles.greeting}>
-            {greetings}, <span>{Emply?.emp_name || "Loading..."}</span>!
-          </h1>
-
+    <>
+      <HeaderDashboard />
+      {/* <div className={styles.dashboard_content}> */}
+        {/* <h1 className={styles.greeting}>
+          {greetings}, <span>{Emply?.emp_name || "Loading..."}</span>!
+        </h1> */}
+        {/* 
           <div className={styles.emp_details_wrapper}>
             <div className={styles.current_time_card}>
               <img className={styles.time_logo} src={time} alt="Time" />
@@ -125,10 +123,9 @@ const Common = () => {
             <button onClick={handleStopTimer} className={styles.stopButton}>
                            Stop Timer
                          </button>
-          </div>
-        </div>
-      </div>
-    </div>
+          </div> */}
+      {/* </div> */}
+    </>
   );
 };
 

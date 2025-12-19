@@ -10,6 +10,10 @@ const Clients = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingClientId, setEditingClientId] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [clientToDelete, setClientToDelete] = useState(null);
     const totalPages = 150;
 
     // Form state for new client
@@ -23,6 +27,20 @@ const Clients = () => {
         state: "",
         country: "INDIA"
     });
+    
+    // Dropdown State
+    const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+    const countryDropdownRef = React.useRef(null);
+    
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
+                setIsCountryDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -30,9 +48,33 @@ const Clients = () => {
     };
 
     const handleSave = () => {
-        console.log("Saving client:", formData);
-        // TODO: Add API call to save client
+        if (isEditing) {
+            setClients(prev => prev.map(client => 
+                client.id === editingClientId 
+                    ? { 
+                        ...client, 
+                        name: formData.name, 
+                        email: formData.email, 
+                        phone: formData.phone, 
+                        location: formData.city || formData.state || client.location 
+                      } 
+                    : client
+            ));
+        } else {
+            const newClient = {
+                id: Date.now(), // Use unique ID
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                location: formData.city || formData.state || "N/A"
+            };
+            setClients(prev => [newClient, ...prev]); // Prepend so it shows on first page
+            setSearchQuery(""); // Reset search to show all results
+        }
+        
         setShowAddModal(false);
+        setIsEditing(false);
+        setEditingClientId(null);
         setFormData({
             name: "",
             email: "",
@@ -45,8 +87,37 @@ const Clients = () => {
         });
     };
 
+    const handleEdit = (client) => {
+        setFormData({
+            name: client.name,
+            email: client.email,
+            phone: client.phone,
+            address: "", // Mock data doesn't have detailed address
+            city: client.location, // Assuming location stores city/state
+            pincode: "",
+            state: "",
+            country: "INDIA"
+        });
+        setEditingClientId(client.id);
+        setIsEditing(true);
+        setShowAddModal(true);
+    };
+
+    const handleDelete = (client) => {
+        setClientToDelete(client);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = () => {
+        if (clientToDelete) {
+            setClients(prev => prev.filter(client => client.id !== clientToDelete.id));
+            setShowDeleteModal(false);
+            setClientToDelete(null);
+        }
+    };
+
     // Mock client data matching the reference image
-    const clients = [
+    const [clients, setClients] = useState([
         { id: 1, name: "Chetan Reddy", email: "chetan@gmail.com", phone: "9949594508", location: "Rajahmundry" },
         { id: 2, name: "Ramesh Legala", email: "rameshlegala@gmail.com", phone: "9949545508", location: "Hyderbad" },
         { id: 3, name: "Murlidhar", email: "kumarmanda@gmail.com", phone: "6300594508", location: "Kakinada" },
@@ -57,7 +128,27 @@ const Clients = () => {
         { id: 8, name: "Suesha", email: "suesha@email.com", phone: "6543219876", location: "Chennai" },
         { id: 9, name: "Rashi Agarwal", email: "rashiagarwal@gmail.com", phone: "6300125789", location: "Vijayawada" },
         { id: 10, name: "KVS", email: "kvs@gmail.com", phone: "7998752301", location: "Hyderbad" },
-    ];
+    ]);
+
+    // Search and Pagination Logic
+    const filteredClients = clients.filter(client => 
+        client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.phone.includes(searchQuery) ||
+        client.location.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Reset pagination on search
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery]);
+
+    const itemsPerPage = 10;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredClients.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className={styles.emp_dashboard_wrapper}>
@@ -93,11 +184,11 @@ const Clients = () => {
                     <div className={styles.daily_report_table_wrapper}>
                         <table className={styles.daily_report_table}>
                             <colgroup>
-                                <col style={{ width: '18%' }} />
-                                <col style={{ width: '22%' }} />
-                                <col style={{ width: '18%' }} />
-                                <col style={{ width: '18%' }} />
-                                <col style={{ width: '14%' }} />
+                                <col style={{ width: '18%', minWidth: '120px' }} />
+                                <col style={{ width: '22%', minWidth: '180px' }} />
+                                <col style={{ width: '18%', minWidth: '130px' }} />
+                                <col style={{ width: '18%', minWidth: '100px' }} />
+                                <col style={{ width: '14%', minWidth: '100px' }} />
                             </colgroup>
                             <thead>
                                 <tr>
@@ -109,60 +200,78 @@ const Clients = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {clients.map((client) => (
-                                    <tr key={client.id} className={styles.data_row}>
-                                        <td>{client.name}</td>
-                                        <td>
-                                            <a href={`mailto:${client.email}`} style={{ color: '#4B8BF5', textDecoration: 'none' }}>
-                                                {client.email}
-                                            </a>
-                                        </td>
-                                        <td>{client.phone}</td>
-                                        <td>{client.location}</td>
-                                        <td>
-                                            <div className={styles.action_buttons}>
-                                                <button 
-                                                    className={styles.action_btn} 
-                                                    title="View"
-                                                    onClick={() => navigate(`/admin/clients/${client.id}`)}
-                                                >
-                                                    <FaEye />
-                                                </button>
-                                                <button className={styles.action_btn} title="Edit">
+                                {currentItems.length > 0 ? (
+                                    currentItems.map((client) => (
+                                        <tr key={client.id} className={styles.data_row}>
+                                            <td>{client.name}</td>
+                                            <td>
+                                                <a href={`mailto:${client.email}`} style={{ color: '#4B8BF5', textDecoration: 'none' }}>
+                                                    {client.email}
+                                                </a>
+                                            </td>
+                                            <td>{client.phone}</td>
+                                            <td>{client.location}</td>
+                                            <td>
+                                                <div className={styles.action_buttons}>
+                                                    <button 
+                                                        className={styles.action_btn} 
+                                                        title="View"
+                                                        onClick={() => navigate(`/admin/clients/${client.id}`)}
+                                                    >
+                                                        <FaEye />
+                                                    </button>
+                                                    <button 
+                                                        className={styles.action_btn} 
+                                                        title="Edit"
+                                                        onClick={() => handleEdit(client)}
+                                                    >
                                                     <FaEdit />
                                                 </button>
-                                                <button className={styles.action_btn} title="Delete">
+                                                <button 
+                                                    className={styles.action_btn} 
+                                                    title="Delete"
+                                                    onClick={() => handleDelete(client)}
+                                                >
                                                     <FaTrash />
                                                 </button>
                                             </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
+                                            No clients found matching your search.
                                         </td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
 
                         {/* Pagination */}
-                        <div className={styles.pagination}>
-                            <button
-                                disabled={currentPage === 1}
-                                onClick={() => setCurrentPage(currentPage - 1)}
+                        <div className={styles.pagination_container}>
+                            <button 
+                                className={styles.pagination_btn} 
+                                disabled={currentPage === 1} 
+                                onClick={() => paginate(currentPage - 1)}
                             >
                                 Previous
                             </button>
-                            {[1, 2, 3, 4, 5].map((page) => (
+                            
+                            {Array.from({ length: Math.ceil(filteredClients.length / itemsPerPage) }, (_, i) => (
                                 <button
-                                    key={page}
-                                    className={currentPage === page ? styles.active_page : ""}
-                                    onClick={() => setCurrentPage(page)}
+                                    key={i + 1}
+                                    className={`${styles.pagination_btn} ${currentPage === i + 1 ? styles.pagination_btn_active : ''}`}
+                                    onClick={() => paginate(i + 1)}
                                 >
-                                    {page}
+                                    {i + 1}
                                 </button>
                             ))}
-                            <span>...</span>
-                            <button onClick={() => setCurrentPage(150)}>150</button>
-                            <button
-                                disabled={currentPage === totalPages}
-                                onClick={() => setCurrentPage(currentPage + 1)}
+
+                            <button 
+                                className={styles.pagination_btn} 
+                                disabled={currentPage === Math.ceil(filteredClients.length / itemsPerPage) || filteredClients.length === 0} 
+                                onClick={() => paginate(currentPage + 1)}
                             >
                                 Next
                             </button>
@@ -173,13 +282,17 @@ const Clients = () => {
 
             {/* Add New Client Modal */}
             {showAddModal && (
-                <div className={styles.modal_overlay}>
+                <div className={styles.modal_overlay} style={{ zIndex: 1000 }}>
                     <div className={styles.modal_container}>
                         <div className={styles.modal_header}>
-                            <h3>Add New Client</h3>
+                            <h3>{isEditing ? "Edit Client" : "Add New Client"}</h3>
                             <button 
                                 className={styles.modal_close_btn}
-                                onClick={() => setShowAddModal(false)}
+                                onClick={() => {
+                                    setShowAddModal(false);
+                                    setIsEditing(false);
+                                    setEditingClientId(null);
+                                }}
                             >
                                 <FaTimes />
                             </button>
@@ -250,17 +363,34 @@ const Clients = () => {
                             </div>
                             <div className={styles.form_row}>
                                 <label>Country:</label>
-                                <select
-                                    name="country"
-                                    value={formData.country}
-                                    onChange={handleInputChange}
-                                >
-                                    <option value="INDIA">INDIA</option>
-                                    <option value="USA">USA</option>
-                                    <option value="UK">UK</option>
-                                    <option value="CANADA">CANADA</option>
-                                    <option value="AUSTRALIA">AUSTRALIA</option>
-                                </select>
+                                <div className={styles.custom_dropdown} ref={countryDropdownRef} style={{ width: '100%' }}>
+                                    <div 
+                                        className={styles.dropdown_toggle} 
+                                        onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+                                        style={{ background: '#FFF' }}
+                                    >
+                                        <span style={{ color: '#333' }}>{formData.country}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isCountryDropdownOpen ? styles.arrow_up : styles.arrow_down}>
+                                            <path d="M6 9l6 6 6-6"/>
+                                        </svg>
+                                    </div>
+                                    {isCountryDropdownOpen && (
+                                        <div className={styles.dropdown_menu}>
+                                            {["INDIA", "USA", "UK", "CANADA", "AUSTRALIA"].map((country, idx) => (
+                                                <div 
+                                                    key={idx}
+                                                    className={`${styles.dropdown_item} ${formData.country === country ? styles.dropdown_item_active : ''}`}
+                                                    onClick={() => {
+                                                        handleInputChange({ target: { name: 'country', value: country } });
+                                                        setIsCountryDropdownOpen(false);
+                                                    }}
+                                                >
+                                                    {country}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className={styles.modal_footer}>
@@ -268,7 +398,52 @@ const Clients = () => {
                                 className={styles.save_btn}
                                 onClick={handleSave}
                             >
-                                Save
+                                {isEditing ? "Save Changes" : "Save"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && (
+                <div className={styles.modal_overlay} style={{ zIndex: 1001 }}>
+                    <div className={styles.modal_container} style={{ maxWidth: '350px', minHeight: 'auto', height: 'auto', padding: '10px' }}>
+                        <div className={styles.modal_header} style={{ padding: '10px 15px', borderBottom: '1px solid #eee' }}>
+                            <h3 style={{ fontSize: '15px', margin: 0 }}>Confirm Delete</h3>
+                            <button 
+                                className={styles.modal_close_btn}
+                                onClick={() => setShowDeleteModal(false)}
+                                style={{ margin: 0 }}
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className={styles.modal_body} style={{ textAlign: 'center', padding: '20px 15px' }}>
+                            <div style={{ color: '#E74C3C', marginBottom: '8px' }}>
+                                <FaTrash size={24} />
+                            </div>
+                            <p style={{ fontSize: '14px', color: '#333', margin: '0 0 5px 0', lineHeight: '1.4' }}>
+                                Are you sure you want to delete this client?
+                            </p>
+                            <p style={{ fontWeight: '600', color: '#555', margin: 0, fontSize: '14px' }}>
+                                {clientToDelete?.name}
+                            </p>
+                        </div>
+                        <div className={styles.modal_footer} style={{ justifyContent: 'center', gap: '10px', padding: '15px', borderTop: 'none' }}>
+                            <button 
+                                className={styles.add_new_btn} 
+                                style={{ background: '#f5f5f5', color: '#333', border: '1px solid #ddd', padding: '6px 20px', fontSize: '13px', height: '34px' }}
+                                onClick={() => setShowDeleteModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                className={styles.save_btn}
+                                style={{ background: '#E74C3C', border: 'none', padding: '6px 20px', fontSize: '13px', height: '34px' }}
+                                onClick={confirmDelete}
+                            >
+                                Delete
                             </button>
                         </div>
                     </div>

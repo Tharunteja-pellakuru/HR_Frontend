@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import AdminSidebarMenu from "../../Components/Common/admin_sidebarmenu";
+import SidebarMenu from "../../Components/Common/Dashboard";
 import HeaderDashboard from "../../Components/Layout/Header_dashboard";
 import styles from "../../Styles/dashboard.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const ChangePassword = () => {
+const EmpChangePassword = () => {
     const [formData, setFormData] = useState({
         currentPassword: "",
         newPassword: "",
@@ -33,9 +33,9 @@ const ChangePassword = () => {
 
         setLoading(true);
         try {
-            const token = localStorage.getItem("admin_token") || document.cookie.split("; ").find(row => row.startsWith("token="))?.split("=")[1];
+            const token = localStorage.getItem("emp_token") || document.cookie.split("; ").find(row => row.startsWith("token="))?.split("=")[1];
             
-            const response = await axios.post("http://localhost:3003/api/admin/change-password", {
+            const response = await axios.post("http://localhost:3003/api/change-password", {
                 currentPassword: formData.currentPassword,
                 newPassword: formData.newPassword
             }, {
@@ -63,7 +63,7 @@ const ChangePassword = () => {
 
     return (
         <div className={styles.emp_dashboard_wrapper}>
-            <AdminSidebarMenu />
+            <SidebarMenu />
             <div className={styles.admin_dashboard_main}>
                 <HeaderDashboard />
                 <div className={styles.dashboard_content}>
@@ -162,4 +162,4 @@ const ChangePassword = () => {
     );
 };
 
-export default ChangePassword;
+export default EmpChangePassword;

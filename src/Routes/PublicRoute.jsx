@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../Containers/Employee_Portal/Login";
 import Headers from "../Components/Layout/Header";
 import SidebarMenu from "../Components/Common/Dashboard";
+import DynamicTitleHandler from "../Components/Common/DynamicTitleHandler";
 
 // Employee pages
 import EmployeeDashboard from "../Containers/Employee_Portal/Dashboard";
@@ -12,6 +13,10 @@ import Prerformence from "../Containers/Employee_Portal/Performence";
 import Common from "../Components/Common/common";
 import Empdailyreport from "../Containers/Employee_Portal/emp_daily_report";
 import EmpleaveRequest from "../Containers/Employee_Portal/emp_leave_request";
+import EmpleaveStatus from "../Containers/Employee_Portal/emp_leave_status";
+import EmpPaySlip from "../Containers/Employee_Portal/emp_pay_slip";
+import EmpOfferLetter from "../Containers/Employee_Portal/emp_offer_letter";
+import EmpChangePassword from "../Containers/Employee_Portal/emp_change_password";
 
 // Admin components/pages
 import AminLogin from "../Containers/Admin_Portal/admin_login";
@@ -51,7 +56,9 @@ import ProtectedEmployeeRoute from "./PrivateEmpRoute";
 
 const PublicRoute = () => {
   return (
-    <Routes>
+    <>
+      <DynamicTitleHandler />
+      <Routes>
       {/* 🔓 Public routes */}
       <Route path="/" element={<Login />} />
       <Route path="/admin-login" element={<AminLogin />} />
@@ -60,7 +67,7 @@ const PublicRoute = () => {
       <Route path="/admin_side_bar_menu" element={<AdminSidebarMenu />} />
 
       {/* 👨‍💼 Employee routes */}
-      <Route path="/employee-dashboard/:empId" element={
+      <Route path="/employee/dashboard" element={
         <ProtectedEmployeeRoute>
           <EmployeeDashboard />
          </ProtectedEmployeeRoute>
@@ -78,15 +85,39 @@ const PublicRoute = () => {
         </ProtectedEmployeeRoute>
       } />
 
-      <Route path="/employee-daily-report/:empId" element={
+      <Route path="/employee/daily-reports" element={
         <ProtectedEmployeeRoute>
           <Empdailyreport />
         </ProtectedEmployeeRoute>
       } />
 
-      <Route path="/employee-leave-request/:empId" element={
+      <Route path="/employee/leave-request" element={
         <ProtectedEmployeeRoute>
           <EmpleaveRequest />
+        </ProtectedEmployeeRoute>
+      } />
+
+      <Route path="/employee/leave-status" element={
+        <ProtectedEmployeeRoute>
+          <EmpleaveStatus />
+        </ProtectedEmployeeRoute>
+      } />
+
+      <Route path="/employee/pay-slip" element={
+        <ProtectedEmployeeRoute>
+          <EmpPaySlip />
+        </ProtectedEmployeeRoute>
+      } />
+
+      <Route path="/employee/offer-letter" element={
+        <ProtectedEmployeeRoute>
+          <EmpOfferLetter />
+        </ProtectedEmployeeRoute>
+      } />
+
+      <Route path="/employee/change-password" element={
+        <ProtectedEmployeeRoute>
+          <EmpChangePassword />
         </ProtectedEmployeeRoute>
       } />
 
@@ -148,34 +179,35 @@ const PublicRoute = () => {
       <Route path="/admin/projects/:projectId" element={
         <ProtectedRoute><ProjectView /></ProtectedRoute>
       } />
-      <Route path="/approve-employees" element={
+      <Route path="/admin/approve-employees" element={
         <ProtectedRoute><ApproveEmployees /></ProtectedRoute>
       } />
-      <Route path="/active-employees" element={
+      <Route path="/admin/active-employees" element={
         <ProtectedRoute><ActiveEmployees /></ProtectedRoute>
       } />
-      <Route path="/inactive-employees" element={
+      <Route path="/admin/inactive-employees" element={
         <ProtectedRoute><InactiveEmployees /></ProtectedRoute>
       } />
-      <Route path="/change-password" element={
+      <Route path="/admin/change-password" element={
         <ProtectedRoute><ChangePassword /></ProtectedRoute>
       } />
-      <Route path="/payslips" element={
+      <Route path="/admin/payslips" element={
         <ProtectedRoute><PaySlips /></ProtectedRoute>
       } />
-      <Route path="/holidays" element={
+      <Route path="/admin/holidays" element={
         <ProtectedRoute><HolidayList /></ProtectedRoute>
       } />
-      <Route path="/leave-request" element={
+      <Route path="/admin/leave-request" element={
         <ProtectedRoute><LeaveRequestList /></ProtectedRoute>
       } />
-      <Route path="/leave-approve" element={
+      <Route path="/admin/leave-approve" element={
         <ProtectedRoute><LeaveApproveList /></ProtectedRoute>
       } />
-      <Route path="/leave-reject" element={
+      <Route path="/admin/leave-reject" element={
         <ProtectedRoute><LeaveRejectList /></ProtectedRoute>
       } />
-    </Routes>
+      </Routes>
+    </>
   );
 };
 

@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Headers from "../../Components/Layout/Header";
 import styles from "../../Styles/login.module.css";
 import EmployeeAuth from "../../Hooks/useAuth";
+import { AiOutlineWarning } from "react-icons/ai";
 
 const Login = () => {
   const navigate = useNavigate();
   const [emp_id, setEmpId] = useState("test@example.com");
-  const [password, setPassword] = useState("123456");
-  const { loading, error, user , handleEmpLogin , empAuthData } = EmployeeAuth();
+  const [password, setPassword] = useState("1234567");
+  const { loading, error, setError, user , handleEmpLogin , empAuthData } = EmployeeAuth();
 
   const emp_toekn = localStorage.getItem("emp_token")
 
@@ -23,7 +24,7 @@ const Login = () => {
    useEffect(() => {
     // alert("hjvjh")
     if (empAuthData?.emp_token && empAuthData?.emp?.emp_id) {
-      navigate(`/employee-dashboard/${empAuthData.emp.emp_id}`);
+      navigate(`/employee/dashboard`);
     }
   }, [empAuthData, navigate]);
 
@@ -48,7 +49,10 @@ const Login = () => {
                     className={styles.inputField}
                     type="text"
                     value={emp_id}
-                    onChange={(e) => setEmpId(e.target.value)}
+                    onChange={(e) => {
+                      setEmpId(e.target.value);
+                      if (error) setError("");
+                    }}
                     name="emp_id"
                     placeholder="name@company.com"
                     required
@@ -61,7 +65,10 @@ const Login = () => {
                     className={styles.inputField}
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (error) setError("");
+                    }}
                     name="password"
                     placeholder="••••••••"
                     required
@@ -76,7 +83,12 @@ const Login = () => {
                   {loading ? "Signing In..." : "Sign In"}
                 </button>
 
-                {error && <div className={styles.errorMessage}>{error}</div>}
+                {error && (
+                  <div className={styles.errorMessage}>
+                    <AiOutlineWarning className={styles.errorIcon} />
+                    <span>{error}</span>
+                  </div>
+                )}
               </form>
             </div>
           </div>

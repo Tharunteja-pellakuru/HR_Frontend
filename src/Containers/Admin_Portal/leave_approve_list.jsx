@@ -18,6 +18,7 @@ const LeaveApproveList = () => {
         { sno: "0006", name: "Mouli", startDate: "17-01-2025", endDate: "17-01-2025", days: "1.0" },
     ];
 
+
     const handleReasonClick = (leave) => {
         setSelectedLeave(leave);
         setShowReasonModal(true);
@@ -27,6 +28,15 @@ const LeaveApproveList = () => {
         setShowReasonModal(false);
         setSelectedLeave(null);
     };
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = leaveRequests.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className={styles.emp_dashboard_wrapper}>
@@ -49,8 +59,16 @@ const LeaveApproveList = () => {
                         </div>
                     </div>
 
-                    <div className={styles.table_container_white}>
-                        <table className={styles.leave_table}>
+                    <div className={styles.daily_report_table_wrapper}>
+                        <table className={styles.daily_report_table}>
+                            <colgroup>
+                                <col style={{ width: '10%', minWidth: '70px' }} />
+                                <col style={{ width: '25%', minWidth: '150px' }} />
+                                <col style={{ width: '15%', minWidth: '120px' }} />
+                                <col style={{ width: '15%', minWidth: '120px' }} />
+                                <col style={{ width: '15%', minWidth: '100px' }} />
+                                <col style={{ width: '20%', minWidth: '100px' }} />
+                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>S.No</th>
@@ -62,8 +80,8 @@ const LeaveApproveList = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {leaveRequests.map((leave, idx) => (
-                                    <tr key={idx}>
+                                {currentItems.map((leave, idx) => (
+                                    <tr key={idx} className={styles.data_row}>
                                         <td>{leave.sno}</td>
                                         <td>{leave.name}</td>
                                         <td>{leave.startDate}</td>
@@ -83,20 +101,33 @@ const LeaveApproveList = () => {
                         </table>
                         
                         <div className={styles.pagination_container}>
-                            <div className={styles.pagination}>
-                                <span className={styles.page_item}>Previous</span>
-                                <span className={`${styles.page_item} ${styles.active_page}`}>1</span>
-                                <span className={styles.page_item}>2</span>
-                                <span className={styles.page_item}>3</span>
-                                <span className={styles.page_item}>4</span>
-                                <span className={styles.page_item}>5</span>
-                                <span className={styles.page_item}>...</span>
-                                <span className={styles.page_item}>150</span>
-                                <span className={styles.page_item}>Next</span>
-                            </div>
+                            <button 
+                                className={styles.pagination_btn} 
+                                disabled={currentPage === 1} 
+                                onClick={() => paginate(currentPage - 1)}
+                            >
+                                Previous
+                            </button>
+                            
+                            {Array.from({ length: Math.ceil(leaveRequests.length / itemsPerPage) }, (_, i) => (
+                                <button
+                                    key={i + 1}
+                                    className={`${styles.pagination_btn} ${currentPage === i + 1 ? styles.pagination_btn_active : ''}`}
+                                    onClick={() => paginate(i + 1)}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+
+                            <button 
+                                className={styles.pagination_btn} 
+                                disabled={currentPage === Math.ceil(leaveRequests.length / itemsPerPage)} 
+                                onClick={() => paginate(currentPage + 1)}
+                            >
+                                Next
+                            </button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -114,7 +145,7 @@ const LeaveApproveList = () => {
                             <div className={styles.modal_form_group}>
                                 <label className={styles.modal_label}>Start Date :</label>
                                 <input 
-                                    type="date" 
+                                    type="text" 
                                     value={selectedLeave.startDate}
                                     className={styles.modal_input}
                                     readOnly
@@ -123,7 +154,7 @@ const LeaveApproveList = () => {
                             <div className={styles.modal_form_group}>
                                 <label className={styles.modal_label}>End Date :</label>
                                 <input 
-                                    type="date" 
+                                    type="text" 
                                     value={selectedLeave.endDate}
                                     className={styles.modal_input}
                                     readOnly

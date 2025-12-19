@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AdminSidebarMenu from "../../Components/Common/admin_sidebarmenu";
 import HeaderDashboard from "../../Components/Layout/Header_dashboard";
 import styles from "../../Styles/dashboard.module.css";
@@ -17,11 +17,33 @@ import {
 
 const AdminMonthlyReport = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("");
+  
+  // Dropdown open states
+  const [yearDropdownOpen, setYearDropdownOpen] = useState(false);
+  const [monthDropdownOpen, setMonthDropdownOpen] = useState(false);
+  const [employeeDropdownOpen, setEmployeeDropdownOpen] = useState(false);
+  
+  const dropdownRef = useRef(null);
 
   // Mock Data
   const employees = ["All Employees", "Vishal", "Veera babu", "Lokesh", "Sai", "Mouli"];
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const years = ["2024", "2025", "2026"];
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setYearDropdownOpen(false);
+        setMonthDropdownOpen(false);
+        setEmployeeDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Stats data
   const attendanceRate = 76.27;
@@ -29,7 +51,8 @@ const AdminMonthlyReport = () => {
   const unapprovedLeaves = 5;
   const absentDays = 2;
 
-  // Bar Chart Data (Simulating days 1-31)
+  // ... (Data & Color logic is already correct, skipping) ...
+
   const filteredAttendanceData = Array.from({ length: 31 }, (_, i) => {
     const day = i + 1;
     // Exclude specific "weekend" days to match pattern
@@ -63,48 +86,89 @@ const AdminMonthlyReport = () => {
           {/* Page Header with Filters */}
           <div className={styles.daily_report_header}>
             <h2 className={styles.pageTitle}>Monthly Report</h2>
-            <div className={styles.daily_report_filters}>
-              <div className={styles.employee_select}>
-                <select
-                  value={selectedMonth}
-                  onChange={(e) => setSelectedMonth(e.target.value)}
+            <div className={`${styles.daily_report_filters} ${styles.monthly_responsive_filters}`} ref={dropdownRef}>
+              
+              {/* Year Dropdown */}
+              <div className={styles.custom_dropdown}>
+                <div 
+                  className={styles.monthly_report_toggle}
+                  onClick={() => { setYearDropdownOpen(!yearDropdownOpen); setMonthDropdownOpen(false); setEmployeeDropdownOpen(false); }}
                 >
-                  <option value="">Select Month</option>
-                  {months.map((month, idx) => (
-                    <option key={idx} value={month}>{month}</option>
-                  ))}
-                </select>
+                  <span>{selectedYear || "Select Year"}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={yearDropdownOpen ? styles.arrow_up : styles.arrow_down}>
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </div>
+                {yearDropdownOpen && (
+                  <div className={styles.dropdown_menu}>
+                    {years.map((year, idx) => (
+                      <div 
+                        key={idx}
+                        className={`${styles.dropdown_item} ${selectedYear === year ? styles.dropdown_item_active : ''}`}
+                        onClick={() => { setSelectedYear(year); setYearDropdownOpen(false); }}
+                      >
+                        {year}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              <div className={styles.employee_select}>
-                <select
-                  value={selectedEmployee}
-                  onChange={(e) => setSelectedEmployee(e.target.value)}
-                >
-                  <option value="">Select Employee</option>
-                  {employees.map((emp, idx) => (
-                    <option key={idx} value={emp}>{emp}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
 
-          {/* Employee Name Display */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
-            marginBottom: '20px' 
-          }}>
-            <div style={{
-              border: '1px solid #DCDCDC',
-              borderRadius: '5px',
-              padding: '10px 20px',
-              backgroundColor: '#FFF',
-              fontFamily: 'Inter',
-              fontSize: '14px',
-              color: '#333'
-            }}>
-              {selectedEmployee || "Vishal"} - {selectedMonth || "Jan"} 2025
+              {/* Month Dropdown */}
+              <div className={styles.custom_dropdown}>
+                <div 
+                  className={styles.monthly_report_toggle}
+                  onClick={() => { setMonthDropdownOpen(!monthDropdownOpen); setYearDropdownOpen(false); setEmployeeDropdownOpen(false); }}
+                >
+                  <span>{selectedMonth || "Select Month"}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={monthDropdownOpen ? styles.arrow_up : styles.arrow_down}>
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </div>
+                {monthDropdownOpen && (
+                  <div className={styles.dropdown_menu}>
+                    {months.map((month, idx) => (
+                      <div 
+                        key={idx}
+                        className={`${styles.dropdown_item} ${selectedMonth === month ? styles.dropdown_item_active : ''}`}
+                        onClick={() => { setSelectedMonth(month); setMonthDropdownOpen(false); }}
+                      >
+                        {month}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Employee Dropdown */}
+              <div className={styles.custom_dropdown}>
+                <div 
+                  className={styles.monthly_report_toggle}
+                  onClick={() => { setEmployeeDropdownOpen(!employeeDropdownOpen); setYearDropdownOpen(false); setMonthDropdownOpen(false); }}
+                >
+                  <span>{selectedEmployee || "Select Employee"}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={employeeDropdownOpen ? styles.arrow_up : styles.arrow_down}>
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </div>
+                {employeeDropdownOpen && (
+                  <div className={styles.dropdown_menu}>
+                    {employees.map((emp, idx) => (
+                      <div 
+                        key={idx}
+                        className={`${styles.dropdown_item} ${selectedEmployee === emp ? styles.dropdown_item_active : ''}`}
+                        onClick={() => { setSelectedEmployee(emp); setEmployeeDropdownOpen(false); }}
+                      >
+                        {emp}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.report_display_text}>
+                 {selectedEmployee || "Vishal"} - {selectedMonth || "Jan"} {selectedYear || "2025"}
+              </div>
             </div>
           </div>
 
@@ -117,7 +181,7 @@ const AdminMonthlyReport = () => {
             {/* Stats Cards Row */}
             <div className={styles.statsGrid}>
               {/* Card 1: Attendance Rate */}
-              <div className={styles.statCard} style={{ position: 'relative', overflow: 'hidden', margin: '0', padding: '20px 8px' }}>
+              <div className={styles.statCard} style={{ position: 'relative', overflow: 'hidden', margin: '0', padding: '20px 20px' }}>
                 <div style={{ width: '100%', height: '140px', position: 'relative', marginTop: '-15px' }}>
                   <ResponsiveContainer>
                     <PieChart>
@@ -187,22 +251,12 @@ const AdminMonthlyReport = () => {
                     lineHeight: 'normal',
                     textAlign: 'center'
                   }}>{attendanceRate} %</div>
-                  <div style={{
-                    color: '#202020',
-                    fontFamily: 'Inter',
-                    fontSize: '16px',
-                    fontStyle: 'normal',
-                    fontWeight: '600',
-                    marginTop: '10px',
-                    lineHeight: 'normal',
-                    textAlign: 'start',
-                    paddingLeft: '25%'
-                  }}>Attendance Rate</div>
+                  <div className={styles.chartLabel}>Attendance Rate</div>
                 </div>
               </div>
 
               {/* Card 2: Avg Hours Worked */}
-              <div className={styles.statCard} style={{ position: 'relative', overflow: 'hidden', margin: '0', padding: '20px 8px' }}>
+              <div className={styles.statCard} style={{ position: 'relative', overflow: 'hidden', margin: '0', padding: '20px 20px' }}>
                 <div style={{ width: '100%', height: '140px', position: 'relative', marginTop: '-15px' }}>
                   <ResponsiveContainer>
                     <PieChart>
@@ -272,17 +326,7 @@ const AdminMonthlyReport = () => {
                     lineHeight: 'normal',
                     textAlign: 'center'
                   }}>{avgHoursWorked} hrs</div>
-                  <div style={{
-                    color: '#202020',
-                    fontFamily: 'Inter',
-                    fontSize: '16px',
-                    fontStyle: 'normal',
-                    fontWeight: '600',
-                    marginTop: '10px',
-                    lineHeight: 'normal',
-                    textAlign: 'start',
-                    paddingLeft: '25%'
-                  }}>Avg. Hours Worked</div>
+                  <div className={styles.chartLabel}>Avg. Hours Worked</div>
                 </div>
               </div>
 

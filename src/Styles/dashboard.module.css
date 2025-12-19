@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;600;700&display=swap');
 
 /* Main Wrapper */
 .emp_dashboard_wrapper {
@@ -657,7 +657,7 @@
   font-size: 13px;
   color: #888;
   cursor: pointer;
-  min-width: 105px;
+  width: 120px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -684,6 +684,8 @@
   position: relative;
 }
 
+
+/* Default Generic Dropdown */
 .dropdown_toggle {
   display: flex;
   align-items: center;
@@ -704,6 +706,84 @@
 
 .dropdown_toggle:hover {
   border-color: #C0C0C0;
+}
+
+/* Dashboard Status Dropdown (Fixed Width) */
+.dashboard_status_toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  background-color: #F5F5F5;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  width: 120px; /* Fixed width as requested */
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  transition: border-color 0.2s ease;
+}
+
+.dashboard_status_toggle:hover {
+  border-color: #C0C0C0;
+}
+
+/* Report Page Filter Dropdown */
+.report_filter_toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px;
+  background-color: #FFF;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  transition: border-color 0.2s ease;
+}
+
+.report_filter_toggle:hover {
+  border-color: #C0C0C0;
+}
+
+/* Monthly Report Dropdown Toggle (Fixed Width for longer text) */
+.monthly_report_toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  background-color: #F5F5F5;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  width: 160px; /* Fixed width to fit "Select Employee" */
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  transition: border-color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.monthly_report_toggle:hover {
+  border-color: #C0C0C0;
+}
+
+.monthly_report_toggle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Arrow animations */
@@ -727,8 +807,8 @@
   background-color: #FFF;
   border: 1px solid #E0E0E0;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
   overflow: hidden;
 }
 
@@ -745,9 +825,19 @@
   background-color: #F5F5F5;
 }
 
+.dropdown_item_active {
+  background-color: #73BF44 !important;
+  color: #FFFFFF !important;
+}
+
+.dropdown_item_active:hover {
+  background-color: #5fa536 !important;
+}
+
 .dropdown_item:not(:last-child) {
   border-bottom: 1px solid #F0F0F0;
 }
+
 .daily_report_header {
   display: flex;
   justify-content: space-between;
@@ -777,20 +867,39 @@
 }
 
 .employee_select select {
-  min-width: 180px;
+  width: 180px; /* Fixed width */
+  min-width: auto;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
+  padding: 8px 14px;
   padding-right: 35px;
+  
+  /* Match Pending Dropdown Style */
+  background-color: #F5F5F5;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  color: #888;
+  font-size: 13px; /* Match Pending */
+  font-weight: 400; /* Explicitly match Pending */
+  font-family: 'Inter', sans-serif;
+  height: auto; /* Allow padding to define height */
+  line-height: normal;
+}
+
+.employee_select select option {
+  background-color: #FFF;
+  color: #333;
 }
 
 .daily_report_table_wrapper {
   background: #FFF;
   border: 1px solid #DCDCDC;
   border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 20px;
+  overflow: visible;
+  margin-bottom: 120px; /* Extra space for dropdown in last row */
+  min-height: calc(100vh - 350px); /* Adapt to screen height */
 }
 
 .daily_report_table {
@@ -803,10 +912,12 @@
   background-color: #F5F5F5;
   padding: 15px 20px;
   text-align: left;
+  vertical-align: middle;
   font-size: 14px;
   font-weight: 600;
   color: #333;
   border-bottom: 1px solid #E0E0E0;
+  box-sizing: border-box;
 }
 
 .employee_col {
@@ -844,10 +955,13 @@
 }
 
 .data_row td {
-  padding: 12px 20px;
+  padding: 15px 20px;
   font-size: 13px;
   color: #444;
   border-top: 1px solid #E0E0E0;
+  vertical-align: middle;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 /* No top border for employee name cell */
@@ -1012,26 +1126,35 @@
 .search_box {
   display: flex;
   align-items: center;
-  border: 1px solid #DCDCDC;
+  border: 1px solid #E0E0E0;
   border-radius: 5px;
-  padding: 8px 12px;
+  padding: 0 15px;
   background: #FFF;
-  min-width: 200px;
+  height: 42px; /* Match Add New button height */
+  box-sizing: border-box;
 }
 
 .search_icon {
-  color: #999;
-  font-size: 14px;
-  margin-right: 8px;
+  color: #888;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-right: 10px;
 }
 
 .search_input {
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
   font-family: 'Inter', sans-serif;
   width: 100%;
+  padding: 10px;
   background: transparent;
+  color: #333;
+}
+
+.search_input::placeholder {
+  color: #888;
+  font-weight: 400;
 }
 
 .search_input::placeholder {
@@ -1630,6 +1753,8 @@
 .modal_footer {
   padding: 0;
   margin-top: 10px;
+  display: flex;
+  justify-content: flex-start; /* Aligns button to the left (start of input) */
 }
 
 .save_btn {
@@ -1674,6 +1799,7 @@
   font-family: 'Inter', sans-serif;
   position: relative;
   padding-bottom: 8px;
+  width: fit-content;
 }
 
 .pageTitleWithLine::after {
@@ -1691,6 +1817,10 @@
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+.approve_actions .search_box {
+  margin-right: 0 !important;
 }
 
 .search_bar_wrapper {
@@ -1988,6 +2118,10 @@
   gap: 15px;
 }
 
+.payslip_filters .custom_dropdown {
+  width: 150px;
+}
+
 .filter_select {
   padding: 8px 30px 8px 12px;
   border: 1px solid #E0E0E0;
@@ -2102,6 +2236,115 @@
   display: flex;
   justify-content: flex-end;
   padding: 15px 25px;
+}
+
+/* Pay Slips Responsive */
+@media (max-width: 1100px) {
+  .payslip_header_row {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .payslip_header_col,
+  .payslip_column {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .payslip_header_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .payslip_filters {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .payslip_filters .custom_dropdown {
+    width: 100% !important;
+  }
+
+  .payslip_header_single {
+    display: none; /* Hide double header on mobile */
+  }
+
+  .payslip_grid {
+    flex-direction: column;
+  }
+
+  .payslip_column {
+    padding: 10px 15px;
+  }
+
+  .payslip_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 15px 0;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .payslip_row:last-child {
+    border-bottom: none;
+  }
+
+  .employee_name {
+    width: 100%;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .file_input_wrapper {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .file_input_label {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .payslip_actions {
+    justify-content: center;
+    padding: 20px 15px;
+  }
+
+  .payslip_actions .save_btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .payslip_header_row {
+    margin-bottom: 15px;
+    gap: 10px;
+  }
+
+  .pageTitleWithLine {
+    font-size: 18px;
+  }
+
+  .payslip_column {
+    padding: 10px;
+  }
+
+  .payslip_row {
+    padding: 12px 0;
+  }
+
+  .employee_name {
+    font-size: 13px;
+  }
+
+  .file_input_label {
+    font-size: 11px;
+    padding: 6px 15px;
+  }
 }
 
 /* ===== Holiday List Page ===== */
@@ -2236,17 +2479,20 @@
 .modal_container {
   background: #FFF;
   border-radius: 8px;
-  width: 400px;
+  width: 512px; 
+  min-height: auto;
   max-width: 90%;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px; /* Reduced from 30px 35px */
 }
 
 .modal_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 25px;
-  border-bottom: 1px solid #E8E8E8;
+  margin-bottom: 20px; /* Reduced from 30px */
 }
 
 .modal_title {
@@ -2274,11 +2520,11 @@
 }
 
 .modal_body {
-  padding: 25px;
+  padding: 0; /* Reduced from 25px or whatever it was, snippet says 25px in other palce but here it looks 0 */
 }
 
 .modal_form_group {
-  margin-bottom: 20px;
+  margin-bottom: 15px; /* Reduced from 20px */
 }
 
 .modal_form_group:last-child {
@@ -2328,7 +2574,7 @@
 }
 
 .modal_footer {
-  padding: 0 25px 25px;
+  padding: 0px;
 }
 
 /* ===== Leave Pages Styles ===== */
@@ -2337,6 +2583,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.leave_header_row .search_box {
+  margin-right: 0 !important;
 }
 
 .search_box {
@@ -2354,7 +2606,7 @@
 
 .search_input {
   padding: 10px 15px 10px 35px;
-  border: 1px solid #E0E0E0;
+  border: none;
   border-radius: 5px;
   font-size: 13px;
   font-family: 'Inter', sans-serif;
@@ -2462,12 +2714,76 @@
   border-color: #73BF44;
 }
 
+   /* ==========================================================================
+      Pagination Styles
+      ========================================================================== */
+   .pagination_container {
+     display: flex;
+     justify-content: flex-end;
+     padding-top: 20px;
+   }
+   
+   .pagination {
+     display: inline-flex;
+     align-items: center;
+     border: 1px solid #DCDCDC;
+     border-radius: 6px;
+     overflow: hidden;
+     background: #fff;
+   }
+   
+   .page_item {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 8px 16px;
+     font-size: 14px;
+     color: #666;
+     border-right: 1px solid #DCDCDC;
+     cursor: pointer;
+     font-family: 'Inter', sans-serif;
+     transition: background 0.2s;
+     user-select: none;
+   }
+   
+   .page_item:last-child {
+     border-right: none;
+   }
+   
+   .page_item:hover:not(.active_page) {
+     background-color: #f9f9f9;
+   }
+   
+   .active_page {
+     background-color: #73BF44;
+     color: #FFF !important;
+     font-weight: 500;
+   }
+
+   /* Responsive Adjustments for Pagination */
+   @media (max-width: 767px) {
+      .pagination_container {
+        justify-content: center;
+      }
+      
+      .pagination {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      .page_item {
+        padding: 8px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+   }
+
 /* ========== Responsive Styles for Dashboard Components ========== */
 
 /* Medium screens (tablets) - below 992px */
 @media (max-width: 991px) {
   .dashboard_content {
-    padding: 20px 15px;
+    padding: 105px 15px 20px 15px; /* 65px header + 40px spacing */
   }
   
   .pageTitle {
@@ -2568,7 +2884,7 @@
 /* Small screens (mobiles) - below 768px */
 @media (max-width: 767px) {
   .dashboard_content {
-    padding: 15px 10px;
+    padding: 75px 15px 15px 15px; /* 60px header + 15px spacing */
   }
   
   .pageTitle {
@@ -2629,15 +2945,20 @@
   
   .leave_item {
     padding: 10px 12px;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column; /* Stack vertically */
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .leave_item .custom_dropdown {
+    align-self: flex-end; /* Align button to right */
   }
 }
 
 /* Extra small screens - below 576px */
 @media (max-width: 575px) {
   .dashboard_content {
-    padding: 10px 8px;
+    padding: 70px 8px 10px 8px; /* 55px header + 15px spacing */
   }
   
   .pageTitle {
@@ -2704,6 +3025,9 @@
   
   .leave_item {
     padding: 8px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
   
   .leave_name {
@@ -2729,3 +3053,2468 @@
 /* Responsive margin-left is now handled dynamically via --sidebar-width CSS variable */
 /* The sidebar component sets this variable based on collapsed state and screen size */
 
+/* ==========================================================================
+   Refined Leave Item Layout (Added for better alignment)
+   ========================================================================== */
+/* ==========================================================================
+   Refined Leave Item Layout (Row Wise)
+   ========================================================================== */
+.leave_item {
+  display: flex;
+  flex-direction: row; /* Side by side */
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px; 
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.leave_info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.leave_item:last-child {
+  border-bottom: none;
+}
+
+.leave_name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.leave_date {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Ensure mobile looks good (Adjust padding, but keep row) */
+@media (max-width: 767px) {
+  .leave_item {
+     padding: 12px 10px;
+     /* Keep flex-direction row */
+  }
+}
+
+/* ==========================================================================
+   Daily Report Page Responsive Styles
+   ========================================================================== */
+@media (max-width: 991px) {
+  .daily_report_filters {
+    flex-wrap: wrap; /* Allow wrapping on tablets if needed */
+  }
+}
+
+@media (max-width: 767px) {
+  /* Header & Filters */
+  .daily_report_header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .daily_report_filters {
+    width: 100%;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .date_picker, 
+  .employee_select {
+    width: 100%;
+  }
+
+  /* Force custom dropdowns to be full width on mobile */
+  .daily_report_filters .custom_dropdown {
+    width: 100% !important;
+  }
+
+  /* Table Responsiveness */
+  .daily_report_table_wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #eee; /* Optional visual boundary */
+  }
+  
+  .daily_report_table {
+     min-width: 700px; /* Ensure content is readable by forcing scroll */
+  }
+
+  /* Pagination */
+  .pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 15px;
+  }
+
+  /* ==========================================================================
+     Holiday List Responsive Styles
+     ========================================================================== */
+  /* Header & Filters */
+  .holiday_header_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .holiday_actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch; /* Full width children */
+    gap: 10px;
+  }
+  
+  .holiday_actions .filter_select {
+    width: 100%;
+  }
+
+  .holiday_actions .custom_dropdown {
+    width: 100% !important;
+  }
+
+  .holiday_actions .add_new_btn_green {
+    width: 100%;
+  }
+
+  /* Table Responsiveness */
+  .table_container_white {
+    overflow-x: auto; /* Enable scroll */
+  }
+  
+  .holiday_table {
+     min-width: 600px; /* Force scroll */
+  }
+}
+
+/* ==========================================================================
+   Add New Project Page Responsive Styles
+   ========================================================================== */
+@media (max-width: 991px) {
+  .add_project_form {
+    flex-direction: column;
+  }
+  
+  .form_left_column,
+  .form_right_column {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Form Rows - Stack Label above Input */
+  .form_row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .form_row label {
+    width: 100%;
+    margin-bottom: 8px;
+    padding-top: 0;
+  }
+  
+  /* Input with Button (Select + Add) */
+  .input_with_button {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .input_with_button select {
+    flex: 1;
+    width: auto; /* Let flex handle it */
+  }
+  
+  .plus_btn {
+    flex-shrink: 0;
+  }
+
+  /* Form Left Column form rows */
+  .form_left_column .form_row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .form_left_column .form_row label {
+    width: 100%;
+    margin-bottom: 8px;
+    padding-top: 0;
+  }
+  
+  .form_left_column .form_row input,
+  .form_left_column .form_row select {
+    width: 100%;
+  }
+  
+  /* Tags */
+  .selected_tags,
+  .bottom_tags {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .tag {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+  
+  /* Form Actions */
+  .form_actions {
+    justify-content: center;
+  }
+  
+  .add_btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Go Back Button */
+  .go_back_btn_grey {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Modals */
+  .modal_container {
+    width: 95%;
+    padding: 20px;
+    max-height: 85vh;
+  }
+  
+  .modal_body {
+    padding: 15px;
+  }
+  
+  /* Description textarea */
+  .description_textarea {
+    min-height: 200px;
+  }
+}
+
+/* Small mobile (480px) */
+@media (max-width: 480px) {
+  .add_project_container {
+    padding: 15px;
+  }
+  
+  .add_project_form {
+    gap: 20px;
+  }
+  
+  .form_left_column .form_row input,
+  .form_left_column .form_row select {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .description_textarea {
+    min-height: 150px;
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .plus_btn {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+  
+  .tag {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  
+  .add_btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .modal_container {
+    width: 98%;
+    padding: 15px;
+  }
+  
+  .modal_header h3 {
+    font-size: 16px;
+  }
+}
+
+/* ==========================================================================
+   Approve Employees Page Responsive Styles
+   ========================================================================== */
+@media (max-width: 767px) {
+  .approve_header_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .approve_actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .approve_actions .search_box {
+    width: 100%;
+    margin-right: 0;
+  }
+  
+  .approve_actions .add_new_btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Small mobile for Approve Employees */
+@media (max-width: 480px) {
+  .approve_header_row {
+    gap: 10px;
+  }
+  
+  .pageTitleWithLine {
+    font-size: 18px;
+  }
+}
+
+/* ==========================================================================
+   Leave Management Pages (Approve/Reject/Requests) Responsive Styles
+   ========================================================================== */
+
+/* Tablet (1100px and below) */
+@media (max-width: 1100px) {
+  .leave_header_row {
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .pageTitleWithLine {
+    flex: 0 1 auto;
+    width: fit-content !important;
+    margin-right: 20px;
+  }
+
+  .leave_header_row .search_box {
+    flex: 0 0 auto;
+    min-width: 280px;
+    max-width: 350px;
+    margin-left: auto; /* Push to right if space permits */
+  }
+}
+
+/* Mobile (768px) */
+@media (max-width: 768px) {
+  .leave_header_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .leave_header_row .search_box {
+    width: 100% !important;
+    min-width: unset;
+    max-width: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  
+  .leave_header_row .search_input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Table wrapper - enable horizontal scroll */
+  .daily_report_table_wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 100px;
+  }
+  
+  /* Table minimum width for scroll */
+  .daily_report_table {
+    min-width: 760px;
+  }
+  
+  /* Dropdown inside table - ensure visibility */
+  .daily_report_table .custom_dropdown {
+    position: relative;
+  }
+  
+  .daily_report_table .dropdown_menu {
+    position: absolute;
+    z-index: 1001;
+    min-width: 120px;
+  }
+  
+  /* Action button responsive */
+  .reason_btn_yellow,
+  .reason_btn_green,
+  .reason_btn_red {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
+  /* Pagination responsive */
+  .pagination_container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .pagination_btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Small Mobile (480px) */
+@media (max-width: 480px) {
+  .leave_header_row {
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+  
+  .pageTitleWithLine {
+    font-size: 18px;
+  }
+  
+  /* Search box compact */
+  .leave_header_row .search_box {
+    padding: 8px 12px;
+  }
+  
+  .leave_header_row .search_input {
+    font-size: 13px;
+  }
+  
+  /* Table wrapper compact spacing */
+  .daily_report_table_wrapper {
+    margin-bottom: 80px;
+    border-radius: 5px;
+  }
+  
+  /* Table cells compact */
+  .daily_report_table > thead > tr > th {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+  
+  .data_row td {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+  
+  /* Dropdown compact */
+  .dropdown_toggle {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-width: 90px;
+  }
+  
+  /* Action button compact */
+  .reason_btn_yellow,
+  .reason_btn_green,
+  .reason_btn_red {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  /* Pagination compact */
+  .pagination_container {
+    padding: 10px 0;
+  }
+  
+  .pagination_btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-width: 30px;
+  }
+  
+  /* Modal responsive */
+  .modal_container {
+    width: 95% !important;
+    max-width: 100% !important;
+    margin: 10px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal_header {
+    padding: 15px;
+  }
+  
+  .modal_header h3,
+  .modal_title {
+    font-size: 16px;
+  }
+  
+  .modal_body {
+    padding: 15px;
+  }
+  
+  .modal_form_group {
+    margin-bottom: 12px;
+  }
+  
+  .modal_label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  
+  .modal_input,
+  .modal_textarea {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  .modal_footer {
+    padding: 15px;
+  }
+  
+  .save_btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* ==========================================================================
+   Change Password Page Responsive Styles
+   ========================================================================== */
+@media (max-width: 767px) {
+  .password_form_container {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .submit_btn_green {
+    width: 100%;
+  }
+}
+
+/* Modal Form Responsive Styles */
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal_container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 35px 40px;
+    width: 90%;
+    max-width: 850px;
+    min-height: 500px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    margin: 20px;
+    max-height: 90vh;
+    overflow: visible;
+}
+
+.modal_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.modal_title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFC107;
+    display: inline-block;
+}
+
+.modal_close_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.modal_close_btn:hover {
+    color: #333;
+}
+
+/* Fix dropdown in modal - make it visible and full width */
+.modal_form_row .custom_dropdown {
+    flex: 1;
+    width: 100%;
+}
+
+.modal_form_row .dropdown_toggle {
+    width: 100%;
+    min-width: unset;
+}
+
+.modal_form_row .dropdown_menu {
+    z-index: 9999;
+}
+
+.modal_form_row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.modal_form_row_textarea {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.modal_label {
+    font-size: 14px;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    min-width: 120px;
+    white-space: nowrap;
+}
+
+.modal_label_textarea {
+    font-size: 14px;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    min-width: 120px;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+
+.modal_input {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    background: #F1F1F1;
+}
+
+.modal_select {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    background: #F5F5F5;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    color: #333;
+    appearance: auto;
+    transition: background 0.2s ease;
+}
+
+.modal_select:focus {
+    background: #ECECEC;
+}
+
+.modal_textarea {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    min-height: 150px;
+    width: 100%;
+    background: #F1F1F1;
+}
+
+.modal_submit_container {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.modal_submit_btn {
+    background-color: #73BF44;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 50px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+}
+
+/* Responsive Modal Form - Tablet */
+@media (max-width: 768px) {
+    .modal_container {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .modal_form_row,
+    .modal_form_row_textarea {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .modal_label,
+    .modal_label_textarea {
+        min-width: auto;
+        padding-top: 0;
+    }
+    
+    .modal_input,
+    .modal_select,
+    .modal_textarea {
+        width: 100%;
+    }
+}
+
+/* Responsive Modal Form - Mobile */
+@media (max-width: 480px) {
+    .modal_container {
+        width: 100%;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    
+    .modal_submit_btn {
+        width: 100%;
+        padding: 12px;
+    }
+    
+    .modal_submit_container {
+        text-align: center;
+    }
+}
+
+/* Custom Dropdown Styles */
+.custom_dropdown_container {
+    position: relative;
+    flex: 1;
+    width: 100%;
+}
+
+.custom_dropdown_trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #73BF44;
+    transition: all 0.2s ease;
+}
+
+.custom_dropdown_trigger:hover {
+    border-color: #73BF44;
+}
+
+.dropdown_arrow {
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    color: #73BF44;
+}
+
+.arrow_up {
+    transform: rotate(180deg);
+}
+
+.custom_dropdown_menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    overflow: hidden;
+}
+
+.custom_dropdown_item {
+    padding: 12px 15px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.custom_dropdown_item:hover {
+    background: #f9f9f9;
+}
+
+.custom_dropdown_item.selected, .custom_dropdown_item_selected {
+    background: #73BF44; /* Solid Green Background */
+    color: #fff; /* White Text */
+    font-weight: 500;
+    border-left: none; /* No border, full block */
+}
+
+.custom_dropdown_item.selected:hover, .custom_dropdown_item_selected:hover {
+    background: #73BF44; /* Keep Green on Hover */
+    color: #fff;
+}
+
+/* Status-specific colors for trigger */
+.status_pending {
+    background-color: #FFF7ED; /* Light Orange */
+    color: #C2410C; /* Dark Orange */
+}
+
+.status_in_progress {
+    background-color: #EFF6FF; /* Light Blue */
+    color: #1D4ED8; /* Dark Blue */
+}
+
+.status_completed {
+    background-color: #F0FDF4; /* Light Green */
+    color: #15803D; /* Dark Green */
+}
+
+/* Leave Request Form Styles */
+.form_card_container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 40px;
+    max-width: 900px;
+    margin: 20px auto 0 0; 
+    width: 100%;
+}
+
+.leave_request_form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.submit_btn {
+    background: #73BF44;
+    color: #fff;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.submit_btn:hover {
+    background: #5ea33a;
+}
+
+/* Refined Leave Request Styles */
+.leave_form_row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px; /* More breathing room */
+}
+
+.leave_form_label {
+    width: 200px;
+    min-width: 200px;
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #2C2C2C; /* Darker, crisper label */
+    font-size: 15px;
+    text-align: left;
+}
+
+.leave_form_input {
+    flex: 1;
+    max-width: 450px;
+    background: #F1F1F1; /* Darker gray to match reference perfectly */
+    padding: 12px 16px;
+    border: none; /* Reference inputs often have no border or very subtle */
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.25s ease;
+    outline: none;
+    color: #333;
+}
+
+.leave_form_input:focus, .leave_form_input:active {
+    background: #fff; /* White on focus */
+    border: 1px solid #73BF44; /* Green border on focus */
+    box-shadow: 0 4px 12px rgba(115, 191, 68, 0.1);
+}
+
+.leave_form_textarea {
+    flex: 1;
+    max-width: 450px;
+    background: #F1F1F1; /* Match input background */
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.25s ease;
+    outline: none;
+    color: #333;
+    min-height: 120px;
+    resize: vertical;
+}
+
+.leave_form_textarea:focus {
+    background: #fff;
+    border-color: #73BF44;
+    box-shadow: 0 4px 12px rgba(115, 191, 68, 0.15);
+}
+
+.leave_page_title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+    border-bottom: 4px solid #FFC107; /* Thicker accent */
+    padding-bottom: 8px;
+    margin-bottom: 30px;
+    display: inline-block;
+}
+
+
+/* ==========================================================================
+   Leave Request Form Styles (Strictly Matched to Reference)
+   ========================================================================== */
+
+/* Page Title - 'Leave Request' */
+.leave_page_title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
+    border-bottom: 2px solid #F7C600; /* Yellow underline */
+    padding-bottom: 5px;
+    padding-right: 0px; /* Exact text match */
+    display: inline-block;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Card Container */
+.form_card_container {
+    background: #ffffff;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    padding: 40px 50px;
+    width: 100%; /* Adjust to screen width */
+    max-width: 100%;
+    height: auto; /* Adjust to content height */
+    min-height: 75vh; /* Increased height */
+    margin-top: 10px;
+    box-shadow: none; 
+    box-sizing: border-box;
+}
+
+/* Form Row */
+.leave_form_row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px; /* Reduced further to 12px */
+    position: relative;
+}
+
+/* Label */
+.leave_form_label {
+    width: 180px;
+    min-width: 180px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-align: left;
+    margin-right: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Input Fields */
+.leave_form_input {
+    width: 100%;
+    background: #F1F1F1;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 13px;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.leave_form_input:focus {
+    background: #EAEAEA;
+}
+
+/* Dropdown specific */
+.input_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Hide default select arrow */
+select.leave_form_input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+/* Custom Dropdown Arrow */
+.dropdown_arrow {
+    position: absolute;
+    right: 15px;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Textarea */
+.leave_form_textarea {
+    width: 100%;
+    max-width: 450px;
+    background: #F1F1F1;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 15px;
+    font-size: 13px;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    min-height: 80px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.leave_form_textarea:focus {
+    background: #EAEAEA; /* Gray on focus */
+    border: 1px solid #73BF44; /* Green outline */
+}
+
+/* Date Inputs - Calendar Icon styling */
+input[type='date']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+    transform: scale(0.8);
+}
+
+/* Submit Button */
+.submit_btn_request {
+    background-color: #73BF44;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.submit_btn_request:hover {
+    background-color: #5fa536;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .leave_form_row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .leave_form_label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .leave_form_input, 
+    .leave_form_textarea {
+        max-width: 100%;
+    }
+
+    .submit_btn_request {
+        width: 100%;
+    }
+}
+
+
+/* Refinements for Exact Match */
+
+/* Custom Black Calendar Icon */
+/* We'll override the default indicator with a filter to make it black and ensure it's visible */
+input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Invert to white if base is black? No, default is often black/gray. */
+    /* Wait, default is usually dark gray. To make it PURE black: */
+    filter: brightness(0) saturate(100%);
+    cursor: pointer;
+    opacity: 1;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+/* Ensure padding is correct for inputs */
+.leave_form_input, .leave_form_textarea {
+    background: #F5F5F5; /* Slightly lighter gray to match image? Image looks very light. #F5F5F5 is standard light gray. */
+    border-radius: 6px; /* Slightly softer radius */
+}
+
+/* Submit Button - Solid Green, no gradient implied, but ensure standard green */
+.submit_btn_request {
+    background-color: #73BF44;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 15px; /* Slightly larger text */
+    padding: 10px 35px; /* Beefier button */
+}
+
+/* Adjust Dropdown Arrow Position */
+.input_container .dropdown_arrow {
+    right: 20px; /* Move it in slightly */
+}
+
+/* Adjust Label Color/Weight if needed */
+.leave_form_label {
+    color: #202020; /* Darker black */
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Status Page Styles
+   ========================================================================== */
+
+/* Main Card Wrapper */
+.status_card {
+    background: #ffffff;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    padding: 0;
+    width: 100%;
+    margin-top: 20px;
+    /* This wrapper will contain both table and pagination */
+}
+
+.status_table_container {
+    width: 100%;
+    overflow-x: auto;
+    /* Removed border and background from here, moved to .status_card */
+}
+
+.status_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+}
+
+.status_table th {
+    text-align: left;
+    padding: 18px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #EAEAEA;
+    white-space: nowrap;
+}
+
+.status_table td {
+    padding: 18px 15px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+/* Alternating Row Colors */
+.status_table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.status_table tbody tr:nth-child(even) {
+    background-color: #F1F1F1;
+}
+
+/* Status Text Colors - Increased specificity to override table td color */
+.status_table td.leave_status_pending {
+    color: #E9B400;
+    font-weight: 500;
+    background: transparent;
+}
+
+.status_table td.leave_status_approved {
+    color: #73BF44;
+    font-weight: 500;
+    background: transparent;
+}
+
+.status_table td.leave_status_rejected {
+    color: #FD7272;
+    font-weight: 500;
+    background: transparent;
+}
+
+/* Pagination */
+.pagination_container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px; /* Add padding inside the card */
+    gap: 0;
+}
+
+.pagination_btn {
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #777;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+}
+
+.pagination_btn:hover {
+    background: #f1f1f1;
+}
+
+.pagination_btn_active {
+    background: #73BF44;
+    color: #fff;
+    border-color: #73BF44;
+}
+
+.pagination_btn_active:hover {
+    background: #73BF44; /* Maintain green on hover */
+    color: #fff;
+    border-color: #73BF44;
+}
+
+.pagination_btn:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+
+/* ==========================================================================
+   Pay Slip Page Styles
+   ========================================================================== */
+
+.pay_slip_details p {
+    font-size: 15px; 
+    color: #202020;
+    margin-bottom: 8px; 
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.pay_slip_details p strong {
+    font-weight: 600;
+    color: #333;
+}
+
+.pay_slip_table_wrapper {
+    background: #fff;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    width: 100%;
+    overflow: hidden; 
+}
+
+/* Specific styles for Pay Slip Table cells to decrease padding */
+.pay_slip_table_wrapper .status_table th,
+.pay_slip_table_wrapper .status_table td {
+    padding: 10px 15px; /* Decreased padding from 18px to 10px */
+}
+
+/* Extend Page Title Underline specifically for Pay Slip if needed, 
+   but modifying global class might be better if user wants it everywhere.
+   User said "Extend the bottom border even more". 
+   Let's target the pay slip page specifically or global?
+   Assuming global fix for now based on context, or create a modifier.
+   Actually, the user is looking at Pay Slip. Let's make sure .leave_page_title has padding-right.
+*/
+
+.download_btn {
+    background: #888888; 
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 15px; /* Slightly reduced vertical padding too */
+    border: none;
+    border-radius: 4px; 
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.2s;
+    text-transform: capitalize; 
+}
+
+
+.download_btn:hover {
+    background: #666666;
+}
+
+
+
+/* ==========================================================================
+   Offer Letter Styles
+   ========================================================================== */
+
+.offer_letter_title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
+    border-bottom: 2px solid #F7C600; /* Yellow underline */
+    padding-bottom: 5px;
+    padding-right: 0; /* Exact match to text */
+    display: inline-block;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.offer_letter_container {
+    background: white;
+    width: 100%; /* Flexible width */
+    max-width: 1200px; /* Increased to 1200px */
+    min-height: 297mm; /* A4 Height */
+    margin: 0 auto;
+    padding: 20mm;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; 
+    font-size: 13px; /* Increased to 13px */
+    line-height: 1.5;
+    color: #000;
+}
+
+.offer_letter_header_actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%; 
+}
+
+.letter_header {
+    margin-bottom: 20px;
+}
+
+.letter_header p {
+    margin: 2px 0;
+    font-size: 13px; /* Increased */
+}
+
+.letter_body p {
+    margin-bottom: 15px;
+    text-align: justify;
+    font-size: 13px; /* Increased */
+}
+
+.letter_section_title {
+    font-size: 13px; /* Increased */
+    font-weight: 700;
+    text-decoration: underline;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.letter_page_header {
+    text-align: center;
+    font-size: 14px; /* Increased */
+    font-weight: 700;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.centered_text {
+    text-align: center !important;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.page_break {
+    border: 0;
+    border-top: 1px dashed #ccc;
+    margin: 30px 0;
+}
+
+.salary_details_block p {
+    margin: 2px 0;
+    font-weight: 600;
+}
+
+.salary_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px; /* Increased */
+    border: 1px solid #000;
+}
+
+.salary_table th, .salary_table td {
+    border: 1px solid #000;
+    padding: 8px 10px; /* Increased padding slightly */
+    text-align: left;
+}
+
+.salary_table th {
+    background-color: #D9D9D9; 
+    font-weight: 700;
+    text-align: center;
+}
+
+.salary_total_row {
+    font-weight: 700;
+}
+
+.salary_total_row_bottom {
+    font-weight: 700;
+    background-color: #fff;
+}
+
+.print_btn {
+    background: #0056b3; 
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.print_btn:hover {
+    background: #004494;
+}
+
+/* Print Specific Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .offer_letter_container, .offer_letter_container * {
+        visibility: visible;
+    }
+    .offer_letter_container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        max-width: none; /* Reset max-width for print */
+        margin: 0;
+        padding: 20mm;
+        box-shadow: none;
+        border: none;
+    }
+    .emp_wrapper, SidebarMenu, Common, .offer_letter_header_actions {
+        display: none !important;
+    }
+    /* Hide page breaks visual line */
+    .page_break {
+        display: none;
+        page-break-after: always; /* Force page break */
+    }
+    
+    /* Ensure styles are printed */
+    -webkit-print-color-adjust: exact; 
+}
+
+/* Pay Slip Responsive Header - Keep existing styles */
+.pay_slip_header_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align to top (Employee Name) */
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.pay_slip_filter_group {
+    display: flex;
+    gap: 15px;
+}
+
+/* Responsive Media Queries for Pay Slip */
+@media (max-width: 768px) {
+    .pay_slip_header_row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .pay_slip_filter_group {
+        width: 100%;
+        gap: 10px;
+    }
+
+    /* Make dropdowns full width on mobile or just flexible */
+    .pay_slip_filter_group .custom_dropdown_container {
+        width: 48% !important; /* Share row */
+    }
+    
+    .pay_slip_table_wrapper .status_table th, 
+    .pay_slip_table_wrapper .status_table td {
+        font-size: 13px; /* Slightly smaller text */
+        padding: 10px 8px; /* Tighter padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .pay_slip_filter_group {
+        flex-direction: column;
+    }
+    
+    .pay_slip_filter_group .custom_dropdown_container {
+        width: 100% !important;
+    }
+}
+
+.pagination_btn:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+
+/* Employee Daily Report Responsive Styles */
+.emp_daily_report_container {
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    background: #fff;
+    width: 100%;
+    height: calc(100vh - 200px);
+    min-height: 400px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.table_scroll_wrapper {
+    overflow-x: auto;
+    width: 100%;
+    flex: 1;
+}
+
+.emp_daily_report_table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+.emp_daily_report_table th {
+    padding: 15px; /* Match daily_report_table */
+    text-align: left;
+    font-weight: 600; /* Match daily_report_table */
+    font-size: 14px;
+    color: #555; /* Match daily_report_table */
+    background-color: #f9f9f9; /* Match daily_report_table */
+    border-bottom: 1px solid #eee; /* Match daily_report_table */
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.emp_daily_report_table td {
+    padding: 15px; /* Match daily_report_table */
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #eee; /* Match daily_report_table */
+}
+
+.emp_daily_report_table tbody tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+.emp_daily_report_table tbody tr:nth-child(even) {
+    background-color: #F8F8F8;
+}
+
+.col_sno { width: 6%; }
+.col_project { width: 18%; }
+.col_date { width: 12%; }
+.col_duration { width: 10%; }
+.col_desc { width: 40%; }
+.col_status { width: 14%; }
+
+@media (max-width: 768px) {
+    .emp_daily_report_container {
+        height: auto;
+        min-height: 300px;
+    }
+    .daily_report_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .add_new_btn {
+        width: 100%;
+    }
+}
+
+/* Modal Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal_form_row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .modal_form_row_textarea {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .modal_label,
+    .modal_label_textarea {
+        min-width: auto;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .modal_container {
+        padding: 20px;
+        width: 95%;
+    }
+}
+
+/* Force Date column to be single line */
+.emp_daily_report_table td:nth-child(3) {
+    white-space: nowrap;
+}
+
+/* Leave Request Page Responsive Adjustments */
+@media (max-width: 768px) {
+    .leave_form_row {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .leave_form_label {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 5px;
+        min-width: auto;
+    }
+
+    .leave_form_input,
+    .leave_form_textarea,
+    .input_container,
+    .custom_dropdown_container,
+    .custom_dropdown_trigger {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 auto;
+    }
+
+    /* Adjust Submit Button container */
+    .leave_form_row > div {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Hide empty label used for alignment on desktop, but keep button visible */
+    .leave_form_row:last-child label {
+        display: none;
+    }
+
+    .submit_btn_request {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .form_card_container {
+        padding: 20px;
+    }
+}
+
+/* Refined Leave Request Margins - Fix */
+@media (max-width: 768px) {
+    .leave_form_row {
+        gap: 12px !important;       /* Vertical gap between Label and Input */
+        margin-bottom: 30px !important; /* Vertical gap between Fields */
+    }
+
+    .leave_form_label {
+        margin-bottom: 0px !important; /* Reset margin, rely on gap */
+    }
+    
+    .form_card_container {
+        padding: 25px !important;
+    }
+}
+
+/* Refined Leave Request Margins - Reduced Fix */
+@media (max-width: 768px) {
+    .leave_form_row {
+        gap: 6px !important;
+        margin-bottom: 10px !important; /* Decreased from 15px */
+    }
+
+    .leave_form_label {
+        margin-bottom: 0px !important;
+        margin-top: 0px !important; /* Remove any inline top margin */
+    }
+    
+    .form_card_container {
+        padding: 20px !important;
+    }
+}
+
+/* Leave Status Responsive Styles */
+@media (max-width: 768px) {
+    .status_table_container {
+        overflow-x: auto;
+        width: 100%;
+    }
+    
+    .status_table {
+        min-width: 700px; /* Ensure table is wide enough to trigger scroll */
+    }
+    
+    /* Pagination responsiveness */
+    .pagination_container {
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 15px;
+        gap: 0;
+    }
+    
+    .pagination_btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    /* Status Card Adjustments */
+    .status_card {
+        margin-top: 15px;
+        border-radius: 5px;
+        overflow: hidden; /* Ensure rounded corners clip content */
+    }
+}
+
+/* Pay Slip Page Responsive Table Wrapper - No Scroll, Fit Content */
+@media (max-width: 768px) {
+    .pay_slip_table_wrapper {
+        width: 100%;
+        overflow-x: visible; /* No scroll requested */
+    }
+
+    .pay_slip_table_wrapper .status_table {
+        min-width: auto; /* Allow shrinking */
+        width: 100%;
+    }
+    
+    .pay_slip_table_wrapper .status_table th,
+    .pay_slip_table_wrapper .status_table td {
+        white-space: normal; /* Allow text wrapping */
+        padding: 8px 5px !important; /* Tighter padding */
+        font-size: 13px;
+    }
+    
+    .download_btn {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+}
+
+/* Offer Letter Page Responsive Styles */
+@media (max-width: 768px) {
+    .offer_letter_container {
+        width: 100%;
+        min-height: auto; /* Remove A4 height constraint */
+        padding: 20px; /* Reduced padding */
+        margin-bottom: 20px;
+    }
+
+    .offer_letter_header_actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .offer_letter_title {
+        font-size: 18px;
+    }
+
+    .letter_header p,
+    .letter_body p,
+    .salary_details_block p {
+        font-size: 13px; 
+        text-align: justify; /* Justify per user request */
+    }
+
+    .salary_table {
+        font-size: 12px;
+        display: block; 
+        overflow-x: auto; 
+        width: 100%;
+    }
+
+    .salary_table th, 
+    .salary_table td {
+        padding: 8px 5px;
+        white-space: nowrap; /* Keep columns intact for salary data usually */
+    }
+    
+    /* Allow wrapping for specific long text cells if identified */
+    .salary_table td:first-child {
+        white-space: normal;
+        min-width: 120px;
+    }
+}
+
+
+/* Admin Daily Report Responsive Table Styles */
+.daily_report_table_wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+}
+
+.daily_report_table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Force scroll on small screens */
+}
+
+/* Col Widths - Redistributed for better header spacing */
+.col_emp_name { width: 20%; min-width: 150px; } /* Increased from 15% */
+.col_proj_name { width: 25%; min-width: 150px; } /* Increased from 20% */
+.col_duration { width: 10%; min-width: 80px; }
+.col_desc { width: 30%; min-width: 200px; } /* Decreased from 40% to accommodate names */
+.col_status { width: 15%; min-width: 100px; }
+
+.daily_report_table th, 
+.daily_report_table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.daily_report_table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Responsive Daily Report Header */
+@media (max-width: 1024px) {
+    /* Tablet adjustments */
+    .daily_report_header {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .daily_report_filters {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .daily_report_table {
+        min-width: 700px; /* Slightly smaller for tablets */
+    }
+    
+    .pagination_container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .pagination_btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .daily_report_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .daily_report_filters {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .date_picker, .employee_select {
+        width: 100%;
+    }
+    
+    .daily_report_filters .custom_dropdown {
+        width: 100% !important;
+    }
+    
+    /* Report filter toggle full width on mobile */
+    .report_filter_toggle {
+        width: 100% !important;
+    }
+    
+    /* Table adjustments */
+    .daily_report_table_wrapper {
+        margin: 0;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+    
+    .daily_report_table {
+        min-width: 600px; /* Allow more compact table on mobile */
+    }
+    
+    .daily_report_table td,
+    .daily_report_table th {
+        padding: 10px 12px;
+        white-space: normal;
+        font-size: 12px;
+        vertical-align: top;
+        text-align: left;
+    }
+    
+    /* Pagination mobile */
+    .pagination_container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        padding: 15px 10px;
+    }
+    
+    .pagination_btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 35px;
+    }
+    
+    /* Hide page numbers except current on very small screens */
+    .pagination_btn:not(.pagination_btn_active):not(:first-child):not(:last-child) {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small screens */
+    .pageTitle {
+        font-size: 18px;
+    }
+    
+    .daily_report_table {
+        min-width: 500px;
+    }
+    
+    .daily_report_table td,
+    .daily_report_table th {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+    
+    /* Stack pagination buttons */
+    .pagination_container {
+        gap: 4px;
+    }
+    
+    .pagination_btn {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+    
+    /* Show all pagination buttons on very small screens */
+    .pagination_btn:not(.pagination_btn_active):not(:first-child):not(:last-child) {
+        display: inline-flex;
+    }
+}
+
+    .chartLabel {
+        color: #202020;
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        margin-top: 10px;
+        line-height: normal;
+        text-align: start;
+        padding-left: 25%;
+    }
+
+/* Ensure Employee Daily Report Table is also responsive */
+@media (max-width: 768px) {
+    .chartLabel {
+        text-align: center !important;
+        padding-left: 0 !important;
+    }
+
+    .emp_daily_report_table td {
+        white-space: normal;
+        font-size: 13px;
+        padding: 10px; /* Restored padding */
+        vertical-align: top;
+    }
+
+    .emp_daily_report_table th {
+        white-space: nowrap; /* Prevent header wrapping */
+        font-size: 13px;
+        padding: 10px; /* Restored padding */
+        vertical-align: top;
+    }
+    
+    /* Override rigid nowrap if set elsewhere */
+    .emp_daily_report_table td:nth-child(3) {
+        white-space: normal; 
+    }
+}
+/* Monthly Report Responsive Adjustments */
+.employee_name_display {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* Global Display Text Style */
+.report_display_text {
+    padding: 8px 14px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    background-color: #F5F5F5;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #888;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    width: auto; /* Auto width to fit content */
+    min-width: 160px; /* Minimum width to match dropdowns */
+    height: auto;
+}
+
+/* =====================================================
+   MONTHLY REPORT RESPONSIVE ALIGNMENT
+   Professional grade responsive design for all screens
+   ===================================================== */
+
+/* Desktop: Side-by-side layout with proper alignment */
+.monthly_responsive_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.monthly_responsive_filters .custom_dropdown {
+    flex-shrink: 0;
+}
+
+/* Tablet breakpoint (1024px - 768px) */
+@media (max-width: 1024px) {
+    .monthly_responsive_filters {
+        gap: 10px;
+    }
+    
+    .monthly_report_toggle {
+        width: 150px; /* Slightly smaller on tablets */
+    }
+}
+
+/* Small tablet / Large mobile (900px) */
+@media (max-width: 900px) {
+    /* Header stacks vertically */
+    .daily_report_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    /* Filters container takes full width */
+    .monthly_responsive_filters {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    /* Each dropdown takes equal space in row */
+    .monthly_responsive_filters .custom_dropdown {
+        flex: 1 1 calc(33.33% - 10px);
+        min-width: 140px;
+    }
+    
+    .monthly_report_toggle {
+        width: 100%;
+    }
+    
+    /* Display text full width */
+    .report_display_text {
+        flex: 1 1 100%;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Mobile breakpoint (768px) */
+@media (max-width: 768px) {
+    .monthly_responsive_filters {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .monthly_responsive_filters .custom_dropdown {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+    
+    .monthly_report_toggle {
+        width: 100% !important;
+        justify-content: space-between;
+    }
+    
+    .report_display_text {
+        width: 100% !important;
+        min-width: 100% !important;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    /* Dropdown menus full width on mobile */
+    .monthly_responsive_filters .dropdown_menu {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+}
+
+/* Small mobile (480px) */
+@media (max-width: 480px) {
+    .pageTitle {
+        font-size: 18px;
+    }
+    
+    .monthly_responsive_filters {
+        gap: 8px;
+    }
+    
+    .monthly_report_toggle {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+    
+    .report_display_text {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Stack Stats Grid */
+    .statsGrid {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+    
+    .statCard {
+        width: 100%;
+        height: auto;
+        min-height: 160px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .statCard .statInfo {
+        align-items: center !important;
+        text-align: center !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    .monthDashboard {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 1400px) {
+  .leave_list_card .see_all_btn {
+      padding: 5px 10px;
+      font-size: 12px;
+  }
+}
+
+/* =====================================================
+   CLIENT LIST PAGE RESPONSIVE STYLES
+   ===================================================== */
+
+/* Tablet breakpoint (1024px) */
+@media (max-width: 1024px) {
+    /* Search box adjustments */
+    .search_box {
+        min-width: 200px;
+        flex: 1;
+    }
+    
+    /* Action buttons spacing */
+    .action_buttons {
+        gap: 6px;
+    }
+    
+    .action_btn {
+        padding: 4px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile breakpoint (768px) */
+@media (max-width: 768px) {
+    /* Search and Add button stack */
+    .daily_report_filters {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .search_box {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+    
+    .search_input {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .add_new_btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Action buttons compact */
+    .action_buttons {
+        gap: 4px;
+        justify-content: center;
+    }
+    
+    .action_btn {
+        padding: 6px;
+        font-size: 16px;
+    }
+    
+    /* Modal responsive */
+    .modal_container {
+        width: 95% !important;
+        max-width: none !important;
+        margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal_body {
+        padding: 15px;
+    }
+    
+    /* Modal form rows - stacked layout on mobile */
+    .modal_body .form_row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        align-items: stretch !important;
+    }
+    
+    .modal_body .form_row label {
+        width: 100% !important;
+        text-align: left !important;
+        flex-shrink: 1 !important;
+        padding-top: 0 !important;
+    }
+    
+    .modal_body .form_row input,
+    .modal_body .form_row textarea,
+    .modal_body .form_row select,
+    .modal_body .form_row > div {
+        width: 100% !important;
+        flex: none !important;
+    }
+    
+    .modal_body .form_row .dropdown_toggle {
+        width: 100% !important;
+    }
+    
+    .modal_body .form_row .custom_dropdown {
+        width: 100% !important;
+    }
+}
+
+/* Small mobile (480px) */
+@media (max-width: 480px) {
+    /* Smaller title */
+    .pageTitle {
+        font-size: 16px;
+    }
+    
+    /* Add button compact */
+    .add_new_btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+    
+    /* Action buttons even smaller */
+    .action_buttons {
+        gap: 2px;
+    }
+    
+    .action_btn {
+        padding: 4px;
+        font-size: 14px;
+    }
+    
+    /* Modal adjustments */
+    .modal_header h3 {
+        font-size: 16px;
+    }
+    
+    .form_row label {
+        font-size: 13px;
+    }
+    
+    .form_row input,
+    .form_row textarea {
+        font-size: 13px;
+        padding: 8px;
+    }
+    
+    .save_btn {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    /* Modal footer center on mobile */
+    .modal_footer {
+        justify-content: center;
+        padding: 10px 0;
+    }
+}
+
+/* =====================================================
+   CLIENT VIEW PAGE RESPONSIVE STYLES
+   ===================================================== */
+
+/* Tablet breakpoint (1024px) */
+@media (max-width: 1024px) {
+    .go_back_btn {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+}
+
+/* Mobile breakpoint (768px) */
+@media (max-width: 768px) {
+    /* Go Back button full width */
+    .go_back_btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Pagination adjustments */
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        padding: 15px 10px;
+    }
+    
+    .pagination button,
+    .pagination span {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Small mobile (480px) */
+@media (max-width: 480px) {
+    .go_back_btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .pagination button,
+    .pagination span {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    /* Hide middle page numbers on very small screens */
+    .pagination button:nth-child(n+4):nth-child(-n+6) {
+        display: none;
+    }
+}
+
+/* Alert Styles */
+.alert {
+    padding: 12px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert_success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert_error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
