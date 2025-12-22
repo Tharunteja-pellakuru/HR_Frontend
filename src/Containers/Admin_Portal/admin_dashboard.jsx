@@ -151,7 +151,12 @@ const Admindashboard = () => {
                 <div className={styles.project_table_card}>
                   <div className={styles.table_header}>
                     <h3>Overdue Projects</h3>
-                    <button className={styles.see_all_btn}>See All</button>
+                    <button 
+                      className={styles.see_all_btn}
+                      onClick={() => navigate("/admin/projects")}
+                    >
+                      See All
+                    </button>
                   </div>
                   <table className={styles.project_table}>
                     <thead>
@@ -177,7 +182,12 @@ const Admindashboard = () => {
                 <div className={styles.project_table_card}>
                   <div className={styles.table_header}>
                     <h3>Upcoming Due Projects</h3>
-                    <button className={styles.see_all_btn}>See All</button>
+                    <button 
+                      className={styles.see_all_btn}
+                      onClick={() => navigate("/admin/projects")}
+                    >
+                      See All
+                    </button>
                   </div>
                   <table className={styles.project_table}>
                     <thead>
@@ -206,7 +216,12 @@ const Admindashboard = () => {
               <div className={styles.leave_list_card}>
                 <div className={styles.table_header}>
                     <h3>Leave Application</h3>
-                    <button className={styles.see_all_btn}>See All</button>
+                    <button 
+                        className={styles.see_all_btn}
+                        onClick={() => navigate("/admin/leave-request")}
+                    >
+                        See All
+                    </button>
                 </div>
                 <div className={styles.leave_list} ref={dropdownRef}>
                   {leaveApplications.map((leave, index) => (
