@@ -32,9 +32,14 @@ const LeaveRejectList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    const filteredRequests = leaveRequests.filter(leave => 
+        leave.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leave.sno.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = leaveRequests.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredRequests.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -53,7 +58,10 @@ const LeaveRejectList = () => {
                                 type="text" 
                                 placeholder="Search..." 
                                 value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value);
+                                    setCurrentPage(1);
+                                }}
                                 className={styles.search_input}
                             />
                         </div>
@@ -109,7 +117,7 @@ const LeaveRejectList = () => {
                                 Previous
                             </button>
                             
-                            {Array.from({ length: Math.ceil(leaveRequests.length / itemsPerPage) }, (_, i) => (
+                            {Array.from({ length: Math.ceil(filteredRequests.length / itemsPerPage) }, (_, i) => (
                                 <button
                                     key={i + 1}
                                     className={`${styles.pagination_btn} ${currentPage === i + 1 ? styles.pagination_btn_active : ''}`}
@@ -121,7 +129,7 @@ const LeaveRejectList = () => {
 
                             <button 
                                 className={styles.pagination_btn} 
-                                disabled={currentPage === Math.ceil(leaveRequests.length / itemsPerPage)} 
+                                disabled={currentPage === Math.ceil(filteredRequests.length / itemsPerPage) || filteredRequests.length === 0} 
                                 onClick={() => paginate(currentPage + 1)}
                             >
                                 Next

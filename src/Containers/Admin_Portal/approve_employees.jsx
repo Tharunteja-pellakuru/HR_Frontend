@@ -25,9 +25,15 @@ const ApproveEmployees = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    const filteredEmployees = employees.filter(emp => 
+        emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.designation.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredEmployees.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -47,7 +53,10 @@ const ApproveEmployees = () => {
                                     type="text" 
                                     placeholder="Search..." 
                                     value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
                                     className={styles.search_input}
                                 />
                             </div>
@@ -106,7 +115,7 @@ const ApproveEmployees = () => {
                                 Previous
                             </button>
                             
-                            {Array.from({ length: Math.ceil(employees.length / itemsPerPage) }, (_, i) => (
+                            {Array.from({ length: Math.ceil(filteredEmployees.length / itemsPerPage) }, (_, i) => (
                                 <button
                                     key={i + 1}
                                     className={`${styles.pagination_btn} ${currentPage === i + 1 ? styles.pagination_btn_active : ''}`}
@@ -118,7 +127,7 @@ const ApproveEmployees = () => {
 
                             <button 
                                 className={styles.pagination_btn} 
-                                disabled={currentPage === Math.ceil(employees.length / itemsPerPage)} 
+                                disabled={currentPage === Math.ceil(filteredEmployees.length / itemsPerPage) || filteredEmployees.length === 0} 
                                 onClick={() => paginate(currentPage + 1)}
                             >
                                 Next
