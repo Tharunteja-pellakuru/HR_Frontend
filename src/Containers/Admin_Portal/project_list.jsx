@@ -14,6 +14,11 @@ const ProjectList = () => {
     const [editingProjectId, setEditingProjectId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [projectToDelete, setProjectToDelete] = useState(null);
+    const [statusFilter, setStatusFilter] = useState("All Status");
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
+    const [isFilterStatusOpen, setIsFilterStatusOpen] = useState(false);
+    const filterStatusRef = React.useRef(null);
 
     // Mock project data matching reference image - moved to state
     const [projects, setProjects] = useState([
@@ -47,6 +52,7 @@ const ProjectList = () => {
             if (statusRef.current && !statusRef.current.contains(event.target)) setIsStatusOpen(false);
             if (clientModalRef.current && !clientModalRef.current.contains(event.target)) setIsClientModalOpen(false);
             if (employeeModalRef.current && !employeeModalRef.current.contains(event.target)) setIsEmployeeModalOpen(false);
+            if (filterStatusRef.current && !filterStatusRef.current.contains(event.target)) setIsFilterStatusOpen(false);
         };
 
         document.addEventListener("mousedown", handleClickOutside);
@@ -148,12 +154,26 @@ const ProjectList = () => {
         }
     };
 
-    // Filter projects based on search query
-    const filteredProjects = projects.filter(project => 
-        project.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.clientName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const parseDate = (dateStr) => {
+        if (!dateStr) return null;
+        const [day, month, year] = dateStr.split("-").map(Number);
+        return new Date(year, month - 1, day);
+    };
+
+    // Filter projects based on search query, status, and date range
+    const filteredProjects = projects.filter(project => {
+        const matchesSearch = project.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            project.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            project.clientName.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        const matchesStatus = statusFilter === "All Status" || project.status === statusFilter;
+        
+        const projectStartDate = parseDate(project.startDate);
+        const matchesFromDate = !fromDate || (projectStartDate && projectStartDate >= new Date(fromDate));
+        const matchesToDate = !toDate || (projectStartDate && projectStartDate <= new Date(toDate));
+
+        return matchesSearch && matchesStatus && matchesFromDate && matchesToDate;
+    });
 
     // Pagination Logic
     const itemsPerPage = 10;
@@ -172,6 +192,8 @@ const ProjectList = () => {
                 return { color: "#73BF44" };
             case "Overdue":
                 return { color: "#E74C3C" };
+            case "Pending":
+                return { color: "#8E44AD" }; // Purple for Pending
             default:
                 return { color: "#333" };
         }
@@ -188,38 +210,69 @@ const ProjectList = () => {
                     <div className={styles.daily_report_header}>
                         <h2 className={styles.pageTitle}>Project List</h2>
                         <div className={styles.daily_report_filters}>
-                            <div className={styles.search_box}>
-                                <FaSearch className={styles.search_icon} />
+                            <div className={`${styles.custom_dropdown} ${styles.filter_dropdown_container}`} ref={filterStatusRef}>
+                                <div 
+                                    className={styles.dropdown_toggle} 
+                                    onClick={() => setIsFilterStatusOpen(!isFilterStatusOpen)}
+                                >
+                                    <span>{statusFilter}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={isFilterStatusOpen ? styles.arrow_up : styles.arrow_down}>
+                                        <path d="M6 9l6 6 6-6"/>
+                                    </svg>
+                                </div>
+                                {isFilterStatusOpen && (
+                                    <div className={styles.dropdown_menu}>
+                                        {["All Status", "Ongoing", "Completed", "Overdue", "Pending"].map((status, idx) => (
+                                            <div 
+                                                key={idx}
+                                                className={`${styles.dropdown_item} ${statusFilter === status ? styles.dropdown_item_active : ''}`}
+                                                onClick={() => {
+                                                    setStatusFilter(status);
+                                                    setIsFilterStatusOpen(false);
+                                                }}
+                                            >
+                                                {status}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            <div className={styles.filter_date_group}>
                                 <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className={styles.search_input}
+                                    type="date"
+                                    value={fromDate}
+                                    onChange={(e) => setFromDate(e.target.value)}
+                                    className={styles.date_input_custom}
+                                    placeholder="From Date"
                                 />
+                                <input
+                                    type="date"
+                                    value={toDate}
+                                    onChange={(e) => setToDate(e.target.value)}
+                                    className={styles.date_input_custom}
+                                    placeholder="To Date"
+                                />
+                            </div>
+                            <div className={styles.search_box_wrapper_fluid}>
+                                <div className={styles.search_box_content}>
+                                    <FaSearch className={styles.search_icon_visible} />
+                                    <input
+                                        type="text"
+                                        placeholder="Search..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className={styles.search_input}
+                                    />
+                                </div>
                             </div>
                             <button 
                                 className={styles.add_new_btn}
-                                onClick={() => {
-                                    setIsEditing(false);
-                                    setEditingProjectId(null);
-                                    setFormData({
-                                        projectName: "",
-                                        category: "",
-                                        clientName: "",
-                                        startDate: "",
-                                        dueDate: "",
-                                        status: "Ongoing"
-                                    });
-                                    setShowAddModal(true);
-                                }}
+                                onClick={() => navigate('/admin/projects/add')}
                             >
                                 Add New
                             </button>
                         </div>
                     </div>
-
-                    {/* Project Table */}
                     <div className={styles.daily_report_table_wrapper}>
                         <table className={styles.daily_report_table}>
                             <colgroup>
@@ -514,7 +567,7 @@ const ProjectList = () => {
                                     </div>
                                     {isStatusOpen && (
                                         <div className={styles.dropdown_menu}>
-                                            {["Ongoing", "Completed", "Overdue"].map((status, idx) => (
+                                            {["Ongoing", "Completed", "Overdue", "Pending"].map((status, idx) => (
                                                 <div 
                                                     key={idx}
                                                     className={`${styles.dropdown_item} ${formData.status === status ? styles.dropdown_item_active : ''}`}

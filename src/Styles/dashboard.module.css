@@ -845,13 +845,125 @@
   margin-bottom: 25px;
   flex-wrap: wrap;
   gap: 15px;
+  position: relative;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.pageTitleUnderline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #FFD700; /* Yellow underline */
+}
+
+/* Standardized Base Classes (Must come BEFORE Media Queries) */
+.filter_dropdown_container {
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.filter_date_group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.date_input_custom {
+  width: 180px !important;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background-color: #F5F5F5 !important; /* Force match dropdown bg */
+  border: 1px solid #E0E0E0 !important;   /* Force match dropdown border */
+  font-size: 13px;
+  color: #888;
+  height: 40px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.search_box_content {
+  display: flex;
+  align-items: center;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #FFF;
+  height: 40px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.search_icon_visible {
+  color: #888;
+  font-size: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.add_new_btn {
+  background: #73BF44;
+  color: #FFF;
+  border: none;
+  border-radius: 8px; 
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  height: 40px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.daily_report_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: nowrap !important; /* Absolute Row Enforcement */
 }
 
 .daily_report_filters {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
+  flex-wrap: nowrap !important; /* Absolute Row Enforcement */
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  min-width: 0;
 }
+
+/* Page Title Stability */
+.pageTitle {
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  margin-right: 15px;
+}
+
+/* --- Responsive Breakpoints (Senior Level) --- */
+
+/* Responsive rules moved to bottom of file for absolute override priority */
+
 
 .date_picker input,
 .employee_select select {
@@ -1130,7 +1242,7 @@
   border-radius: 5px;
   padding: 0 15px;
   background: #FFF;
-  height: 42px; /* Match Add New button height */
+  height: 40px; /* Match standard filter height */
   box-sizing: border-box;
 }
 
@@ -1220,11 +1332,11 @@
 
 /* Grey Go Back Button */
 .go_back_btn_grey {
-  background: #666;
+  background: #8E8E8E;
   color: #FFF;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 6px;
+  padding: 8px 18px;
   font-size: 14px;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
@@ -1260,51 +1372,56 @@
 }
 
 .form_left_column .form_row label {
-  width: 140px;
-  font-size: 14px;
-  color: #333;
+  width: 160px;
+  font-size: 15px;
+  color: #444;
   font-family: 'Inter', sans-serif;
   flex-shrink: 0;
-  padding-top: 10px;
+  padding-top: 12px;
 }
 
 .form_left_column .form_row input,
 .form_left_column .form_row select {
   flex: 1;
-  padding: 12px 15px;
+  padding: 12px 18px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 14px;
   font-family: 'Inter', sans-serif;
   color: #333;
   background: #F5F5F5;
   outline: none;
+  height: 45px;
+  box-sizing: border-box;
 }
 
 .form_left_column .form_row input:focus,
 .form_left_column .form_row select:focus {
-  background: #ECECEC;
+  background: #EAEAEA;
 }
 
 .form_right_column {
-  flex: 1;
+  flex: 1.2;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 30px;
 }
 
 .form_right_column label {
-  font-size: 14px;
-  color: #333;
+  font-size: 15px;
+  color: #444;
   font-family: 'Inter', sans-serif;
-  margin-bottom: 10px;
+  padding-top: 10px;
+  flex-shrink: 0;
+  width: 100px;
 }
 
 .description_textarea {
   flex: 1;
-  min-height: 300px;
-  padding: 15px;
+  min-height: 380px;
+  padding: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 14px;
   font-family: 'Inter', sans-serif;
   color: #333;
@@ -1324,42 +1441,44 @@
 }
 
 .plus_btn {
-  background: #73BF44;
-  color: #FFF;
+  background: #E1F5D8;
+  color: #73BF44;
   border: none;
-  border-radius: 5px;
-  width: 40px;
-  height: 40px;
+  border-radius: 4px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   transition: background 0.2s ease;
 }
 
 .plus_btn:hover {
-  background: #5fa536;
+  background: #D4EDC9;
 }
 
 .selected_tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
   margin-top: 10px;
-  margin-left: 110px;
+  margin-left: 160px;
 }
 
 .tag {
   background: #F5F5F5;
-  border-radius: 15px;
-  padding: 5px 12px;
+  border-radius: 4px;
+  padding: 4px 8px;
   font-size: 12px;
-  color: #333;
+  color: #666;
   font-family: 'Inter', sans-serif;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .tag button {
@@ -1367,24 +1486,55 @@
   border: none;
   cursor: pointer;
   font-size: 10px;
-  color: #666;
+  color: #AAA;
   padding: 0;
   display: flex;
   align-items: center;
+  margin-left: 5px;
 }
 
 .tag button:hover {
-  color: #333;
+  color: #666;
+}
+
+.bottom_tags_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .bottom_tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 20px;
-  padding: 15px;
-  background: #FAFAFA;
-  border-radius: 5px;
+  gap: 12px;
+  padding: 10px 20px;
+  background: #FFF;
+  border: 1px solid #F0F0F0;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.bottom_tag {
+  background: #E9F6E2;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #73BF44;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bottom_tag button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 9px;
+  color: #73BF44;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .form_actions {
@@ -1397,9 +1547,9 @@
   background: #73BF44;
   color: #FFF;
   border: none;
-  border-radius: 5px;
-  padding: 12px 40px;
-  font-size: 14px;
+  border-radius: 6px;
+  padding: 10px 40px;
+  font-size: 15px;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
@@ -4561,7 +4711,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
     }
     
     /* Ensure styles are printed */
-    -webkit-print-color-adjust: exact; 
+    body {
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact;
+    }
 }
 
 /* Pay Slip Responsive Header - Keep existing styles */
@@ -5507,14 +5660,1219 @@ input[type='date']::-webkit-calendar-picker-indicator {
     font-weight: 500;
 }
 
-.alert_success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+/* ==========================================================================
+   FINAL PROJECT LIST HEADER RESPONSIVE LOGIC (ULTRA PRIORITY OVERRIDES)
+   ========================================================================== */
+
+/* ==========================================================================
+   FINAL PROJECT LIST HEADER RESPONSIVE LOGIC (ULTRA PRIORITY OVERRIDES)
+   ========================================================================== */
+
+/* 1. Large Screens (> 1250px): Fixed Right Alignment */
+@media (min-width: 1251px) {
+  .admin_dashboard_main .daily_report_header {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  
+  .admin_dashboard_main .search_box_wrapper_fluid {
+    width: 300px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Status dropdown - fixed width on large screens */
+  .admin_dashboard_main .filter_dropdown_container {
+    flex: 0 0 auto !important;
+  }
+
+  .admin_dashboard_main .dropdown_toggle {
+    width: 150px !important;
+    min-width: 150px !important;
+  }
 }
 
-.alert_error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+/* ==========================================================================
+   2. MID-LARGE RANGE (1089px - 1500px): Title Row 1, All Filters Single Row 2
+   All filters occupy entire width proportionally
+   ========================================================================== */
+@media (max-width: 1500px) and (min-width: 1089px) {
+  /* Header: Stack title above filters */
+  .admin_dashboard_main .daily_report_header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+  }
+
+  /* Title styling */
+  .admin_dashboard_main .pageTitle {
+    font-size: 20px !important;
+    margin: 0 !important;
+  }
+
+  /* Filters: All in single horizontal row - fill entire width */
+  .admin_dashboard_main .daily_report_filters {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    width: 100% !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+  }
+
+  /* Status dropdown - grows proportionally */
+  .admin_dashboard_main .filter_dropdown_container {
+    flex: 1 1 auto !important;
+    min-width: 120px !important;
+  }
+
+  .admin_dashboard_main .dropdown_toggle {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+  }
+
+  /* Date group - grows proportionally */
+  .admin_dashboard_main .filter_date_group {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    flex: 2 1 auto !important;
+    min-width: 280px !important;
+  }
+
+  /* Date inputs - grow within date group */
+  .admin_dashboard_main .date_input_custom {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-width: 130px !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+
+  /* Search bar - grows proportionally */
+  .admin_dashboard_main .search_box_wrapper_fluid {
+    flex: 2 1 auto !important;
+    min-width: 200px !important;
+  }
+
+  .admin_dashboard_main .search_box_content {
+    height: 40px !important;
+    width: 100% !important;
+  }
+
+  .admin_dashboard_main .search_input {
+    font-size: 13px !important;
+    width: 100% !important;
+  }
+
+  /* Add New button - auto width, doesn't grow */
+  .admin_dashboard_main .add_new_btn {
+    flex: 0 0 auto !important;
+    padding: 10px 20px !important;
+    font-size: 13px !important;
+    height: 40px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ==========================================================================
+   3. MID RANGE (769px - 1088px): Flexible Row Wrapping with Equal Distribution
+   Row 1: Status + Date Group (each 50%)
+   Row 2: Search Box + Add New Button (fill remaining space)
+   ========================================================================== */
+@media (max-width: 1088px) and (min-width: 769px) {
+  .admin_dashboard_main .daily_report_header {
+    gap: 12px !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    display: flex !important;
+  }
+  
+  /* Filters wrap into 2 rows with full width distribution */
+  .admin_dashboard_main .daily_report_filters {
+    gap: 10px !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+
+  .admin_dashboard_main .pageTitle {
+    font-size: 18px !important;
+    margin: 0 !important;
+  }
+
+  /* Row 1: Status dropdown - takes ~50% of row */
+  .admin_dashboard_main .filter_dropdown_container {
+    flex: 1 1 calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+  }
+
+  .admin_dashboard_main .dropdown_toggle {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+  }
+
+  /* Row 1: Date group - takes ~50% of row */
+  .admin_dashboard_main .filter_date_group {
+    flex: 1 1 calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+  }
+
+  /* Date inputs grow within date group */
+  .admin_dashboard_main .date_input_custom {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-width: 120px !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    background-color: #F5F5F5 !important;
+    border: 1px solid #E0E0E0 !important;
+  }
+
+  /* Row 2: Search bar - takes remaining space after Add New */
+  .admin_dashboard_main .search_box_wrapper_fluid {
+    flex: 1 1 calc(100% - 130px) !important;
+    min-width: 200px !important;
+  }
+
+  .admin_dashboard_main .search_box_content {
+    padding: 0 10px !important;
+    height: 40px !important;
+    width: 100% !important;
+  }
+
+  .admin_dashboard_main .search_input {
+    font-size: 13px !important;
+    width: 100% !important;
+  }
+
+  /* Row 2: Add New button - fixed auto width */
+  .admin_dashboard_main .add_new_btn {
+    flex: 0 0 auto !important;
+    padding: 10px 20px !important;
+    font-size: 13px !important;
+    height: 40px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 2b. Tight Mid Range (769px - 1000px): Specific 3-row layout per user request */
+/* Row 1: All Status | Row 2: From Date + To Date | Row 3: Search + Add New */
+@media (max-width: 1000px) and (min-width: 769px) {
+  .admin_dashboard_main .daily_report_header {
+    gap: 10px !important;
+  }
+
+  .admin_dashboard_main .pageTitle {
+    font-size: 18px !important;
+  }
+
+  /* Filters wrap into 3 rows */
+  .admin_dashboard_main .daily_report_filters {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    display: flex !important;
+    width: 100% !important;
+  }
+
+  /* Row 1: Status dropdown - takes full width */
+  .admin_dashboard_main .filter_dropdown_container {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    order: 1 !important;
+  }
+
+  .admin_dashboard_main .dropdown_toggle {
+    width: 100% !important;
+    padding: 10px 15px !important;
+    font-size: 13px !important;
+  }
+
+  /* Row 2: Date group (From + To) - takes full width, side by side inside */
+  .admin_dashboard_main .filter_date_group {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+  }
+
+  .admin_dashboard_main .date_input_custom {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    padding: 10px 10px !important;
+    font-size: 13px !important;
+  }
+
+  /* Row 3: Search + Add New - split the row */
+  .admin_dashboard_main .search_box_wrapper_fluid {
+    flex: 1 1 auto !important;
+    order: 3 !important;
+    min-width: 200px !important;
+  }
+
+  .admin_dashboard_main .search_box_content {
+    height: 40px !important;
+    padding: 0 10px !important;
+    width: 100% !important;
+  }
+
+  .admin_dashboard_main .search_input {
+    font-size: 13px !important;
+    width: 100% !important;
+  }
+
+  .admin_dashboard_main .add_new_btn {
+    flex: 0 0 auto !important;
+    order: 4 !important;
+    padding: 10px 20px !important;
+    font-size: 13px !important;
+    height: 40px !important;
+  }
+}
+
+/* 3. Mobile Stack Breakpoints (0-768px): Vertical Stack per User Request */
+@media (max-width: 768px) {
+  .admin_dashboard_main .daily_report_header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    display: flex !important;
+  }
+
+  .admin_dashboard_main .daily_report_filters {
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: stretch !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    display: flex !important;
+  }
+
+  /* Force all filter items to occupy 100% width */
+  .admin_dashboard_main .filter_dropdown_container,
+  .admin_dashboard_main .date_input_custom,
+  .admin_dashboard_main .search_box_wrapper_fluid,
+  .admin_dashboard_main .filter_date_group,
+  .admin_dashboard_main .add_new_btn {
+    width: 100% !important;
+    flex: none !important;
+    max-width: 100% !important;
+  }
+
+  .admin_dashboard_main .filter_date_group {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+    display: flex !important;
+  }
+
+  .admin_dashboard_main .date_input_custom {
+    width: 100% !important;
+    display: block !important; 
+    text-align: left !important;
+    position: relative !important;
+    padding-right: 15px !important;
+    background-color: #F5F5F5 !important;
+    border: 1px solid #E0E0E0 !important;
+  }
+
+  .admin_dashboard_main .date_input_custom::-webkit-calendar-picker-indicator {
+    cursor: pointer !important;
+    margin-left: auto !important;
+    padding-left: 10px !important;
+  }
+  
+  .admin_dashboard_main .pageTitle {
+    font-size: 18px !important;
+    text-align: left !important;
+    margin-bottom: 5px !important;
+    display: inline-block !important;
+    width: auto !important;
+  }
+}
+
+/* ==========================================================================
+   ADD NEW PROJECT FORM - DROPDOWN FIX
+   ========================================================================== */
+
+/* Dropdowns in forms should fill their container width */
+.custom_dropdown .dropdown_toggle {
+  width: 100% !important;
+  min-width: auto !important;
+  box-sizing: border-box !important;
+}
+
+.input_with_button .custom_dropdown {
+  flex: 1 !important;
+  width: 100% !important;
+}
+
+/* Responsive for Add New Project form */
+@media (max-width: 768px) {
+  .add_project_form,
+  .form_left_column,
+  .form_right_column {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  
+  .add_project_form {
+    gap: 20px !important;
+  }
+  
+  .input_with_button {
+    flex-direction: row !important;
+  }
+  
+  .input_with_button .custom_dropdown {
+    flex: 1 !important;
+  }
+  
+  /* Description textarea proper alignment on mobile */
+  .form_right_column {
+    margin-top: 15px !important;
+  }
+  
+  .form_right_column label {
+    display: block !important;
+    margin-bottom: 10px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #333 !important;
+  }
+  
+  .description_textarea {
+    width: 100% !important;
+    min-height: 150px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* ==========================================================================
+   CHIPS/TAGS WRAPPING STYLES
+   ========================================================================== */
+
+/* Selected tags in form - always wrap */
+.selected_tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+}
+
+.tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 5px 12px !important;
+  background: #E9F6E2 !important;
+  border-radius: 15px !important;
+  font-size: 12px !important;
+  color: #333 !important;
+  white-space: nowrap !important;
+}
+
+.tag button {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: #666 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Bottom tags container */
+.bottom_tags_container {
+  margin-top: 20px !important;
+  padding-top: 15px !important;
+  border-top: 1px solid #E0E0E0 !important;
+}
+
+.bottom_tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+
+.bottom_tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 8px 15px !important;
+  background: #4CAF50 !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  color: white !important;
+  white-space: nowrap !important;
+}
+
+.bottom_tag button {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: white !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* ==========================================================================
+   MODAL DROPDOWN FIX - Ensure dropdowns in modals are visible
+   ========================================================================== */
+
+/* Modal form rows need overflow visible for dropdowns */
+.modal_body .form_row {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Modal body needs visible overflow for dropdown menus */
+.modal_body {
+  overflow: visible !important;
+}
+
+/* Dropdown menu in modals - higher z-index and proper positioning */
+.modal_body .dropdown_menu,
+.modal_container .dropdown_menu {
+  z-index: 10001 !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+/* Ensure custom dropdown in modal has proper position and full width */
+.modal_body .custom_dropdown {
+  position: relative !important;
+  width: 100% !important;
+}
+
+/* Dropdown toggle in modal should be full width like input boxes */
+.modal_body .dropdown_toggle {
+  width: 100% !important;
+  padding: 10px 14px !important;
+  background: #FFF !important;
+}
+
+/* ==========================================================================
+   ADD NEW PROJECT PAGE - COMPREHENSIVE RESPONSIVE STYLES
+   ========================================================================== */
+
+/* ---- BASE STYLES (Applied to all screens) ---- */
+.add_project_container {
+  background: #FFF;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.add_project_form {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.form_left_column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form_right_column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form_right_column label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form_row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_row label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form_row input,
+.form_row select,
+.form_row textarea {
+  padding: 12px 14px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background: #FFF;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form_row input:focus,
+.form_row textarea:focus {
+  border-color: #4CAF50;
+}
+
+.form_row input[type="date"] {
+  cursor: pointer;
+}
+
+/* Input with Plus Button */
+.input_with_button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.input_with_button .custom_dropdown {
+  flex: 1 1 auto;
+  width: calc(100% - 52px) !important; /* Account for plus button (42px) + gap (10px) */
+  margin-right: 0 !important; /* Override inline style */
+}
+
+.input_with_button .dropdown_toggle {
+  width: 100% !important;
+  padding: 12px 14px !important;
+  min-width: auto !important;
+}
+
+.plus_btn {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border: none;
+  border-radius: 8px;
+  background: #E9F6E2;
+  color: #4CAF50;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.plus_btn:hover {
+  background: #D4EDCC;
+}
+
+/* Description Textarea */
+.description_textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  padding: 14px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.description_textarea:focus {
+  border-color: #4CAF50;
+}
+
+/* Form Actions */
+.form_actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.add_btn {
+  padding: 12px 50px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add_btn:hover {
+  background: #45a049;
+}
+
+/* Go Back Button */
+.go_back_btn_grey {
+  padding: 10px 25px;
+  background: #E8E8E8;
+  color: #555;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.go_back_btn_grey:hover {
+  background: #D8D8D8;
+}
+
+/* ---- LARGE SCREENS (1025px and above) ---- */
+@media (min-width: 1025px) {
+  .add_project_form {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  .form_left_column,
+  .form_right_column {
+    flex: 1;
+  }
+
+  .description_textarea {
+    min-height: 400px;
+  }
+
+  /* Dropdown in form should match input width */
+  .form_row .dropdown_toggle {
+    width: 100% !important;
+    padding: 12px 14px !important;
+    min-width: auto !important;
+  }
+
+  .form_row .custom_dropdown {
+    width: 100% !important;
+  }
+}
+
+/* ---- SMALL LAPTOPS (769px - 1024px) ---- */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .add_project_container {
+    padding: 25px;
+  }
+
+  .add_project_form {
+    flex-direction: row;
+    gap: 25px;
+  }
+
+  .form_left_column {
+    flex: 1.2;
+  }
+
+  .form_right_column {
+    flex: 0.8;
+  }
+
+  .description_textarea {
+    min-height: 350px;
+  }
+
+  .form_row input,
+  .form_row select {
+    padding: 10px 12px;
+  }
+
+  /* Dropdown in form should match input width */
+  .form_row .dropdown_toggle {
+    width: 100% !important;
+    padding: 10px 12px !important;
+    min-width: auto !important;
+  }
+
+  .form_row .custom_dropdown {
+    width: 100% !important;
+  }
+}
+
+/* ---- TABLETS (576px - 768px) ---- */
+@media (max-width: 768px) and (min-width: 576px) {
+  .add_project_container {
+    padding: 20px;
+  }
+
+  .add_project_form {
+    flex-direction: column !important;
+    gap: 25px;
+  }
+
+  .form_left_column,
+  .form_right_column {
+    width: 100%;
+    flex: none;
+  }
+
+  .form_right_column {
+    margin-top: 10px;
+  }
+
+  .description_textarea {
+    min-height: 200px;
+  }
+
+  .form_row label {
+    font-size: 13px;
+  }
+
+  .form_row input,
+  .form_row select {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .form_actions {
+    justify-content: center;
+  }
+
+  .add_btn {
+    width: 200px;
+    padding: 14px;
+  }
+
+  /* Header adjustments for tablet */
+  .admin_dashboard_main .daily_report_header {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+}
+
+/* ---- MOBILE (575px and below) ---- */
+@media (max-width: 575px) {
+  .add_project_container {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .add_project_form {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+
+  .form_left_column,
+  .form_right_column {
+    width: 100%;
+    flex: none;
+  }
+
+  .form_left_column {
+    gap: 15px;
+  }
+
+  .form_right_column {
+    margin-top: 5px;
+  }
+
+  .form_right_column label {
+    margin-bottom: 8px;
+  }
+
+  .description_textarea {
+    min-height: 150px;
+  }
+
+  .form_row label {
+    font-size: 13px;
+  }
+
+  .form_row input,
+  .form_row select {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Input with button - keep horizontal but smaller */
+  .input_with_button {
+    gap: 8px;
+  }
+
+  .plus_btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  /* Tags smaller on mobile */
+  .tag {
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+  }
+
+  .bottom_tag {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+  }
+
+  /* Form actions - full width button */
+  .form_actions {
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .add_btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  /* Go back button smaller */
+  .go_back_btn_grey {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+
+  /* Header stack on mobile */
+  .admin_dashboard_main .daily_report_header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+}
+
+/* ---- VERY SMALL MOBILE (400px and below) ---- */
+@media (max-width: 400px) {
+  .add_project_container {
+    padding: 12px;
+  }
+
+  .form_left_column {
+    gap: 12px;
+  }
+
+  .form_row input,
+  .form_row select {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .description_textarea {
+    min-height: 120px;
+    padding: 10px;
+  }
+
+  .add_btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* ==========================================================================
+   MODAL STYLES - Add New Client/Category
+   ========================================================================== */
+
+/* Modal Overlay */
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal Container */
+.modal_container {
+  background: #FFF;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Modal Header */
+.modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #F0F0F0;
+  flex-shrink: 0;
+  background: #FFF;
+  z-index: 10;
+}
+
+.modal_header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal_close_btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  font-size: 20px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.modal_close_btn:hover {
+  color: #333;
+}
+
+/* Modal Body */
+.modal_body {
+  padding: 20px 25px 30px 25px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: #FFF;
+}
+
+/* Modal Form Rows - Label on left, Input on right */
+.modal_body .form_row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  gap: 15px !important;
+  margin-bottom: 20px !important;
+  width: 100% !important;
+}
+
+/* Ensure the last field has massive bottom padding to clear the footer */
+.modal_body .form_row:last-child {
+  padding-bottom: 120px !important;
+}
+
+.modal_body .form_row label {
+  flex: 0 0 100px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #666;
+  padding-top: 10px;
+  text-align: left;
+}
+
+.modal_body .form_row input,
+.modal_body .form_row textarea,
+.modal_body .form_row select {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #E8E8E8;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  background: #F9F9F9;
+  outline: none;
+}
+
+.modal_body .form_row input:focus,
+.modal_body .form_row textarea:focus {
+  border-color: #4CAF50;
+  background: #FFF;
+}
+
+.modal_body .form_row textarea {
+  min-height: 80px;
+  height: auto !important;
+  padding: 10px 12px !important;
+  resize: vertical;
+}
+
+/* Custom dropdown in modal */
+.modal_body .custom_dropdown {
+  flex: 1;
+  position: relative;
+}
+
+.modal_body .dropdown_toggle {
+  width: 100%;
+  height: 40px; /* Fixed height to match standard inputs */
+  padding: 0 12px;
+  border: 1px solid #E8E8E8;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  background: #F9F9F9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Modal Footer */
+.modal_footer {
+  padding: 15px 25px;
+  display: flex;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  background: #FFF;
+  border-top: 1px solid #F0F0F0;
+  border-radius: 0 0 10px 10px;
+  z-index: 10;
+}
+
+.save_btn {
+  padding: 10px 25px;
+  background: #73BF44;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save_btn:hover {
+  background: #65a83d;
+}
+
+/* ---- MODALS RESPONSIVE ---- */
+@media (max-width: 580px) {
+  .modal_overlay {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 50px;
+  }
+
+  .modal_container {
+    max-width: 100%;
+    width: 100%;
+    max-height: calc(100vh - 40px);
+    border-radius: 8px;
+  }
+
+  .modal_header {
+    padding: 15px 18px;
+  }
+
+  .modal_body {
+    padding: 10px 18px;
+  }
+
+  .modal_body .form_row {
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .modal_body .form_row:last-child {
+    padding-bottom: 100px !important;
+  }
+
+  .modal_body .form_row label {
+    flex: none !important;
+    width: 100% !important;
+    padding-top: 0 !important;
+    font-size: 13px !important;
+    color: #555 !important;
+  }
+
+  .modal_body .form_row input,
+  .modal_body .form_row textarea,
+  .modal_body .form_row select {
+    width: 100% !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+
+  .modal_body .custom_dropdown {
+    width: 100% !important;
+  }
+
+  .modal_footer {
+    padding: 12px 18px 20px 18px;
+  }
+
+  .save_btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal_overlay {
+    padding: 5px;
+    padding-top: 10px;
+  }
+
+  .modal_container {
+    border-radius: 6px;
+    max-height: 98vh;
+  }
+
+  .modal_header {
+    padding: 12px 15px;
+  }
+
+  .modal_header h3 {
+    font-size: 15px;
+  }
+
+  .modal_body {
+    padding: 0 15px 12px 15px;
+    max-height: calc(98vh - 130px);
+  }
+
+  .modal_body .form_row {
+    margin-bottom: 10px;
+  }
+
+  .modal_body .form_row label {
+    font-size: 11px;
+  }
+
+  .modal_body .form_row input,
+  .modal_body .form_row textarea {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .modal_body .form_row textarea {
+    min-height: 60px;
+  }
+
+  .modal_footer {
+    padding: 10px 15px 12px 15px;
+  }
+
+  .save_btn {
+    padding: 11px;
+    font-size: 13px;
+  }
 }
