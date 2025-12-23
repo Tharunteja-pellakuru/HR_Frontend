@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminSidebarMenu from "../../Components/Common/admin_sidebarmenu";
 import HeaderDashboard from "../../Components/Layout/Header_dashboard";
 import styles from "../../Styles/dashboard.module.css";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaEdit } from "react-icons/fa";
 
 const ActiveEmployees = () => {
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
 
     const employees = [
@@ -58,19 +60,25 @@ const ActiveEmployees = () => {
                                     className={styles.search_input}
                                 />
                             </div>
-                            <button className={styles.add_new_btn}>Add New</button>
+                            <button 
+                                className={styles.add_new_btn}
+                                onClick={() => navigate("/emp-registration-form")}
+                            >
+                                Add New
+                            </button>
                         </div>
                     </div>
 
                     <div className={styles.daily_report_table_wrapper}>
                         <table className={styles.daily_report_table}>
                             <colgroup>
-                                <col style={{ width: '15%', minWidth: '100px' }} />
+                                <col style={{ width: '12%', minWidth: '90px' }} />
                                 <col style={{ width: '18%', minWidth: '110px' }} />
-                                <col style={{ width: '20%', minWidth: '130px' }} />
-                                <col style={{ width: '17%', minWidth: '110px' }} />
+                                <col style={{ width: '18%', minWidth: '130px' }} />
+                                <col style={{ width: '15%', minWidth: '110px' }} />
                                 <col style={{ width: '15%', minWidth: '100px' }} />
-                                <col style={{ width: '15%', minWidth: '80px' }} />
+                                <col style={{ width: '10%', minWidth: '80px' }} />
+                                <col style={{ width: '12%', minWidth: '80px' }} />
                             </colgroup>
                             <thead>
                                 <tr>
@@ -80,6 +88,7 @@ const ActiveEmployees = () => {
                                     <th>Phone number</th>
                                     <th>Joining Date</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,6 +100,15 @@ const ActiveEmployees = () => {
                                         <td>{emp.phone}</td>
                                         <td>{emp.joinDate}</td>
                                         <td className={styles.status_active}>{emp.status}</td>
+                                        <td>
+                                            <button 
+                                                className={styles.action_btn} 
+                                                title="Edit"
+                                                onClick={() => navigate("/emp-registration-form", { state: { employee: emp } })}
+                                            >
+                                                <FaEdit />
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

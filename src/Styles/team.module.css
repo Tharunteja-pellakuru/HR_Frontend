@@ -1,200 +1,145 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
 
-.emp_dashboard_wrapper {
-    display: flex;
+/* Main Container */
+.tech_team_list_container {
+    padding: 10px 0;
     width: 100%;
-}
-.admin_dashboard_main_container{
-    display: flex ;
-    flex-direction: column;
+    box-sizing: border-box;
 }
 
-
-.admin_dashboard_main {
-    flex: 1;
-    padding: 25px 43px 20px 61px;
-    flex-direction: column;
-}
-.admin_dashboard_header_card{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1920px;
-    /* margin: 0px auto; */
-    padding:0px  0px 35px 0px;
-}
-.admin_greeting{
-    font-size: 20px;
-    font-weight: 600;
-    color: #202020;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    /* margin-right: 5px;   */
-    width: 33%;
-}
-.admin_dashboard_main_container{
-    display: flex ;
-    flex-direction: column;
-}
-.emp_main_section_contianer{
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 25px;
-}
-.total_and_leave_card{
-    display: flex;
-    gap: 15px;
-}
-/* Active Employees Card */
-.total_emp_card {
-    background-color: #ECF9EF;
-
-    border:  #66BB6A;
-    border-radius: 12px;
-    padding:30px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    /* position: relative;
-    overflow: hidden; */
-    display: flex;
-    justify-content: space-around;
-    min-width: 200px;
-    cursor: pointer;
-    max-width:600px;
-    /* gap: 10px; */
-    /* justify-content: center; */
-}
-.emp_active{
-    text-align: left;
-    font-weight: 500;
-    font-style: italic;
-    /* background-color: yellow; */
-}
-.emp_count{
-    padding-left: 20px;
-    text-align: right;
-    font-weight: bold;
-}
-.total_emp_card:hover {
-    transform: scale(1.02);
-}
-
-.activeCard {
-    background-color: #C8E6C9;
-    border-color: #388E3C;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-/* tech team css */
-/* starts */
-.tech_team_list_container{
-    /* margin-top: 25px; */
-    background: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
-}
+/* Responsive Grid Layout */
 .cards_wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 13px;
-    padding-top: 5px;
-    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
-  }
-  
-   .employee_card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 16px;
-    width: 279px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding-bottom: 30px;
+}
+
+/* Redesigned Employee Card - Premium Look */
+.employee_card {
+    background: #FFFFFF;
+    border: 1px solid #EAECF0;
+    border-radius: 16px;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-  } 
-  
-  .status_badge {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06);
+    overflow: hidden;
+}
+
+.employee_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 16px -4px rgba(16, 24, 40, 0.1), 0 4px 6px -2px rgba(16, 24, 40, 0.05);
+    border-color: #D6F1C8;
+}
+
+/* Status Badge - Top Right */
+.status_badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
+    top: 16px;
+    right: 16px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 11px;
     font-weight: 600;
-    color: white;
-  }
-  .status_badge.active { background-color: #4CAF50; }
-  .status_badge.onleave { background-color: #FFC107; }
-  .status_badge.resigned { background-color: #F44336; }
-  
-  .card_top {
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 0px;
-  }
-  .card_top h3{margin-bottom: 2px;}
-  .emp_image {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .emp_designation {
-    font-size: 14px;
-    color: #666;
-    margin-top: 0px;
-  }
-  
-  .card_body {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #444;
+    text-transform: capitalize;
+    z-index: 5;
+    letter-spacing: 0.3px;
+    line-height: 1;
+}
+
+.active { background-color: #ECFDF3; color: #027A48; border: 1px solid #ABEFC6; }
+.onleave { background-color: #FFFAEB; color: #B54708; border: 1px solid #FEDF89; }
+.resigned { background-color: #FEF3F2; color: #B42318; border: 1px solid #FECDCA; }
+
+/* Card Top Section */
+.card_top {
     display: flex;
     flex-direction: column;
-    background-color: #F1F7FF; /* soft blue background */
-    border: 1px solid #D0E3FF; /* light blue border */
-    border-radius: 12px;
-    padding: 10px;
-    /* width: 215px; */
-    max-width: 300px;
-  }
-  .emp_id{padding: 0px;margin-left: 30px; font-weight: 600; margin: 3px 0px; font-size: 14px; }
-  .emp_id strong {margin-right: 13px; }
-  .work_type{padding: 0px; font-weight: 400;margin: 03px 0px;font-size: 14px;}
-  .work_type span{margin-right: 13px;}
-  .emp_mail{ 
-    color: #007bff;
-    border-radius: 8px;
-    font-weight: 400;
-    text-decoration: none;
-    margin: 3px 0px;
-    padding: 0px 0px;
-    display: inline-block;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-break: break-all; 
-    font-size: 14px;
-
- }
- .emp_mail span{color: #000;margin-right: 8px;}
- .emp_num span{color: #000;margin-right: 10px;}
-
-  .emp_num{padding: 0px; font-weight: 400; margin: 0px; font-size: 14px;;margin: 03px 0px }
-  
-  
-  .card_footer {
-    margin-top: 16px;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    font-weight: 500;
-    color: #555;
-  }
-  
+    padding: 32px 20px 24px;
+    background: linear-gradient(to bottom, #F9FAFB 50%, #FFFFFF 100%);
+    border-bottom: 1px solid #F2F4F7;
+    position: relative;
+}
 
-  
-/* tech team css */
-/* ends */
+.emp_image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #FFF;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    margin-bottom: 15px;
+}
+
+.card_top h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #101828;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+
+.emp_designation {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #475467;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Card Body (Details) */
+.card_body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #FFF;
+}
+
+/* Reusing generic selectors from JSX structure but styling them cleanly */
+.emp_id, .work_type, .emp_mail, .emp_num {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 13px;
+    color: #344054;
+    font-family: 'Inter', sans-serif;
+    padding: 0;
+}
+
+/* Icons inside p tags - styled via span selector assuming JSX structure */
+.card_body span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #98A2B3;
+    margin-right: 12px;
+    font-size: 14px;
+    background: #F9FAFB;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* Special styling for specific rows to look like a list */
+.emp_id strong { margin-right: 8px; color: #027A48; font-weight: 600; }
+.emp_id { margin-bottom: 5px; }
+
+/* Footer */
+.card_footer {
+    padding: 12px 20px;
+    background: #F9FAFB;
+    border-top: 1px solid #EAECF0;
+    font-size: 12px;
+    color: #667085;
+    text-align: right;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: flex-end;
+}

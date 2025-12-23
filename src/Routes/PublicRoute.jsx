@@ -48,6 +48,7 @@ import PaySlips from "../Containers/Admin_Portal/pay_slips";
 import HolidayList from "../Containers/Admin_Portal/holiday_list";
 import LeaveRequestList from "../Containers/Admin_Portal/leave_request_list";
 import LeaveApproveList from "../Containers/Admin_Portal/leave_approve_list";
+import EmployeeProfile from "../Containers/Admin_Portal/employee_profile";
 import LeaveRejectList from "../Containers/Admin_Portal/leave_reject_list";
 
 // Protected route component
@@ -136,6 +137,9 @@ const PublicRoute = () => {
       } />
       <Route path="/admin/teams" element={
         <ProtectedRoute><Teams /></ProtectedRoute>
+      } />
+      <Route path="/admin/employee-profile/:id" element={
+        <ProtectedRoute><EmployeeProfile /></ProtectedRoute>
       } />
       <Route path="/admin/clients" element={
         <ProtectedRoute><Clients /></ProtectedRoute>

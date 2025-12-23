@@ -100,6 +100,28 @@ const GetEmployeeDailyReports = async (emp_id) => {
   return response.data;
 };
 
+// ✅ Get Employee Payslip List
+const GetEmployeePayslipList = async (emp_id) => {
+  const token = getEmpToken();
+  const response = await axios.get(`${BASE_URL}/employee/payslip/list/${emp_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+// ✅ Get Employee Payslip Details
+const GetEmployeePayslipDetails = async (emp_id, month, year) => {
+  const token = getEmpToken();
+  const response = await axios.get(`${BASE_URL}/employee/payslip/details/${emp_id}?month=${month}&year=${year}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 // ------------------- ADMIN ROUTES ------------------- //
 
 // ✅ Admin Login (No Auth Header Required)
@@ -160,6 +182,8 @@ export default {
   GetReportingManagers,
   EmplyLeaveRequestList,
   GetEmployeeDailyReports,
+  GetEmployeePayslipList,
+  GetEmployeePayslipDetails,
 
   // Admin APIs
   AdminLogin,

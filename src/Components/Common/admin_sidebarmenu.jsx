@@ -76,7 +76,8 @@ const AdminSidebarMenu = () => {
             subItems: [
                 { name: "Approve Employees", route: "/admin/approve-employees" },
                 { name: "Active Employees", route: "/admin/active-employees" },
-                { name: "Inactive Employess", route: "/admin/inactive-employees" }
+                { name: "Inactive Employees", route: "/admin/inactive-employees" },
+                { name: "Teams", route: "/admin/teams" }
             ]
         },
         { 

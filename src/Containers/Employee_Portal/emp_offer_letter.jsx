@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import "../../Styles/style.css";
 import Common from "../../Components/Common/common";
 import SidebarMenu from "../../Components/Common/Dashboard";
@@ -19,8 +21,40 @@ const EmpOfferLetter = () => {
         date: "02/01/2025"
     };
 
-    const handlePrint = () => {
-        window.print();
+    const [isDownloading, setIsDownloading] = useState(false);
+
+
+    const generatePDF = async () => {
+         const element = componentRef.current;
+        if (!element) return;
+
+        setIsDownloading(true);
+        try {
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pages = element.querySelectorAll('.pdf_page_content');
+
+            for (let i = 0; i < pages.length; i++) {
+                const page = pages[i];
+                const canvas = await html2canvas(page, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210; 
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                if (i > 0) pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            }
+             
+             pdf.save(`Offer_Letter_${employeeData.name.trim()}.pdf`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        setIsDownloading(false);
     };
 
     return (
@@ -32,81 +66,84 @@ const EmpOfferLetter = () => {
                     {/* Header with Print Button */}
                     <div className={styles.offer_letter_header_actions}>
                         <h2 className={styles.offer_letter_title}>Offer Letter</h2>
-                        <button onClick={handlePrint} className={styles.print_btn}>
-                            Print this page
+                        <button onClick={generatePDF} className={styles.print_btn} disabled={isDownloading}>
+                            {isDownloading ? 'Generating...' : 'Download Offer Letter'}
                         </button>
                     </div>
 
                     {/* Letter Container - A4 visual style */}
                     <div className={styles.offer_letter_container} ref={componentRef}>
                         
-                        {/* Letter Header */}
-                        <div className={styles.letter_header}>
-                            {/* Logo usually in Common, but typical offer letters have letterhead logos. 
-                                Assuming existing common header is for app, but letter needs its own logo if printing?
-                                The image shows "parivartan" header. 
-                                I will add a logo placeholder or rely on the image text. 
-                            */}
-                            <img src="/path/to/logo.png" alt="Parivartan" className={styles.letter_logo} style={{ display: 'none' }} /> {/* Placeholder if needed */}
-                            
-                            <p><strong>Date:</strong> {employeeData.date}</p>
-                            <p><strong>{employeeData.name}</strong></p>
-                            <p>{employeeData.location}</p>
-                        </div>
-
-                        <div className={styles.letter_body}>
-                            <p><strong>Dear {employeeData.name},</strong></p>
-                            <p>This is with reference to the discussion you had with us recently. We are pleased to offer you the position of <strong>{employeeData.designation}</strong> on the following terms:</p>
-
-                            <h4 className={styles.letter_section_title}>Compensation & Benefits:</h4>
-                            <p>The Compensation & Benefits applicable to you is as follows, which is personal and should be treated with utmost confidence. This is not to be discussed or divulged to anybody else other than for statutory purposes.</p>
-                            <p>Salary, perquisites, and other allowances (Cost to Company): INR {employeeData.ctc} Per Annum</p>
-
-                            <h4 className={styles.letter_section_title}>Term of Appointment:</h4>
-                            <p>This appointment will be in effect from <strong>{employeeData.joiningDate}</strong>.</p>
-
-                            <h4 className={styles.letter_section_title}>Probation/Notice Period:</h4>
-                            <p>You will have a probation period of three months from the date of joining the company. During this time, your services are liable to be terminated without any notice on either side. After confirmation, your appointment is terminable by either party by giving one-month (30 days) notice in writing. Either party is not bound to give any reason thereof. The Company reserves the right to pay or recover salary in lieu of notice period or to relieve you before the expiry of the notice period.</p>
-
-                            <h4 className={styles.letter_section_title}>Non-Solicitation of Resources/ Customers:</h4>
-                            <p>You agree that during your engagement with us and for a period of one (1) year following resignation or termination, you shall not, directly or indirectly, solicit for employment or any other commercial engagement or business arrangement any employees or Resources utilized by Parivartan (including all subsidiaries, affiliates, and joint ventures) to perform business. The same applies to Parivartan customers also. The term "Parivartan Customers" as used herein shall mean any customer for whom Parivartan provides Services, and or any other Potential Customer of whom you become aware as a result of any communication, either written or verbal, during your engagement with us.</p>
-                            
-                            <h4 className={styles.letter_section_title}>Separation:</h4>
-                            <p>On separation, you will immediately give up to the Company before you are relieved all correspondence, specifications, formulae, books, documents, cost data, market data, literature, drawings, effects or records, etc. belonging to the Company or relating to its business and shall not make or retain any copies of these items. You will also return to the Company all the assets given to you for official and/or personal use as per the various policies/schemes applicable to you as part of your Compensation & Benefits. This would not apply to those assets or items, which are obligatory for you to buy under the concerned schemes.</p>
-
-                            <h4 className={styles.letter_section_title}>Leave:</h4>
-                            <p>You will be entitled to leave in accordance with the laws of the company, the details of which will be intimated to you separately through the HR policy.</p>
-
-                            <h4 className={styles.letter_section_title}>Validity of the Offer:</h4>
-                            <p>This offer is valid provided a written acceptance is a given to our office within 5 business days from the date of this letter. It is understood that your date of joining Parivartan will not be later than <strong>{employeeData.joiningDate}</strong> failing which this offer will automatically stand revoked without any further notice.</p>
-
-                            <h4 className={styles.letter_section_title}>Service Conditions:</h4>
-                            <p>Your services will be governed by additional terms and conditions as explained in the Service Conditions attached herewith. These additional Service Conditions are applicable to all employees of your band.</p>
-                            <p>The terms and conditions are subject to statutory requirements and Company Policy.</p>
-                            <p>Please confirm that the above terms and conditions as also the additional Service Conditions are acceptable to you by signing a copy of this letter and the other documents attached hereto.</p>
-                            <p>We welcome you to our team and wish you a long and mutually beneficial association with us.</p>
-
-                            <p style={{ marginTop: '20px' }}>Yours truly,</p>
-                            <p>For <strong>Parivartan</strong></p>
-                            
-                            <div style={{ marginTop: '40px', marginBottom: '40px' }}>
-                                <p><strong>Anand Pohankar</strong></p>
-                                <p>CEO</p>
+                        {/* Page 1 */}
+                        <div className="pdf_page_content" style={{ padding: '20px', background: 'white' }}>
+                            {/* Letter Header */}
+                            <div className={styles.letter_header}>
+                                {/* Logo usually in Common, but typical offer letters have letterhead logos. 
+                                    Assuming existing common header is for app, but letter needs its own logo if printing?
+                                    The image shows "parivartan" header. 
+                                    I will add a logo placeholder or rely on the image text. 
+                                */}
+                                <img src="/path/to/logo.png" alt="Parivartan" className={styles.letter_logo} style={{ display: 'none' }} /> {/* Placeholder if needed */}
+                                
+                                <p><strong>Date:</strong> {employeeData.date}</p>
+                                <p><strong>{employeeData.name}</strong></p>
+                                <p>{employeeData.location}</p>
                             </div>
 
-                            <p>Encl.: Service Conditions</p>
-                            <p>Confidentiality Agreement</p>
-                            <p>I agree to accept the terms and conditions mentioned above and also as in the Service Conditions document attached to this letter.</p>
-                            
-                            <div style={{ textAlign: 'right', marginTop: '40px' }}>
-                                <p>Signature</p>
+                            <div className={styles.letter_body}>
+                                <p><strong>Dear {employeeData.name},</strong></p>
+                                <p>This is with reference to the discussion you had with us recently. We are pleased to offer you the position of <strong>{employeeData.designation}</strong> on the following terms:</p>
+
+                                <h4 className={styles.letter_section_title}>Compensation & Benefits:</h4>
+                                <p>The Compensation & Benefits applicable to you is as follows, which is personal and should be treated with utmost confidence. This is not to be discussed or divulged to anybody else other than for statutory purposes.</p>
+                                <p>Salary, perquisites, and other allowances (Cost to Company): INR {employeeData.ctc} Per Annum</p>
+
+                                <h4 className={styles.letter_section_title}>Term of Appointment:</h4>
+                                <p>This appointment will be in effect from <strong>{employeeData.joiningDate}</strong>.</p>
+
+                                <h4 className={styles.letter_section_title}>Probation/Notice Period:</h4>
+                                <p>You will have a probation period of three months from the date of joining the company. During this time, your services are liable to be terminated without any notice on either side. After confirmation, your appointment is terminable by either party by giving one-month (30 days) notice in writing. Either party is not bound to give any reason thereof. The Company reserves the right to pay or recover salary in lieu of notice period or to relieve you before the expiry of the notice period.</p>
+
+                                <h4 className={styles.letter_section_title}>Non-Solicitation of Resources/ Customers:</h4>
+                                <p>You agree that during your engagement with us and for a period of one (1) year following resignation or termination, you shall not, directly or indirectly, solicit for employment or any other commercial engagement or business arrangement any employees or Resources utilized by Parivartan (including all subsidiaries, affiliates, and joint ventures) to perform business. The same applies to Parivartan customers also. The term "Parivartan Customers" as used herein shall mean any customer for whom Parivartan provides Services, and or any other Potential Customer of whom you become aware as a result of any communication, either written or verbal, during your engagement with us.</p>
+                                
+                                <h4 className={styles.letter_section_title}>Separation:</h4>
+                                <p>On separation, you will immediately give up to the Company before you are relieved all correspondence, specifications, formulae, books, documents, cost data, market data, literature, drawings, effects or records, etc. belonging to the Company or relating to its business and shall not make or retain any copies of these items. You will also return to the Company all the assets given to you for official and/or personal use as per the various policies/schemes applicable to you as part of your Compensation & Benefits. This would not apply to those assets or items, which are obligatory for you to buy under the concerned schemes.</p>
+
+                                <h4 className={styles.letter_section_title}>Leave:</h4>
+                                <p>You will be entitled to leave in accordance with the laws of the company, the details of which will be intimated to you separately through the HR policy.</p>
+
+                                <h4 className={styles.letter_section_title}>Validity of the Offer:</h4>
+                                <p>This offer is valid provided a written acceptance is a given to our office within 5 business days from the date of this letter. It is understood that your date of joining Parivartan will not be later than <strong>{employeeData.joiningDate}</strong> failing which this offer will automatically stand revoked without any further notice.</p>
+
+                                <h4 className={styles.letter_section_title}>Service Conditions:</h4>
+                                <p>Your services will be governed by additional terms and conditions as explained in the Service Conditions attached herewith. These additional Service Conditions are applicable to all employees of your band.</p>
+                                <p>The terms and conditions are subject to statutory requirements and Company Policy.</p>
+                                <p>Please confirm that the above terms and conditions as also the additional Service Conditions are acceptable to you by signing a copy of this letter and the other documents attached hereto.</p>
+                                <p>We welcome you to our team and wish you a long and mutually beneficial association with us.</p>
+
+                                <p style={{ marginTop: '20px' }}>Yours truly,</p>
+                                <p>For <strong>Parivartan</strong></p>
+                                
+                                <div style={{ marginTop: '40px', marginBottom: '40px' }}>
+                                    <p><strong>Anand Pohankar</strong></p>
+                                    <p>CEO</p>
+                                </div>
+
+                                <p>Encl.: Service Conditions</p>
+                                <p>Confidentiality Agreement</p>
+                                <p>I agree to accept the terms and conditions mentioned above and also as in the Service Conditions document attached to this letter.</p>
+                                
+                                <div style={{ textAlign: 'right', marginTop: '40px' }}>
+                                    <p>Signature</p>
+                                </div>
                             </div>
                         </div>
 
                         <hr className={styles.page_break} />
 
                         {/* Page 2 - Service Conditions */}
-                        <div className={styles.letter_body}>
+                        <div className={`pdf_page_content ${styles.letter_body}`} style={{ padding: '20px', background: 'white' }}>
                             <h3 className={styles.letter_page_header}>SERVICE CONDITIONS</h3>
                             <p className={styles.centered_text}>The following additional terms and conditions will be applicable to all employees of <strong>Parivartan</strong></p>
 
@@ -233,8 +270,8 @@ const EmpOfferLetter = () => {
                     
                     {/* Bottom Print Button (Optional duplication for ease) */}
                     <div style={{ textAlign: 'center', marginTop: '30px' }}>
-                        <button onClick={handlePrint} className={styles.print_btn}>
-                            Print this page
+                        <button onClick={generatePDF} className={styles.print_btn} disabled={isDownloading}>
+                             {isDownloading ? 'Generating...' : 'Download Offer Letter'}
                         </button>
                     </div>
 

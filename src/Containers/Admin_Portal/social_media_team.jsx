@@ -143,8 +143,8 @@ const SocialTeamEmployess = () => {
                <p className={styles.emp_num}><span><BsFillTelephoneFill /></span>{emp.phone}</p>
                 </div>
               <div className={styles.card_footer}>
-                <span>Joined at {new Date(emp.joiningDate).toLocaleDateString()}</span>
-                {/* <Link to={`/employees/${emp.id}`} className={styles.details_link}>View details</Link> */}
+                <span>Joined: {new Date(emp.joiningDate).toLocaleDateString()}</span>
+                <Link to={`/admin/employee-profile/${emp.id}`} style={{ textDecoration: 'none', color: '#73BF44', fontWeight: '600' }}>View Profile →</Link>
               </div>
             </div>
           ))}

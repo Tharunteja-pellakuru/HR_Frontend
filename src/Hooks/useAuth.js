@@ -186,6 +186,34 @@ const EmployeeAuth = () => {
     }
   };
 
+  // ✅ FETCH EMPLOYEE PAYSLIP LIST
+  const fetchEmployeePayslipList = async (emp_id) => {
+    setLoading(true);
+    try {
+      const response = await authServices.GetEmployeePayslipList(emp_id);
+      return response;
+    } catch (err) {
+      console.error("Fetching payslip list failed", err);
+      return []; // Return empty list or mock data on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ FETCH EMPLOYEE PAYSLIP DETAILS
+  const fetchEmployeePayslipDetails = async (emp_id, month, year) => {
+    setLoading(true);
+    try {
+      const response = await authServices.GetEmployeePayslipDetails(emp_id, month, year);
+      return response;
+    } catch (err) {
+      console.error("Fetching payslip details failed", err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   // Adin login 
 
@@ -290,7 +318,8 @@ handleEmpLogin,
     fetchemplleaverequestlist,
     handleAdminLogin, // ✅ not LoginAdmin
     handleAdminLogout,
-    AdminAuthData, fetchemployesrequestleavelist, updateLeaveRequestStatus
+    AdminAuthData, fetchemployesrequestleavelist, updateLeaveRequestStatus,
+    fetchEmployeePayslipList, fetchEmployeePayslipDetails
   };
 };
 
