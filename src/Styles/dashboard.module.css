@@ -772,8 +772,9 @@
   font-weight: 400;
   transition: border-color 0.2s ease;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
+  position: relative;
 }
 
 .monthly_report_toggle:hover {
@@ -942,7 +943,8 @@
 
 .daily_report_filters {
   display: flex;
-  gap: 12px;
+  gap: 20px;
+  justify-items: space-between;
   align-items: center;
   flex-wrap: nowrap !important; /* Absolute Row Enforcement */
   flex: 1 1 auto;
@@ -964,6 +966,18 @@
 
 /* Responsive rules moved to bottom of file for absolute override priority */
 
+/* Spacing between filter dropdowns */
+.date_picker {
+  margin-right: 20px;
+}
+
+.daily_report_filters .custom_dropdown {
+  margin-right: 15px;
+}
+
+.daily_report_filters .custom_dropdown:last-child {
+  margin-right: 0;
+}
 
 .date_picker input,
 .employee_select select {
