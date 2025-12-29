@@ -1108,42 +1108,34 @@
   box-sizing: border-box;
 }
 
-.employee_col {
-  width: 15%;
-  border-right: 1px solid #E0E0E0;
+/* Syncing column classes with JSX */
+.col_emp_name { width: 15% !important; min-width: 150px !important; }
+.col_proj_name { width: 25% !important; min-width: 200px !important; }
+.col_duration { width: 10% !important; min-width: 100px !important; }
+.col_desc { width: 35% !important; min-width: 300px !important; }
+.col_status { width: 15% !important; min-width: 130px !important; }
+
+.daily_report_table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto !important; /* Switch to auto for better content fit */
 }
 
-.project_name_col {
-  width: 20%;
-}
-
-.duration_col {
-  width: 10%;
-}
-
-.description_col {
-  width: 40%;
-}
-
-.status_col {
-  width: 15%;
-}
-
-.data_row {
-  border-bottom: 1px solid #F0F0F0;
-  background-color: #FFF;
-}
-
-.data_row:nth-child(even) {
-  background-color: #F1F1F1;
-}
-
-.data_row:last-child {
-  border-bottom: none;
+.daily_report_table > thead > tr > th {
+  background-color: #F5F5F5;
+  padding: 15px 20px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #E0E0E0;
+  box-sizing: border-box;
+  white-space: nowrap; /* Keep header text on one line */
 }
 
 .data_row td {
-  padding: 15px 20px;
+  padding: 12px 20px !important;
   font-size: 13px;
   color: #444;
   border-top: 1px solid #E0E0E0;
@@ -1152,9 +1144,21 @@
   box-sizing: border-box;
 }
 
-/* No top border for employee name cell */
+/* Ensure single line for specific cells and prevent overlap */
+.employee_name_cell,
+.duration_cell,
+.status_cell {
+  white-space: nowrap !important;
+}
+
 .employee_name_cell {
-  border-top: none;
+  padding: 20px !important;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202020;
+  vertical-align: top;
+  border-right: 1px solid #E0E0E0;
+  background: #FFF;
 }
 
 .center_text {
@@ -7087,3 +7091,27 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
  /* Fix label wrap */ .form_row label { white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
  /* Fix truncation */ .form_row { width: 100% !important; box-sizing: border-box !important; } .form_row label { width: 100% !important; max-width: 100% !important; display: block !important; }
+
+/* Custom override for Admin Daily Report filters alignment (1500px to 786px) */
+@media (max-width: 1500px) and (min-width: 786px) {
+  .admin_dashboard_main .daily_report_header {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 25px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .admin_dashboard_main .daily_report_filters {
+    width: auto !important;
+    justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
+    gap: 20px !important;
+    margin-left: auto !important;
+  }
+
+  .admin_dashboard_main .pageTitle {
+    margin-right: 0 !important;
+  }
+}
